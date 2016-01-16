@@ -95,17 +95,6 @@ void AreaModel::updateCurrentMapping(
     emit areaChanged(m_currentParameterMap);
 }
 
-
-spacelib::projected_area AreaModel::projectedArea() const
-{
-    //return spacelib::projected_area(*m_area.get(), m_spaceMap);
-}
-
-spacelib::valued_area AreaModel::valuedArea(const GiNaC::exmap& vals) const
-{
-    //return spacelib::valued_area(projectedArea(), vals);
-}
-
 QString AreaModel::toString() const
 {
     std::stringstream s;

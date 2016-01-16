@@ -37,8 +37,6 @@ class AreaModel : public IdentifiedObject<AreaModel>
 
         const spacelib::area& area() const
         { return *m_area; }
-        spacelib::projected_area projectedArea() const;
-        spacelib::valued_area valuedArea(const GiNaC::exmap& vals) const;
 
         const SpaceModel& space() const
         { return m_context.space; }
