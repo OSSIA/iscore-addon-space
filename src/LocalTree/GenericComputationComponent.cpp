@@ -1,5 +1,5 @@
 #include "GenericComputationComponent.hpp"
-#include <OSSIA/LocalTree/Scenario/MetadataParameters.cpp>
+#include <OSSIA/LocalTree/Scenario/MetadataParameters.hpp>
 
 namespace Space
 {
