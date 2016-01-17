@@ -55,7 +55,7 @@ class ProcessLocalTree final :
         std::shared_ptr<OSSIA::Node> m_areas;
         std::shared_ptr<OSSIA::Node> m_computations;
 
-        std::vector<std::unique_ptr<BaseProperty>> m_properties;
+        std::vector<std::unique_ptr<Ossia::LocalTree::BaseProperty>> m_properties;
 
         hierarchy_t m_hm;
 };

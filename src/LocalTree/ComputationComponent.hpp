@@ -34,7 +34,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT ComputationComponent : public iscore::Component
 
     protected:
         std::shared_ptr<OSSIA::Node> m_valueNode;
-        std::vector<std::unique_ptr<BaseProperty>> m_properties;
+        std::vector<std::unique_ptr<Ossia::LocalTree::BaseProperty>> m_properties;
 };
 
 }
