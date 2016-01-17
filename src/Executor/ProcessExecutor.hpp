@@ -5,9 +5,12 @@
 #include <OSSIA/Executor/ExecutorContext.hpp>
 #include <iscore/document/DocumentContext.hpp>
 #include <iscore/document/DocumentInterface.hpp>
-class DeviceDocumentPlugin;
-class DeviceList;
 
+class DeviceList;
+namespace DeviceExplorer
+{
+class DeviceDocumentPlugin;
+}
 namespace Space
 {
 class ProcessModel;
