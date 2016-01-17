@@ -17,8 +17,8 @@ GenericAreaPresenter::GenericAreaPresenter(
     m_cp = new AreaComputer{model.formula()};
     connect(m_cp, &AreaComputer::ready,
             this, [&] (auto vec) {
-        view(this).rects = vec;
-        view(this).update();
+        this->view(this).rects = vec;
+        this->view(this).update();
     }, Qt::QueuedConnection);
 
     connect(this, &GenericAreaPresenter::startCompute,
