@@ -6,7 +6,11 @@
 #include <iscore/document/DocumentContext.hpp>
 #include <iscore/document/DocumentInterface.hpp>
 
+
+namespace Device
+{
 class DeviceList;
+}
 namespace DeviceExplorer
 {
 class DeviceDocumentPlugin;
@@ -22,7 +26,7 @@ class ProcessExecutor final :
     public:
         ProcessExecutor(
                 Space::ProcessModel& process,
-                const DeviceList& devices);
+                const Device::DeviceList& devices);
 
 
         std::shared_ptr<OSSIA::StateElement> state(
@@ -41,7 +45,7 @@ class ProcessExecutor final :
 
     private:
         Space::ProcessModel& m_process;
-        const DeviceList& m_devices;
+        const Device::DeviceList& m_devices;
 
         std::shared_ptr<OSSIA::State> m_start;
         std::shared_ptr<OSSIA::State> m_end;

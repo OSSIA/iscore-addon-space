@@ -12,7 +12,7 @@ namespace Executor
 {
 ProcessExecutor::ProcessExecutor(
         ProcessModel& process,
-        const DeviceList& devices):
+        const Device::DeviceList& devices):
     m_process{process},
     m_devices{devices}
 {
