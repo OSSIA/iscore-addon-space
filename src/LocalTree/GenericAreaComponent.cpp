@@ -20,7 +20,7 @@ GenericAreaComponent::GenericAreaComponent(
     for(const auto& param : area.currentMapping())
     {
         constexpr auto t = Ossia::convert::MatchingType<double>::val;
-        auto node_it = thisNode().emplaceAndNotify(
+        auto node_it = thisNode().emplace(
                            thisNode().children().end(),
                            param.first,
                            t,

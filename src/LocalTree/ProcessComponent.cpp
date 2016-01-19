@@ -50,7 +50,7 @@ void ProcessLocalTree::removing(const AreaModel& elt, const AreaComponent& comp)
     { return node == comp.node(); });
     ISCORE_ASSERT(it != m_areas->children().end());
 
-    m_areas->eraseAndNotify(it);
+    m_areas->erase(it);
 }
 
 void ProcessLocalTree::removing(const ComputationModel& elt, const ComputationComponent& comp)
@@ -59,7 +59,7 @@ void ProcessLocalTree::removing(const ComputationModel& elt, const ComputationCo
     { return node == comp.node(); });
     ISCORE_ASSERT(it != m_computations->children().end());
 
-    m_areas->eraseAndNotify(it);
+    m_areas->erase(it);
 }
 }
 }

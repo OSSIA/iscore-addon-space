@@ -19,7 +19,7 @@ GenericComputationComponent::GenericComputationComponent(
 
     using namespace GiNaC;
     constexpr auto t = Ossia::convert::MatchingType<double>::val;
-    auto node_it = thisNode().emplaceAndNotify(
+    auto node_it = thisNode().emplace(
                        thisNode().children().end(),
                        computation.metadata.name().toStdString(),
                        t,
