@@ -116,7 +116,7 @@ void LayerPresenter::update()
 
 void LayerPresenter::on_areaAdded(const AreaModel & a)
 {
-    auto fact = m_ctx.app.components.factory<SingletonAreaFactoryList>().get(a.factoryKey());
+    auto fact = m_ctx.app.components.factory<SingletonAreaFactoryList>().get(a.concreteFactoryKey());
 
     auto v = fact->makeView(m_view);
     // TODO call the factory list

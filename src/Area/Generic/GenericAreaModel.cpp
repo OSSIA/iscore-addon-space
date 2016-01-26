@@ -4,16 +4,16 @@
 
 namespace Space
 {
-const AreaFactoryKey&GenericAreaModel::static_factoryKey()
+const AreaFactoryKey&GenericAreaModel::static_concreteFactoryKey()
 {
-    static const AreaFactoryKey name{"Generic"};
+    static const AreaFactoryKey name{"ac867755-9c5c-472b-848f-a9826b239648"};
     return name;
 
 }
 
-const AreaFactoryKey&GenericAreaModel::factoryKey() const
+const AreaFactoryKey&GenericAreaModel::concreteFactoryKey() const
 {
-    return static_factoryKey();
+    return static_concreteFactoryKey();
 }
 
 QString GenericAreaModel::prettyName() const

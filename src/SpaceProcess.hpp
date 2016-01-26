@@ -17,9 +17,9 @@ namespace Executor { class ProcessExecutor; }
 
 struct ProcessMetadata
 {
-        static const ProcessFactoryKey& factoryKey()
+        static const ProcessFactoryKey& abstractFactoryKey()
         {
-            static const ProcessFactoryKey name{"Space"};
+            static const ProcessFactoryKey name{"ac4d616e-797d-4fdf-aaf0-0cb131aecc3d"};
             return name;
         }
 

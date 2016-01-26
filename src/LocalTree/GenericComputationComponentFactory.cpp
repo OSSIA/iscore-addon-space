@@ -17,10 +17,10 @@ GenericComputationComponentFactory::make(
     return new GenericComputationComponent{cmp, parent, proc, doc, ctx, paren_objt};
 }
 
-const GenericComputationComponentFactory::factory_key_type&
-GenericComputationComponentFactory::key_impl() const
+const GenericComputationComponentFactory::ConcreteFactoryKey&
+GenericComputationComponentFactory::concreteFactoryKey() const
 {
-    static const factory_key_type name{"ComputationComponentFactory"};
+    static const ConcreteFactoryKey name{"133fdabd-bec5-4359-aab6-df0177b6761b"};
     return name;
 }
 

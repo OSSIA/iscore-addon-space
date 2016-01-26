@@ -11,10 +11,9 @@ int PointerAreaFactory::type() const
     return PointerAreaModel::static_type();
 }
 
-const AreaFactoryKey& PointerAreaFactory::key_impl() const
+const AreaFactoryKey& PointerAreaFactory::concreteFactoryKey() const
 {
-    static const AreaFactoryKey name{"Pointer"};
-    return name;
+    return PointerAreaModel::static_concreteFactoryKey();
 }
 
 QString PointerAreaFactory::prettyName() const

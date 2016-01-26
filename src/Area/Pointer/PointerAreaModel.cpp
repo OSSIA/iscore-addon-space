@@ -7,15 +7,15 @@
 
 namespace Space
 {
-const AreaFactoryKey& PointerAreaModel::static_factoryKey()
+const AreaFactoryKey& PointerAreaModel::static_concreteFactoryKey()
 {
-    static const AreaFactoryKey name{"Pointer"};
+    static const AreaFactoryKey name{"d407b641-4d0a-4769-8eb6-59a59c9c6a66"};
     return name;
 }
 
-const AreaFactoryKey& PointerAreaModel::factoryKey() const
+const AreaFactoryKey& PointerAreaModel::concreteFactoryKey() const
 {
-    return static_factoryKey();
+    return static_concreteFactoryKey();
 }
 
 QString PointerAreaModel::prettyName() const

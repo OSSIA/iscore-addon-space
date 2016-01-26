@@ -150,10 +150,10 @@ RecreateOnPlay::ProcessComponent* ProcessComponentFactory::make(
     return new ProcessComponent{cst, static_cast<ProcessModel&>(proc), ctx, id, parent};
 }
 
-const ProcessComponentFactory::factory_key_type&
-ProcessComponentFactory::key_impl() const
+const ProcessComponentFactory::ConcreteFactoryKey&
+ProcessComponentFactory::concreteFactoryKey() const
 {
-    static factory_key_type k("SpaceComponent");
+    static ConcreteFactoryKey k("76083e8d-135f-4565-bbb7-71bccd26e3c5");
     return k;
 }
 

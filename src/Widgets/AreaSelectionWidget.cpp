@@ -40,7 +40,7 @@ AreaSelectionWidget::AreaSelectionWidget(
             return;
 
         auto key = m_comboBox->currentData().value<AreaFactoryKey>();
-        if(key == GenericAreaModel::static_factoryKey())
+        if(key == GenericAreaModel::static_concreteFactoryKey())
         {
             m_lineEdit->setEnabled(true);
         }

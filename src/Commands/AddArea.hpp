@@ -33,7 +33,7 @@ class AddArea : public iscore::SerializableCommand
         Path<Space::ProcessModel> m_path;
         Id<AreaModel> m_createdAreaId;
 
-        AreaFactoryKey m_areaType{"Generic"};
+        AreaFactoryKey m_areaType;
         QStringList m_areaFormula;
 
         QMap<Id<DimensionModel>, QString> m_spaceMap;

@@ -24,7 +24,7 @@ class AreaModel : public IdentifiedObject<AreaModel>
         iscore::Components components;
 
         // The value is used as default value if the address is invalid.
-        virtual const AreaFactoryKey& factoryKey() const = 0;
+        virtual const AreaFactoryKey& concreteFactoryKey() const = 0;
         virtual QString prettyName() const = 0;
         virtual int type() const = 0;
 

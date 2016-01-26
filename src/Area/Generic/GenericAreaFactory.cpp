@@ -11,10 +11,9 @@ int GenericAreaFactory::type() const
     return GenericAreaModel::static_type();
 }
 
-const AreaFactoryKey& GenericAreaFactory::key_impl() const
+const AreaFactoryKey& GenericAreaFactory::concreteFactoryKey() const
 {
-    static const AreaFactoryKey name{"Generic"};
-    return name;
+    return GenericAreaModel::static_concreteFactoryKey();
 }
 
 QString GenericAreaFactory::prettyName() const

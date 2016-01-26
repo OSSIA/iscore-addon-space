@@ -60,8 +60,8 @@ class CollisionHandler
             m_handlers.insert(
                         std::make_pair(
                         make_keys(
-                                CircleAreaModel::static_factoryKey(),
-                                CircleAreaModel::static_factoryKey()),
+                                CircleAreaModel::static_concreteFactoryKey(),
+                                CircleAreaModel::static_concreteFactoryKey()),
                               [] (const AreaModel& a1, const AreaModel& a2)
             {
                 auto& c1 = static_cast<const CircleAreaModel&>(a1);
@@ -80,8 +80,8 @@ class CollisionHandler
             m_handlers.insert(
                         std::make_pair(
                         make_keys(
-                                CircleAreaModel::static_factoryKey(),
-                                PointerAreaModel::static_factoryKey()),
+                                CircleAreaModel::static_concreteFactoryKey(),
+                                PointerAreaModel::static_concreteFactoryKey()),
                               [] (const AreaModel& a1, const AreaModel& a2)
             {
                 auto& c = static_cast<const CircleAreaModel&>(a1);
@@ -105,7 +105,7 @@ class CollisionHandler
 
         bool check(const AreaModel& a1, const AreaModel& a2)
         {
-            auto it = m_handlers.find(make_keys(a1.factoryKey(), a2.factoryKey()));
+            auto it = m_handlers.find(make_keys(a1.concreteFactoryKey(), a2.concreteFactoryKey()));
             if(it != m_handlers.end())
             {
                 return it->second(a1, a2);

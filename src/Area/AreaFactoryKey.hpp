@@ -1,9 +1,9 @@
 #pragma once
 #include <QMetaType>
-#include <iscore/plugins/customfactory/StringFactoryKey.hpp>
+#include <iscore/plugins/customfactory/UuidKey.hpp>
 namespace Space
 {
-class AreaTag{};
-using AreaFactoryKey = StringKey<AreaTag>;
+class AreaModel;
+using AreaFactoryKey = UuidKey<AreaModel>;
 }
 Q_DECLARE_METATYPE(Space::AreaFactoryKey)

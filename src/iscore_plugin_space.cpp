@@ -32,7 +32,7 @@ iscore_plugin_space::~iscore_plugin_space()
 
 std::vector<std::unique_ptr<iscore::FactoryInterfaceBase>> iscore_plugin_space::factories(
         const iscore::ApplicationContext& ctx,
-        const iscore::FactoryBaseKey& key) const
+        const iscore::AbstractFactoryKey& key) const
 {
 
     return instantiate_factories<

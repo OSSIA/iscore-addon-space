@@ -19,7 +19,7 @@ class GenericComputationComponentFactory final
                         const iscore::DocumentContext& ctx,
                         QObject* paren_objt) const override;
 
-        const factory_key_type& key_impl() const override;
+        const ConcreteFactoryKey& concreteFactoryKey() const override;
 
         bool matches(
                 ComputationModel& p,

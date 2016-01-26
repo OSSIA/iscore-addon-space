@@ -11,10 +11,10 @@ ProcessLocalTreeFactory::~ProcessLocalTreeFactory()
 
 }
 
-const ProcessLocalTreeFactory::factory_key_type&
-ProcessLocalTreeFactory::key_impl() const
+const ProcessLocalTreeFactory::ConcreteFactoryKey&
+ProcessLocalTreeFactory::concreteFactoryKey() const
 {
-    static const factory_key_type name{"SpaceComponentFactory"};
+    static const ConcreteFactoryKey name{"91079e65-9ba5-4d31-809a-fb79dc393b71"};
     return name;
 
 }

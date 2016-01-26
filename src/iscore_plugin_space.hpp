@@ -25,7 +25,7 @@ class iscore_plugin_space final :
         // Process & inspector
         std::vector<std::unique_ptr<iscore::FactoryInterfaceBase>> factories(
                 const iscore::ApplicationContext& ctx,
-                const iscore::FactoryBaseKey& matchingName) const override;
+                const iscore::AbstractFactoryKey& matchingName) const override;
 
         std::vector<std::unique_ptr<iscore::FactoryListInterface>> factoryFamilies() override;
 

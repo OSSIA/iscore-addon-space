@@ -5,9 +5,9 @@
 
 namespace Space
 {
-const ProcessFactoryKey& ProcessFactory::key_impl() const
+const ProcessFactoryKey& ProcessFactory::concreteFactoryKey() const
 {
-    return ProcessMetadata::factoryKey();
+    return ProcessMetadata::abstractFactoryKey();
 }
 
 QString ProcessFactory::prettyName() const

@@ -14,6 +14,9 @@ class ISCORE_PLUGIN_SPACE_EXPORT ComputationComponentFactory :
             Ossia::LocalTree::DocumentPlugin,
             Space::LocalTree::ComputationComponent>
 {
+        ISCORE_ABSTRACT_FACTORY_DECL(
+                Space::LocalTree::ComputationComponent,
+                "7649bf56-5809-4b4c-9bfc-3d15a01ab90c")
     public:
         virtual ~ComputationComponentFactory();
 

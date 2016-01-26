@@ -7,15 +7,15 @@
 namespace Space
 {
 
-const AreaFactoryKey&CircleAreaModel::static_factoryKey()
+const AreaFactoryKey&CircleAreaModel::static_concreteFactoryKey()
 {
-    static const AreaFactoryKey name{"Circle"};
+    static const AreaFactoryKey name{"f7235762-661b-4f0e-a5e6-b95afbd86458"};
     return name;
 }
 
-const AreaFactoryKey&CircleAreaModel::factoryKey() const
+const AreaFactoryKey&CircleAreaModel::concreteFactoryKey() const
 {
-    return static_factoryKey();
+    return static_concreteFactoryKey();
 }
 
 QString CircleAreaModel::prettyName() const
