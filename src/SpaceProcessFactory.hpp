@@ -2,7 +2,7 @@
 #include <Process/ProcessFactory.hpp>
 namespace Space
 {
-class ProcessFactory : public Process::ProcessFactory
+class ProcessFactory final : public Process::ProcessFactory
 {
     public:
         const ProcessFactoryKey& concreteFactoryKey() const override;
@@ -13,7 +13,7 @@ class ProcessFactory : public Process::ProcessFactory
                 const Id<Process::ProcessModel> &id,
                 QObject *parent) override;
 
-        Process::ProcessModel* loadModel(
+        Process::ProcessModel* load(
                 const VisitorVariant &,
                 QObject *parent) override;
 

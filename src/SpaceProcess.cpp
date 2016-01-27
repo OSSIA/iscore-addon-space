@@ -44,9 +44,9 @@ ProcessModel *ProcessModel::clone(
     return new ProcessModel{doc, this->duration(), newId, newParent};
 }
 
-const ProcessFactoryKey& ProcessModel::key() const
+ProcessFactoryKey ProcessModel::concreteFactoryKey() const
 {
-    return ProcessMetadata::abstractFactoryKey();
+    return ProcessMetadata::concreteFactoryKey();
 }
 
 QString ProcessModel::prettyName() const
@@ -106,7 +106,7 @@ void ProcessModel::setSelection(const Selection &s) const
     ISCORE_TODO;
 }
 
-void ProcessModel::serialize(const VisitorVariant &vis) const
+void ProcessModel::serialize_impl(const VisitorVariant &vis) const
 {
     ISCORE_TODO;
 }

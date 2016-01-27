@@ -7,7 +7,7 @@ namespace Space
 {
 const ProcessFactoryKey& ProcessFactory::concreteFactoryKey() const
 {
-    return ProcessMetadata::abstractFactoryKey();
+    return ProcessMetadata::concreteFactoryKey();
 }
 
 QString ProcessFactory::prettyName() const
@@ -29,7 +29,7 @@ QByteArray ProcessFactory::makeStaticLayerConstructionData() const
     return {};
 }
 
-Process::ProcessModel *ProcessFactory::loadModel(
+Process::ProcessModel *ProcessFactory::load(
         const VisitorVariant &,
         QObject *parent)
 {
