@@ -11,7 +11,6 @@ namespace LocalTree
 {
 class ISCORE_PLUGIN_SPACE_EXPORT ComputationComponent : public iscore::Component
 {
-    ISCORE_METADATA(Space::LocalTree::ComputationComponent)
     public:
         ComputationComponent(
                 OSSIA::Node& node,
@@ -39,3 +38,5 @@ class ISCORE_PLUGIN_SPACE_EXPORT ComputationComponent : public iscore::Component
 
 }
 }
+
+DEFAULT_MODEL_METADATA(Space::LocalTree::ComputationComponent, "Space local tree computation component")

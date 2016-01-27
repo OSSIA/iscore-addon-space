@@ -23,7 +23,7 @@ struct ProcessMetadata
             return name;
         }
 
-        static QString processObjectName()
+        static QString objectName()
         {
             return "Space";
         }

@@ -159,7 +159,6 @@ class SpaceProcessComponentHierarchyManager : public Nano::Observer
 
 class ISCORE_PLUGIN_SPACE_EXPORT AreaComponent : public iscore::Component
 {
-    ISCORE_METADATA(Space::LocalTree::AreaComponent)
     public:
         AreaComponent(
                 OSSIA::Node& node,
@@ -186,3 +185,5 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaComponent : public iscore::Component
 };
 }
 }
+
+DEFAULT_MODEL_METADATA(Space::LocalTree::AreaComponent, "Space local tree area component")

@@ -14,7 +14,7 @@ ProcessModel::ProcessModel(
         const TimeValue &duration,
         const Id<Process::ProcessModel> &id,
         QObject *parent):
-    Process::ProcessModel{id, ProcessMetadata::processObjectName(), parent},
+    Process::ProcessModel{id, ProcessMetadata::objectName(), parent},
     m_space{new SpaceModel{
             Id<SpaceModel>(0),
             this}},

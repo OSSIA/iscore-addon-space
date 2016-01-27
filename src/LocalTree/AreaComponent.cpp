@@ -31,5 +31,3 @@ OSSIA::Node& AreaComponent::thisNode() const
 }
 
 }
-
-ISCORE_METADATA_IMPL(Space::LocalTree::AreaComponent)

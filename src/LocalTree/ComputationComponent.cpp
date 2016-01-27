@@ -30,4 +30,3 @@ OSSIA::Node& ComputationComponent::thisNode() const
 }
 }
 
-ISCORE_METADATA_IMPL(Space::LocalTree::ComputationComponent)
