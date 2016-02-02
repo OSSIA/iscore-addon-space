@@ -89,3 +89,14 @@ iscore_plugin_space::make_commands()
 
     return cmds;
 }
+
+
+int32_t iscore_plugin_space::version() const
+{
+    return 1;
+}
+
+UuidKey<iscore::Plugin> iscore_plugin_space::key() const
+{
+    return "02b77d0c-6c8f-45f5-bb28-b649b5c3c7e0";
+}
