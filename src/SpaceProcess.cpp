@@ -18,7 +18,7 @@ ProcessModel::ProcessModel(
     m_space{new SpaceModel{
             Id<SpaceModel>(0),
             this}},
-    m_context{doc, *m_space, doc.plugin<DeviceExplorer::DeviceDocumentPlugin>()}
+    m_context{doc, *m_space, doc.plugin<Explorer::DeviceDocumentPlugin>()}
 {
     metadata.setName(QString("Space.%1").arg(*this->id().val()));
     using namespace GiNaC;

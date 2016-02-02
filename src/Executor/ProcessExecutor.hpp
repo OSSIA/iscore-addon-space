@@ -11,7 +11,7 @@ namespace Device
 {
 class DeviceList;
 }
-namespace DeviceExplorer
+namespace Explorer
 {
 class DeviceDocumentPlugin;
 }

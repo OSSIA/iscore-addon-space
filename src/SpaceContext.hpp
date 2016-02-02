@@ -2,7 +2,7 @@
 #include <iscore/document/DocumentContext.hpp>
 #include <Device/Node/DeviceNode.hpp>
 
-namespace DeviceExplorer
+namespace Explorer
 {
 class DeviceDocumentPlugin;
 }
@@ -13,6 +13,6 @@ struct AreaContext
 {
     const iscore::DocumentContext& doc;
     const SpaceModel& space;
-    DeviceExplorer::DeviceDocumentPlugin& devices;
+    Explorer::DeviceDocumentPlugin& devices;
 };
 }
