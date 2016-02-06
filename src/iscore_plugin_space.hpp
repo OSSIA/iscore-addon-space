@@ -35,6 +35,6 @@ class iscore_plugin_space final :
 
         std::pair<const CommandParentFactoryKey, CommandGeneratorMap> make_commands() override;
 
-        int32_t version() const override;
+        iscore::Version version() const override;
         UuidKey<iscore::Plugin> key() const override;
 };

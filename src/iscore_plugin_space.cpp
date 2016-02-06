@@ -91,7 +91,7 @@ iscore_plugin_space::make_commands()
 }
 
 
-int32_t iscore_plugin_space::version() const
+iscore::Version iscore_plugin_space::version() const
 {
     return 1;
 }
