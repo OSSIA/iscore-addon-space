@@ -6,22 +6,8 @@
 namespace Space
 {
 class ISCORE_PLUGIN_SPACE_EXPORT SingletonAreaFactoryList final :
-        public iscore::FactoryListInterface
+        public iscore::ConcreteFactoryList<AreaFactory>
 {
-           ISCORE_FACTORY_LIST_DECL(AreaFactory)
-
-    public:
-        // TODO generalize this.
-        template<typename Key>
-        auto get(const Key& k) const
-        {
-            return list().get(k);
-        }
-
-        const auto& get() const
-        {
-            return list().get();
-        }
 
 };
 

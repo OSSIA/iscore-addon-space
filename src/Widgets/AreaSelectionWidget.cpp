@@ -28,11 +28,11 @@ AreaSelectionWidget::AreaSelectionWidget(
     connect(m_lineEdit, &QLineEdit::editingFinished,
             this, &AreaSelectionWidget::lineEditChanged);
 
-    for(auto& elt : fact.get())
+    for(auto& elt : fact)
     {
         m_comboBox->addItem(
-                    elt.second->prettyName(),
-                    QVariant::fromValue(elt.second->key<AreaFactoryKey>()));
+                    elt.prettyName(),
+                    QVariant::fromValue(elt.concreteFactoryKey()));
     }
     connect(m_comboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, [&] (int index) {

@@ -93,7 +93,7 @@ iscore_plugin_space::make_commands()
 
 iscore::Version iscore_plugin_space::version() const
 {
-    return 1;
+    return iscore::Version{1};
 }
 
 UuidKey<iscore::Plugin> iscore_plugin_space::key() const
