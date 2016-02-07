@@ -5,7 +5,7 @@ namespace Space
 class ProcessFactory final : public Process::ProcessFactory
 {
     public:
-        const ProcessFactoryKey& concreteFactoryKey() const override;
+        const UuidKey<Process::ProcessFactory>& concreteFactoryKey() const override;
         QString prettyName() const override;
 
         Process::ProcessModel* makeModel(

@@ -5,7 +5,7 @@
 
 namespace Space
 {
-const ProcessFactoryKey& ProcessFactory::concreteFactoryKey() const
+const UuidKey<Process::ProcessFactory>& ProcessFactory::concreteFactoryKey() const
 {
     return ProcessMetadata::concreteFactoryKey();
 }

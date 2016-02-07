@@ -10,10 +10,10 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaComponentFactory :
         public iscore::GenericComponentFactory<
         AreaModel,
             Ossia::LocalTree::DocumentPlugin,
-            Space::LocalTree::AreaComponent>
+            Space::LocalTree::AreaComponentFactory>
 {
         ISCORE_ABSTRACT_FACTORY_DECL(
-                Space::LocalTree::AreaComponent,
+                Space::LocalTree::AreaComponentFactory,
                 "b3fef66c-2d9e-4e5a-8023-d200bf122c90")
     public:
         virtual ~AreaComponentFactory();
@@ -34,7 +34,6 @@ using AreaComponentFactoryList =
     iscore::GenericComponentFactoryList<
             AreaModel,
             Ossia::LocalTree::DocumentPlugin,
-            Space::LocalTree::AreaComponent,
             Space::LocalTree::AreaComponentFactory>;
 
 }

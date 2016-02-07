@@ -11,7 +11,7 @@ int GenericAreaFactory::type() const
     return GenericAreaModel::static_type();
 }
 
-const AreaFactoryKey& GenericAreaFactory::concreteFactoryKey() const
+const UuidKey<AreaFactory>& GenericAreaFactory::concreteFactoryKey() const
 {
     return GenericAreaModel::static_concreteFactoryKey();
 }

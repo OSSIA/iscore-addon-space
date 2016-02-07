@@ -7,7 +7,7 @@ class GenericAreaFactory : public AreaFactory
 {
     public:
         int type() const override;
-        const AreaFactoryKey& concreteFactoryKey() const override;
+        const UuidKey<AreaFactory>& concreteFactoryKey() const override;
         QString prettyName() const override;
 
         QStringList generic_formula() const override;

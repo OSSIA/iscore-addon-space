@@ -10,7 +10,7 @@ int CircleAreaFactory::type() const
     return CircleAreaModel::static_type();
 }
 
-const AreaFactoryKey& CircleAreaFactory::concreteFactoryKey() const
+const UuidKey<AreaFactory>& CircleAreaFactory::concreteFactoryKey() const
 {
     return CircleAreaModel::static_concreteFactoryKey();
 }

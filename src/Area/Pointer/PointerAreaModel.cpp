@@ -7,13 +7,13 @@
 
 namespace Space
 {
-const AreaFactoryKey& PointerAreaModel::static_concreteFactoryKey()
+const UuidKey<AreaFactory>& PointerAreaModel::static_concreteFactoryKey()
 {
-    static const AreaFactoryKey name{"d407b641-4d0a-4769-8eb6-59a59c9c6a66"};
+    static const UuidKey<AreaFactory> name{"d407b641-4d0a-4769-8eb6-59a59c9c6a66"};
     return name;
 }
 
-const AreaFactoryKey& PointerAreaModel::concreteFactoryKey() const
+const UuidKey<AreaFactory>& PointerAreaModel::concreteFactoryKey() const
 {
     return static_concreteFactoryKey();
 }

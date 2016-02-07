@@ -39,7 +39,7 @@ AreaSelectionWidget::AreaSelectionWidget(
         if(index == -1)
             return;
 
-        auto key = m_comboBox->currentData().value<AreaFactoryKey>();
+        auto key = m_comboBox->currentData().value<UuidKey<AreaFactory>>();
         if(key == GenericAreaModel::static_concreteFactoryKey())
         {
             m_lineEdit->setEnabled(true);

@@ -7,13 +7,13 @@
 namespace Space
 {
 
-const AreaFactoryKey&CircleAreaModel::static_concreteFactoryKey()
+const UuidKey<AreaFactory>&CircleAreaModel::static_concreteFactoryKey()
 {
-    static const AreaFactoryKey name{"f7235762-661b-4f0e-a5e6-b95afbd86458"};
+    static const UuidKey<AreaFactory> name{"f7235762-661b-4f0e-a5e6-b95afbd86458"};
     return name;
 }
 
-const AreaFactoryKey&CircleAreaModel::concreteFactoryKey() const
+const UuidKey<AreaFactory>&CircleAreaModel::concreteFactoryKey() const
 {
     return static_concreteFactoryKey();
 }

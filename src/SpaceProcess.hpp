@@ -17,9 +17,9 @@ namespace Executor { class ProcessExecutor; }
 
 struct ProcessMetadata
 {
-        static const ProcessFactoryKey& concreteFactoryKey()
+        static const UuidKey<Process::ProcessFactory>& concreteFactoryKey()
         {
-            static const ProcessFactoryKey name{"ac4d616e-797d-4fdf-aaf0-0cb131aecc3d"};
+            static const UuidKey<Process::ProcessFactory>name{"ac4d616e-797d-4fdf-aaf0-0cb131aecc3d"};
             return name;
         }
 
@@ -56,7 +56,7 @@ class ProcessModel : public Process::ProcessModel
     private:
         ProcessModel *clone(const Id<Process::ProcessModel> &newId, QObject *newParent) const override;
 
-        ProcessFactoryKey concreteFactoryKey() const override;
+        UuidKey<Process::ProcessFactory>concreteFactoryKey() const override;
         QString prettyName() const override;
 
         void setDurationAndScale(const TimeValue &newDuration) override;

@@ -1,7 +1,6 @@
 #pragma once
 #include <iscore/tools/SettableIdentifier.hpp>
 #include <iscore/plugins/customfactory/FactoryInterface.hpp>
-#include <src/Area/AreaFactoryKey.hpp>
 #include <src/SpaceContext.hpp>
 #include <QObject>
 class QGraphicsItem;
@@ -12,10 +11,10 @@ namespace Space
 class AreaModel;
 class AreaPresenter;
 
-class AreaFactory : public iscore::GenericFactoryInterface<AreaFactoryKey>
+class AreaFactory : public iscore::AbstractFactory<AreaFactory>
 {
         ISCORE_ABSTRACT_FACTORY_DECL(
-                AreaModel,
+                AreaFactory,
                 "4620006c-4562-42f4-a3eb-4cd525330d50")
     public:
         virtual ~AreaFactory();
@@ -47,3 +46,5 @@ class AreaFactory : public iscore::GenericFactoryInterface<AreaFactoryKey>
         // Widget ?
 };
 }
+
+Q_DECLARE_METATYPE(UuidKey<Space::AreaFactory>)

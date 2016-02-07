@@ -1,6 +1,6 @@
 #pragma once
 #include <iscore/plugins/customfactory/FactoryFamily.hpp>
-#include <src/Area/AreaFactoryList.hpp>
+#include <src/Area/AreaFactory.hpp>
 #include <iscore_plugin_space_export.h>
 
 namespace Space

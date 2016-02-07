@@ -11,8 +11,8 @@ class GenericAreaModel : public AreaModel
         static constexpr int static_type() { return 0; }
         int type() const override { return static_type(); }
 
-        static const AreaFactoryKey& static_concreteFactoryKey();
-        const AreaFactoryKey& concreteFactoryKey() const override;
+        static const UuidKey<AreaFactory>& static_concreteFactoryKey();
+        const UuidKey<AreaFactory>& concreteFactoryKey() const override;
 
         QString prettyName() const override;
         QStringList formula() const;

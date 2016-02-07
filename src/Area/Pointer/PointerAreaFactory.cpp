@@ -11,7 +11,7 @@ int PointerAreaFactory::type() const
     return PointerAreaModel::static_type();
 }
 
-const AreaFactoryKey& PointerAreaFactory::concreteFactoryKey() const
+const UuidKey<AreaFactory>& PointerAreaFactory::concreteFactoryKey() const
 {
     return PointerAreaModel::static_concreteFactoryKey();
 }

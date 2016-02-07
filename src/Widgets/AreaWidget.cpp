@@ -265,7 +265,7 @@ void AreaWidget::validate()
         m_dispatcher.submitCommand(
                     new AddArea{
                         m_space,
-                        m_selectionWidget->comboBox()->currentData().value<AreaFactoryKey>(),
+                        m_selectionWidget->comboBox()->currentData().value<UuidKey<AreaFactory>>(),
                         QStringList{m_selectionWidget->lineEdit()->text().split(';')}, // TODO multiline
                         dim_map,
                         param_map});

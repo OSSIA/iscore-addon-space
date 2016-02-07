@@ -53,7 +53,7 @@ using CollisionFun = std::function<bool(const AreaModel& a1, const AreaModel& a2
 
 class CollisionHandler
 {
-        std::map<KeyPair<AreaFactoryKey>, CollisionFun> m_handlers;
+        std::map<KeyPair<UuidKey<AreaFactory>>, CollisionFun> m_handlers;
     public:
         CollisionHandler()
         {
@@ -98,7 +98,7 @@ class CollisionHandler
             }));
         }
 
-        void inscribe(std::pair<KeyPair<AreaFactoryKey>, CollisionFun> val)
+        void inscribe(std::pair<KeyPair<UuidKey<AreaFactory>>, CollisionFun> val)
         {
             m_handlers.insert(val);
         }
@@ -120,7 +120,7 @@ class CollisionHandler
 
 
 AddArea::AddArea(Path<Space::ProcessModel> &&spacProcess,
-                 AreaFactoryKey type,
+                 UuidKey<AreaFactory> type,
                  const QStringList &area,
                  const QMap<Id<DimensionModel>, QString> &dimMap,
                  const QMap<QString, Device::FullAddressSettings> &addrMap):

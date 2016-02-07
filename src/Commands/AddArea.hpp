@@ -3,10 +3,9 @@
 #include <iscore/tools/ModelPath.hpp>
 #include <Device/Address/AddressSettings.hpp>
 #include <src/Commands/SpaceCommandFactory.hpp>
-#include <src/Area/AreaFactoryKey.hpp>
-
 namespace Space
 {
+class AreaFactory;
 class AreaModel;
 class DimensionModel;
 class ProcessModel;
@@ -17,7 +16,7 @@ class AddArea : public iscore::SerializableCommand
     public:
 
           AddArea(Path<Space::ProcessModel>&& spacProcess,
-            AreaFactoryKey type,
+            UuidKey<AreaFactory> type,
             const QStringList& area,
                   const QMap<Id<DimensionModel>, QString>& dimMap,
                   const QMap<QString, Device::FullAddressSettings>& addrMap);
@@ -33,7 +32,7 @@ class AddArea : public iscore::SerializableCommand
         Path<Space::ProcessModel> m_path;
         Id<AreaModel> m_createdAreaId;
 
-        AreaFactoryKey m_areaType;
+        UuidKey<AreaFactory> m_areaType;
         QStringList m_areaFormula;
 
         QMap<Id<DimensionModel>, QString> m_spaceMap;
