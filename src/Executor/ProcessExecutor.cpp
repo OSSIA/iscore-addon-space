@@ -5,6 +5,7 @@
 #include <src/LocalTree/AreaComponent.hpp>
 #include <src/LocalTree/ComputationComponent.hpp>
 #include <OSSIA/Executor/DocumentPlugin.hpp>
+#include <Editor/TimeConstraint.h>
 #include <Editor/Message.h>
 namespace Space
 {
@@ -19,10 +20,9 @@ ProcessExecutor::ProcessExecutor(
 
 }
 
-std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state(
-        const OSSIA::TimeValue& t,
-        const OSSIA::TimeValue&)
+std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state()
 {
+    double t = parentConstraint()->getPosition();
     using namespace GiNaC;
 
     // For each area whose parameters depend on an address,

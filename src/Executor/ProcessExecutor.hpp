@@ -29,9 +29,7 @@ class ProcessExecutor final :
                 const Device::DeviceList& devices);
 
 
-        std::shared_ptr<OSSIA::StateElement> state(
-                const OSSIA::TimeValue&,
-                const OSSIA::TimeValue&) override;
+        std::shared_ptr<OSSIA::StateElement> state() override;
 
     private:
         Space::ProcessModel& m_process;
