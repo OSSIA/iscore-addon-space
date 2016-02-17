@@ -22,7 +22,11 @@ ProcessExecutor::ProcessExecutor(
 
 std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state()
 {
-    double t = getParentTimeConstraint()->getPosition();
+    return state(parent->getPosition());
+}
+
+std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state(double t)
+{
     using namespace GiNaC;
 
     // For each area whose parameters depend on an address,
@@ -112,6 +116,11 @@ std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state()
     // For each computation, send the new state.
 
     return state;
+}
+
+std::shared_ptr<OSSIA::StateElement> ProcessExecutor::offset(const OSSIA::TimeValue & off)
+{
+    return state(off / parent->getDurationNominal());
 }
 
 

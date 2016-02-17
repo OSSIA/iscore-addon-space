@@ -1,5 +1,5 @@
 #pragma once
-#include <OSSIA/ProcessModel/TimeProcessWithConstraint.hpp>
+#include <Editor/TimeProcess.h>
 
 #include <OSSIA/Executor/ProcessElement.hpp>
 #include <OSSIA/Executor/ExecutorContext.hpp>
@@ -21,7 +21,7 @@ class ProcessModel;
 namespace Executor
 {
 class ProcessExecutor final :
-        public TimeProcessWithConstraint
+        public OSSIA::TimeProcess
 {
     public:
         ProcessExecutor(
@@ -29,7 +29,9 @@ class ProcessExecutor final :
                 const Device::DeviceList& devices);
 
 
+        std::shared_ptr<OSSIA::StateElement> state(double);
         std::shared_ptr<OSSIA::StateElement> state() override;
+        std::shared_ptr<OSSIA::StateElement> offset(const OSSIA::TimeValue &) override;
 
     private:
         Space::ProcessModel& m_process;
