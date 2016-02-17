@@ -22,7 +22,7 @@ ProcessExecutor::ProcessExecutor(
 
 std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state()
 {
-    double t = parentConstraint()->getPosition();
+    double t = getParentTimeConstraint()->getPosition();
     using namespace GiNaC;
 
     // For each area whose parameters depend on an address,
