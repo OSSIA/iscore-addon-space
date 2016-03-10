@@ -249,7 +249,7 @@ void AreaWidget::validate()
         {
             addr.address = State::Address::fromString(param_widg->address()->text());
         }
-        addr.value = State::convert::toValue(param_widg->defaultValue()->value());
+        addr.value = State::Value::fromValue(param_widg->defaultValue()->value());
         param_map.insert(label->text(), addr);
     }
 
