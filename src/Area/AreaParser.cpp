@@ -11,7 +11,7 @@ static auto toOp(const QString& str)
     return static_cast<GiNaC::relational::operators>(operator_map_rels.indexOf(str));
 }
 
-std::pair<QStringList, GiNaC::relational::operators> splitRelationship(const QString& eq)
+static std::pair<QStringList, GiNaC::relational::operators> splitRelationship(const QString& eq)
 {
     QString found_rel;
     QStringList res;
