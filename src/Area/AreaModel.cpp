@@ -8,23 +8,15 @@
 namespace Space
 {
 AreaModel::AreaModel(
-        std::unique_ptr<spacelib::area>&& area,
+        const QStringList& form,
         const Space::AreaContext& space,
         const Id<AreaModel> & id,
         QObject *parent):
     IdentifiedObject{id, staticMetaObject.className(), parent},
     m_context{space},
-    m_area{std::move(area)}
+    m_formula{form}
 {
     metadata.setName(QString("Area.%1").arg(*this->id().val()));
-    /*
-    for(const auto& sym : m_area->symbols())
-    {
-        m_parameterMap.insert(
-                    sym.get_name().c_str(),
-                    {sym, Device::FullAddressSettings{}});
-    }
-    */
 }
 
 
@@ -97,9 +89,6 @@ void AreaModel::updateCurrentMapping(
 
 QString AreaModel::toString() const
 {
-    std::stringstream s;
-    for(auto& rel : m_area->rels())
-        s << static_cast<const GiNaC::ex&>(rel);
-    return QString::fromStdString(s.str());
+    return m_formula.join(";\n");
 }
 }

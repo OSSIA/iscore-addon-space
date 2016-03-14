@@ -94,8 +94,9 @@ class AreaComputer : public QObject
 
                 bool eventFilter(QObject *obj, QEvent *event)
                 {
-                    if(m_area.computing)
+                    if(m_area.computing) {
                         return true;
+                    }
                     return QObject::eventFilter(obj, event);
                 }
         };
@@ -114,12 +115,10 @@ class AreaComputer : public QObject
             GiNaC::relational::operators
         >;
     public:
-        AreaComputer(const QStringList& formulas)
+        static std::vector<VtkFun> make_funs(const QStringList& formulas)
         {
-
-            AreaParser p(formulas);
-            auto vec = std::move(p.m_parsed);
-
+            std::vector<VtkFun> res;
+            auto vec = AreaParser::splitRelationships(formulas);
 
             for(pair_t& form : vec)
             {
@@ -128,24 +127,138 @@ class AreaComputer : public QObject
                 f.rhs->SetFunction(form.first[1].toLatin1().constData());
 
                 f.op = form.second;
-                vtk_vec.push_back(f);
+                res.push_back(f);
 
                 // Evaluate both parts
                 // Check if the relation works
             }
 
+            return res;
+        }
 
+        AreaComputer(const QStringList& formulas):
+            vtk_vec{make_funs(formulas)}
+        {
             m_cp_thread.start();
 
             this->installEventFilter(new LimitFilter{*this, this});
             this->moveToThread(&m_cp_thread);
         }
 
+
+        static bool compare(double lhs_res, double rhs_res, GiNaC::relational::operators op)
+        {
+            switch(op)
+            {
+                case GiNaC::relational::operators::equal:
+                {
+                    return lhs_res == rhs_res;
+                }
+                case GiNaC::relational::operators::not_equal:
+                {
+                    return lhs_res != rhs_res;
+                }
+                case GiNaC::relational::operators::less:
+                {
+                    return lhs_res < rhs_res;
+                }
+                case GiNaC::relational::operators::less_or_equal:
+                {
+                    return lhs_res <= rhs_res;
+                }
+                case GiNaC::relational::operators::greater:
+                {
+                    return lhs_res > rhs_res;
+                }
+                case GiNaC::relational::operators::greater_or_equal:
+                {
+                    return lhs_res >= rhs_res;
+                }
+            }
+        }
+
+        template<int max_x, int max_y, int side, typename Fun>
+        static void do_for(SpaceMap sm, std::vector<VtkFun>& vtk_vec, Fun f)
+        {
+            auto x_str = sm.begin()->toStdString().c_str();
+            auto y_str = (++sm.begin())->toStdString().c_str();
+
+            for(int j = 0; j < max_y; j += side)
+            {
+                double y = j;
+                for(VtkFun& fun : vtk_vec)
+                {
+                    fun.lhs->SetScalarVariableValue(y_str, y);
+                    fun.rhs->SetScalarVariableValue(y_str, y);
+                }
+
+                for(int i = 0; i < max_x; i += side)
+                {
+                    double x = i;
+
+                    bool res = true;
+                    for(VtkFun& fun : vtk_vec)
+                    {
+                        fun.lhs->SetScalarVariableValue(x_str, x);
+                        fun.rhs->SetScalarVariableValue(x_str, x);
+
+                        res &= compare(
+                                       fun.lhs->GetScalarResult(),
+                                       fun.rhs->GetScalarResult(),
+                                       fun.op);
+                    }
+
+                    if(res)
+                    {
+                        f(x, y);
+                    }
+                }
+            }
+        }
+
+        template<int max_x, int max_y, int side>
+        static bool find_true(SpaceMap sm, std::vector<VtkFun>& vtk_vec)
+        {
+            auto x_str = sm.begin()->toStdString().c_str();
+            auto y_str = (++sm.begin())->toStdString().c_str();
+
+            for(int j = 0; j < max_y; j += side)
+            {
+                double y = j;
+                for(VtkFun& fun : vtk_vec)
+                {
+                    fun.lhs->SetScalarVariableValue(y_str, y);
+                    fun.rhs->SetScalarVariableValue(y_str, y);
+                }
+
+                for(int i = 0; i < max_x; i += side)
+                {
+                    double x = i;
+
+                    bool res = true;
+                    for(VtkFun& fun : vtk_vec)
+                    {
+                        fun.lhs->SetScalarVariableValue(x_str, x);
+                        fun.rhs->SetScalarVariableValue(x_str, x);
+
+                        res &= compare(
+                                       fun.lhs->GetScalarResult(),
+                                       fun.rhs->GetScalarResult(),
+                                       fun.op);
+                    }
+                    if(res)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
     signals:
         void ready(QVector<QRectF>);
 
     public slots:
-
         void computeArea(SpaceMap sm, ValMap vals)
         {
             computing = true;
@@ -153,9 +266,6 @@ class AreaComputer : public QObject
             {
                 return;
             }
-
-            auto x_str = sm.begin()->toStdString().c_str();
-            auto y_str = (++sm.begin())->toStdString().c_str();
 
             for(VtkFun& f : vtk_vec)
             {
@@ -172,71 +282,16 @@ class AreaComputer : public QObject
             const int max_y = 600;
             const double side = 3;
             rects.reserve((max_x / side) * (max_y / side));
-            for(int i = 0; i < max_x; i += side)
-            {
-                for(int j = 0; j < max_y; j += side)
-                {
-                    double x = i;
-                    double y = j;
 
-                    for(VtkFun& fun : vtk_vec)
-                    {
-                        fun.lhs->SetScalarVariableValue(x_str, x);
-                        fun.lhs->SetScalarVariableValue(y_str, y);
-                        double lhs_res = fun.lhs->GetScalarResult();
-                        fun.rhs->SetScalarVariableValue(x_str, x);
-                        fun.rhs->SetScalarVariableValue(y_str, y);
-                        double rhs_res = fun.rhs->GetScalarResult();
-
-                        bool ok = false;
-                        switch(fun.op)
-                        {
-                            case GiNaC::relational::operators::equal:
-                            {
-                                ok = lhs_res == rhs_res;
-                                break;
-                            }
-                            case GiNaC::relational::operators::not_equal:
-                            {
-                                ok = lhs_res != rhs_res;
-                                break;
-                            }
-                            case GiNaC::relational::operators::less:
-                            {
-                                ok = lhs_res < rhs_res;
-                                break;
-                            }
-                            case GiNaC::relational::operators::less_or_equal:
-                            {
-                                ok = lhs_res <= rhs_res;
-                                break;
-                            }
-                            case GiNaC::relational::operators::greater:
-                            {
-                                ok = lhs_res > rhs_res;
-                                break;
-                            }
-                            case GiNaC::relational::operators::greater_or_equal:
-                            {
-                                ok = lhs_res > rhs_res;
-                                break;
-                            }
-                        }
-
-                        if(ok)
-                        {
-                            rects.push_back(QRectF{x - side/2., y- side/2., side, side});
-                        }
-                    }
-
-
-                }
-            }
+            do_for<800, 600, 3>(sm, vtk_vec, [&] (double x, double y) {
+                rects.push_back(QRectF{x - side/2., y- side/2., side, side});
+            });
 
             emit ready(rects);
 
             computing = false;
         }
+
 
         /*
         void computeArea(QStringList formula, SpaceMap sm, ValMap vals)

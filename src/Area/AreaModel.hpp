@@ -29,14 +29,10 @@ class AreaModel : public IdentifiedObject<AreaModel>
         virtual int type() const = 0;
 
         AreaModel(
-                std::unique_ptr<spacelib::area>&& area,
+                const QStringList& formula,
                 const Space::AreaContext& space,
                 const Id<AreaModel>&,
                 QObject* parent);
-
-
-        const spacelib::area& area() const
-        { return *m_area; }
 
         const SpaceModel& space() const
         { return m_context.space; }
@@ -55,14 +51,19 @@ class AreaModel : public IdentifiedObject<AreaModel>
         { return m_currentParameterMap;}
 
         QString toString() const;
+        const QTransform& transform() const
+        { return m_transform; }
+        const QStringList& formula() const
+        { return m_formula; }
 
     signals:
         void currentSymbolChanged(std::string, double);
         void areaChanged(ValMap);
 
     private:
+        QTransform m_transform;
         const Space::AreaContext& m_context;
-        std::unique_ptr<spacelib::area> m_area;
+        QStringList m_formula;
 
         // Maps a variable from m_area to a variable from m_space.
         SpaceMap m_spaceMap;

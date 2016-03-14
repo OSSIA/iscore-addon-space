@@ -32,7 +32,7 @@ PointerAreaModel::PointerAreaModel(
         const Space::AreaContext &space,
         const Id<AreaModel> &id,
         QObject *parent):
-    AreaModel{AreaParser{formula()}.result(), space, id, parent}
+    AreaModel{formula(), space, id, parent}
 {
 
 }

@@ -1,6 +1,7 @@
 #include "AddArea.hpp"
 
 #include "src/Area/AreaModel.hpp"
+#include "src/Area/Generic/GenericAreaModel.hpp"
 #include "src/Area/AreaParser.hpp"
 #include "src/Space/SpaceModel.hpp"
 
@@ -8,6 +9,7 @@
 #include "src/Area/SingletonAreaFactoryList.hpp"
 
 #include "src/SpaceProcess.hpp"
+#include "src/Area/Generic/AreaComputer.hpp"
 
 #include <iscore/application/ApplicationContext.hpp>
 #include <boost/range/algorithm/find_if.hpp>
@@ -54,6 +56,7 @@ using CollisionFun = std::function<bool(const AreaModel& a1, const AreaModel& a2
 class CollisionHandler
 {
         std::map<KeyPair<UuidKey<AreaFactory>>, CollisionFun> m_handlers;
+        CollisionFun m_genericHandler;
     public:
         CollisionHandler()
         {
@@ -98,6 +101,28 @@ class CollisionHandler
             }));
         }
 
+        static bool genericHandler(const AreaModel& a1, const AreaModel& a2)
+        {
+            auto forms = AreaComputer::make_funs(a1.formula());
+            {
+                auto f2 = AreaComputer::make_funs(a2.formula());
+
+                forms.insert(
+                            forms.end(),
+                            std::make_move_iterator(f2.begin()),
+                            std::make_move_iterator(f2.end())
+                            );
+            }
+
+            // Check if a1 == a2 for any value (TODO or more generally if the {f1, f2} system admits a solution)
+
+            return AreaComputer::find_true<800, 600, 3>(
+                           a1.spaceMapping(),
+                           forms);
+
+
+        }
+
         void inscribe(std::pair<KeyPair<UuidKey<AreaFactory>>, CollisionFun> val)
         {
             m_handlers.insert(val);
@@ -110,10 +135,11 @@ class CollisionHandler
             {
                 return it->second(a1, a2);
             }
+            else
+            {
+                return genericHandler(a1, a2);
+            }
 
-            // TODO return a generic computation
-
-            // TODO for solving collisions, put the equations in a system ?
             return false;
         }
 };
@@ -157,32 +183,6 @@ void AddArea::redo() const
 
     ar->setSpaceMapping(m_spaceMap);
     ar->setParameterMapping(m_symbolToAddressMap);
-    /*
-    GiNaC::exmap sym_map;
-    const auto& syms = ar->area().symbols();
-    for(const auto& dim : m_dimensionToVarMap.keys())
-    {
-        auto sym_it = std::find_if(syms.begin(), syms.end(),
-                                   [&] (const GiNaC::symbol& sym)
-            { return sym.get_name() == m_dimensionToVarMap[dim].toStdString(); });
-        ISCORE_ASSERT(sym_it != syms.end());
-
-        sym_map[*sym_it] = proc.space().dimension(dim).sym().symbol();
-    }
-
-    AreaModel::ParameterMap addr_map;
-    for(const auto& elt : m_symbolToAddressMap.keys())
-    {
-        auto sym_it = std::find_if(syms.begin(), syms.end(),
-                                   [&] (const GiNaC::symbol& sym) { return sym.get_name() == elt.toStdString(); });
-        ISCORE_ASSERT(sym_it != syms.end());
-
-        addr_map[elt] = {*sym_it, m_symbolToAddressMap[elt]};
-    }
-
-    ar->setSpaceMapping(sym_map);
-    ar->setParameterMapping(addr_map);
-    */
 
     /// temporarily create "collision" computations
     int i = 0;
