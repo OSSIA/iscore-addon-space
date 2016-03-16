@@ -1,10 +1,10 @@
 #pragma once
-#include <QGraphicsItem>
+#include <src/Area/AreaView.hpp>
 #include <QPainterPath>
 
 namespace Space
 {
-class PointerAreaView : public QGraphicsItem
+class PointerAreaView : public AreaView
 {
     public:
         PointerAreaView(QGraphicsItem* parent);

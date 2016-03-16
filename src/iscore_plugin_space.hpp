@@ -10,7 +10,8 @@ class iscore_plugin_space final :
         public iscore::Plugin_QtInterface,
         public iscore::FactoryInterface_QtInterface,
         public iscore::FactoryList_QtInterface,
-        public iscore::CommandFactory_QtInterface
+        public iscore::CommandFactory_QtInterface,
+        public iscore::GUIApplicationContextPlugin_QtInterface
 {
         Q_OBJECT
         Q_PLUGIN_METADATA(IID FactoryInterface_QtInterface_iid)
@@ -19,6 +20,7 @@ class iscore_plugin_space final :
                 iscore::FactoryInterface_QtInterface
                 iscore::FactoryList_QtInterface
                 iscore::CommandFactory_QtInterface
+                iscore::GUIApplicationContextPlugin_QtInterface
                 )
 
     public:
@@ -26,7 +28,11 @@ class iscore_plugin_space final :
         virtual ~iscore_plugin_space();
 
     private:
-        // Process & inspector
+
+        iscore::GUIApplicationContextPlugin* make_applicationPlugin(
+                const iscore::ApplicationContext& app);
+
+
         std::vector<std::unique_ptr<iscore::FactoryInterfaceBase>> factories(
                 const iscore::ApplicationContext& ctx,
                 const iscore::AbstractFactoryKey& matchingName) const override;

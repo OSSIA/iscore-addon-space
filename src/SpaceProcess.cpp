@@ -6,7 +6,7 @@
 #include "Area/Pointer/PointerAreaModel.hpp"
 #include <src/Executor/ProcessExecutor.hpp>
 #include <Explorer/DocumentPlugin/DeviceDocumentPlugin.hpp>
-
+#include <src/ApplicationPlugin.hpp>
 namespace Space
 {
 ProcessModel::ProcessModel(
@@ -18,7 +18,7 @@ ProcessModel::ProcessModel(
     m_space{new SpaceModel{
             Id<SpaceModel>(0),
             this}},
-    m_context{doc, *m_space, doc.plugin<Explorer::DeviceDocumentPlugin>()}
+    m_context{doc, *m_space, doc.app.components.applicationPlugin<ApplicationPlugin>().settings(), doc.plugin<Explorer::DeviceDocumentPlugin>()}
 {
     metadata.setName(QString("Space.%1").arg(*this->id().val()));
     using namespace GiNaC;

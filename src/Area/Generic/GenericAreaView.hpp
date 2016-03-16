@@ -1,5 +1,5 @@
 #pragma once
-#include <QGraphicsItem>
+#include <src/Area/AreaView.hpp>
 #include <QPainter>
 class RectDevice
 {
@@ -20,7 +20,7 @@ class RectDevice
 
 namespace Space
 {
-class GenericAreaView : public QGraphicsItem
+class GenericAreaView : public AreaView
 {
     public:
         GenericAreaView(QGraphicsItem* parent);

@@ -6,7 +6,7 @@
 namespace Space
 {
 CircleAreaView::CircleAreaView(QGraphicsItem *parent):
-    QGraphicsItem{parent}
+    AreaView{parent}
 {
 
 }

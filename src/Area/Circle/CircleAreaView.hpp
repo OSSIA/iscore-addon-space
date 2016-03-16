@@ -1,10 +1,11 @@
 #pragma once
 #include <QGraphicsItem>
 #include <QPainterPath>
+#include <src/Area/AreaView.hpp>
 
 namespace Space
 {
-class CircleAreaView : public QGraphicsItem
+class CircleAreaView : public AreaView
 {
     public:
         CircleAreaView(QGraphicsItem* parent);

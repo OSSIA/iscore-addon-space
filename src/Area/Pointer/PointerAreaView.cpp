@@ -6,7 +6,7 @@
 namespace Space
 {
 PointerAreaView::PointerAreaView(QGraphicsItem *parent):
-    QGraphicsItem{parent}
+    AreaView{parent}
 {
 
 }

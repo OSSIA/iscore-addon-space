@@ -36,6 +36,8 @@ class AreaModel : public IdentifiedObject<AreaModel>
 
         const SpaceModel& space() const
         { return m_context.space; }
+        const AreaContext& context() const
+        { return m_context; }
 
         void setSpaceMapping(const SpaceMap& mapping);
         const SpaceMap& spaceMapping() const
@@ -53,12 +55,19 @@ class AreaModel : public IdentifiedObject<AreaModel>
         QString toString() const;
         const QTransform& transform() const
         { return m_transform; }
+        void setTransform(const QTransform& t)
+        {
+            m_transform = t;
+            emit transformChanged(m_transform);
+        }
+
         const QStringList& formula() const
         { return m_formula; }
 
     signals:
         void currentSymbolChanged(std::string, double);
         void areaChanged(ValMap);
+        void transformChanged(const QTransform&);
 
     private:
         QTransform m_transform;

@@ -15,6 +15,7 @@
 #include <iscore/plugins/customfactory/FactoryFamily.hpp>
 #include <iscore/plugins/customfactory/FactorySetup.hpp>
 #include <OSSIA/Executor/DocumentPlugin.hpp>
+#include <src/ApplicationPlugin.hpp>
 
 iscore_plugin_space::iscore_plugin_space() :
     QObject {}
@@ -27,6 +28,11 @@ iscore_plugin_space::iscore_plugin_space() :
 iscore_plugin_space::~iscore_plugin_space()
 {
 
+}
+
+iscore::GUIApplicationContextPlugin *iscore_plugin_space::make_applicationPlugin(const iscore::ApplicationContext &app)
+{
+    return new Space::ApplicationPlugin{app};
 }
 
 

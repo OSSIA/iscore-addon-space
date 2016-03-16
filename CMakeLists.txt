@@ -22,6 +22,9 @@ file(GLOB_RECURSE HDRS
     "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp"
 )
 set(SRCS
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/ApplicationPlugin.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/EditionSettings.cpp"
+
 "${CMAKE_CURRENT_SOURCE_DIR}/src/SpaceProcessFactory.cpp"
 
 "${CMAKE_CURRENT_SOURCE_DIR}/src/SpaceProcess.cpp"
@@ -42,6 +45,7 @@ set(SRCS
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Area/AreaParser.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Area/AreaModel.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Area/AreaPresenter.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/Area/AreaView.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Area/AreaFactory.cpp"
 
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Area/Generic/GenericAreaFactory.cpp"
@@ -71,6 +75,7 @@ set(SRCS
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Widgets/SpaceGuiWindow.cpp"
 
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/AddArea.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/UpdateTransform.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/SpaceCommandFactory.cpp"
 
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Executor/ProcessExecutor.cpp"

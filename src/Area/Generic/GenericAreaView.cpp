@@ -5,7 +5,7 @@
 namespace Space
 {
 GenericAreaView::GenericAreaView(QGraphicsItem *parent):
-    QGraphicsItem{parent}
+    AreaView{parent}
 {
     m_col = static_cast<Qt::GlobalColor>(std::abs((double)(qrand() % 19)));
 }
