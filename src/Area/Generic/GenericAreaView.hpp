@@ -1,6 +1,7 @@
 #pragma once
 #include <src/Area/AreaView.hpp>
 #include <QPainter>
+
 class RectDevice
 {
     public:
@@ -25,7 +26,7 @@ class GenericAreaView : public AreaView
     public:
         GenericAreaView(QGraphicsItem* parent);
 
-        QVector<QRectF> rects;
+        void setRects(QPainterPath path);
 
         QRectF boundingRect() const override;
         void updateRect(const QRectF&);
@@ -37,5 +38,6 @@ class GenericAreaView : public AreaView
     private:
         QRectF m_rect;
         QColor m_col;
+        QPainterPath m_path;
 };
 }

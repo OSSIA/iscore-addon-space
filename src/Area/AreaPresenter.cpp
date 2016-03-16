@@ -46,14 +46,12 @@ const Id<AreaModel>& AreaPresenter::id() const
 
 void AreaPresenter::on_areaPressed(QPointF pt)
 {
-    qDebug() << "click" << pt;
     m_originalTransform = m_model.transform();
     m_clickedPoint = pt;
 }
 
 void AreaPresenter::on_areaMoved(QPointF pt)
 {
-    qDebug() << "move" << pt;
     auto diff = pt - m_clickedPoint;
     auto t = m_model.transform();
     t.translate(diff.x(), diff.y());
@@ -63,7 +61,6 @@ void AreaPresenter::on_areaMoved(QPointF pt)
 
 void AreaPresenter::on_areaReleased(QPointF pt)
 {
-    qDebug() << "rel" << pt;
     auto diff = pt - m_clickedPoint;
     auto t = m_model.transform();
     t.translate(diff.x(), diff.y());

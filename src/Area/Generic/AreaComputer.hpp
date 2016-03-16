@@ -5,7 +5,8 @@
 #include <Space/square_renderer.hpp>
 #include <atomic>
 #include <QThread>
-
+#include <QMetaType>
+#include <QPainterPath>
 #include <vtk/vtkFunctionParser.h>
 #include <vtk/vtkSmartPointer.h>
 namespace Space
@@ -200,7 +201,7 @@ class AreaComputer : public QObject
         }
 
     signals:
-        void ready(QVector<QRectF>);
+        void ready(QPainterPath);
 
     public slots:
         void computeArea(Space::Bounds b, SpaceMap sm, ValMap vals)
@@ -221,14 +222,13 @@ class AreaComputer : public QObject
             }
 
 
-            QVector<QRectF> rects;
-            rects.reserve(((b.max_x - b.min_x) / b.side) * ((b.max_y - b.min_y) / b.side));
+            QPainterPath path;
 
             do_for(b, sm, vtk_vec, [&] (double x, double y) {
-                rects.push_back(QRectF{x - b.side/2., y - b.side/2., b.side, b.side});
+                path.addRect(x - b.side/2., y - b.side/2., b.side, b.side);
             });
 
-            emit ready(rects);
+            emit ready(path);
 
             computing = false;
         }
@@ -240,3 +240,5 @@ class AreaComputer : public QObject
 
 };
 }
+
+Q_DECLARE_METATYPE(QPainterPath)
