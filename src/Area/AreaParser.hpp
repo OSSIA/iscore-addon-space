@@ -11,6 +11,7 @@ class AreaParser
 
         bool check() const;
         std::unique_ptr<spacelib::area> result();
+        QStringList getSymbols();
 
 
         // Maps to GiNaC::relational::operators

@@ -13,6 +13,9 @@ ApplicationPlugin::ApplicationPlugin(const iscore::ApplicationContext &app):
     m_scale = m_actions->addAction(tr("Scale"));
     m_rotate = m_actions->addAction(tr("Rotate"));
 
+    m_move->setCheckable(true);
+    m_scale->setCheckable(true);
+    m_rotate->setCheckable(true);
     connect(m_move, &QAction::triggered,
             this, [=] (bool b) {
         if(b)

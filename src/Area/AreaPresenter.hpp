@@ -4,6 +4,9 @@
 #include <src/Area/ValMap.hpp>
 #include <iscore/command/Dispatchers/SingleOngoingCommandDispatcher.hpp>
 #include <src/Commands/UpdateTransform.hpp>
+#include <src/EditionSettings.hpp>
+#include <src/Bounds.hpp>
+
 class QGraphicsItem;
 
 namespace Space
@@ -44,6 +47,7 @@ class AreaPresenter : public NamedObject
 
         QTransform m_originalTransform;
         QPointF m_clickedPoint;
+        Bounds m_curBounds;
 
         const AreaModel& m_model;
         AreaView* m_view{};

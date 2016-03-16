@@ -7,6 +7,7 @@
 #include <QThread>
 #include <QMetaType>
 #include <QPainterPath>
+#include <src/Area/Generic/AreaComputerProxy.hpp>
 #include <vtk/vtkFunctionParser.h>
 #include <vtk/vtkSmartPointer.h>
 namespace Space
@@ -22,25 +23,6 @@ class AreaComputer : public QObject
                 std::array<GiNaC::symbol, 2> arr;
 
                 auto& variables() const { return arr; }
-        };
-
-        class LimitFilter : public QObject
-        {
-                const AreaComputer& m_area;
-            public:
-                LimitFilter(const AreaComputer& area, QObject* parent):
-                    QObject{parent},
-                    m_area{area}
-                {
-                }
-
-                bool eventFilter(QObject *obj, QEvent *event)
-                {
-                    if(m_area.computing) {
-                        return true;
-                    }
-                    return QObject::eventFilter(obj, event);
-                }
         };
 
         struct VtkFun
@@ -83,8 +65,15 @@ class AreaComputer : public QObject
         {
             m_cp_thread.start();
 
-            this->installEventFilter(new LimitFilter{*this, this});
             this->moveToThread(&m_cp_thread);
+
+            connect(this, &AreaComputer::startRealCompute,
+                    this, &AreaComputer::computeArea_priv, Qt::QueuedConnection);
+        }
+
+        ~AreaComputer()
+        {
+            m_cp_thread.exit();
         }
 
 
@@ -202,11 +191,21 @@ class AreaComputer : public QObject
 
     signals:
         void ready(QPainterPath);
+        void startRealCompute(Space::Bounds b, SpaceMap sm, ValMap vals);
 
     public slots:
-        void computeArea(Space::Bounds b, SpaceMap sm, ValMap vals)
+        void computeArea(const Space::Bounds& b, const SpaceMap& sm, const ValMap& vals)
         {
+            if(computing)
+                return;
+
             computing = true;
+            emit startRealCompute(b, sm, vals);
+        }
+
+    private slots:
+        void computeArea_priv(Space::Bounds b, SpaceMap sm, ValMap vals)
+        {
             if(sm.size() != 2)
             {
                 return;
@@ -228,7 +227,7 @@ class AreaComputer : public QObject
                 path.addRect(x - b.side/2., y - b.side/2., b.side, b.side);
             });
 
-            emit ready(path);
+            emit ready(path.simplified());
 
             computing = false;
         }

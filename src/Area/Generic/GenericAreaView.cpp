@@ -14,7 +14,7 @@ void GenericAreaView::setRects(QPainterPath path)
 {
     prepareGeometryChange();
 
-    m_path = path.simplified();
+    m_path = std::move(path);
     m_rect = m_path.boundingRect();
 
     update();

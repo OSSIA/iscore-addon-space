@@ -1,5 +1,5 @@
 #include "AreaParser.hpp"
-
+#include <vtkFunctionParser.h>
 namespace Space
 {
 
@@ -39,5 +39,30 @@ std::unique_ptr<spacelib::area> AreaParser::result()
     return std::make_unique<spacelib::area>(
                 std::move(rels),
                 syms);
+}
+
+QStringList AreaParser::getSymbols()
+{
+    QSet<QString> variables;
+    auto p = vtkFunctionParser::New();
+    for(const auto& side : m_splitted)
+    {
+        {
+            p->SetFunction(side.first[0].toLatin1().constData());
+            p->IsScalarResult();
+            int n = p->GetNumberOfScalarVariables();
+            for(int i = 0; i < n; ++i)
+                variables.insert(p->GetScalarVariableName(i));
+        }
+        {
+            p->SetFunction(side.first[1].toLatin1().constData());
+            p->IsScalarResult();
+            int n = p->GetNumberOfScalarVariables();
+            for(int i = 0; i < n; ++i)
+                variables.insert(p->GetScalarVariableName(i));
+        }
+    }
+    p->Delete();
+    return variables.toList();
 }
 }
