@@ -116,7 +116,8 @@ class CollisionHandler
 
             // Check if a1 == a2 for any value (TODO or more generally if the {f1, f2} system admits a solution)
 
-            return AreaComputer::find_true<800, 600, 3>(
+            return AreaComputer::find_true(
+                           a1.space().bounds(),
                            a1.spaceMapping(),
                            forms);
 

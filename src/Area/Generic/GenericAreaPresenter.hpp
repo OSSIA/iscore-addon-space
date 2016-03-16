@@ -2,6 +2,7 @@
 #include "src/Area/AreaPresenter.hpp"
 #include "GenericAreaView.hpp"
 #include <src/Area/Generic/AreaComputer.hpp>
+#include <src/Bounds.hpp>
 namespace Space
 {
 class GenericAreaView;
@@ -24,7 +25,7 @@ class GenericAreaPresenter : public AreaPresenter
 
         ~GenericAreaPresenter();
     signals:
-        void startCompute(SpaceMap sm, ValMap vals);
+        void startCompute(Space::Bounds b, SpaceMap sm, ValMap vals);
 
     private:
         AreaComputer* m_cp{};
@@ -33,4 +34,3 @@ class GenericAreaPresenter : public AreaPresenter
 }
 
 Q_DECLARE_METATYPE(spacelib::valued_area)
-Q_DECLARE_METATYPE(Space::space2d)

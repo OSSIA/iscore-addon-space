@@ -2,9 +2,13 @@
 #include "SpaceLayerModel.hpp"
 #include "SpaceLayerView.hpp"
 #include "SpaceProcess.hpp"
+#include <src/Space/SpaceModel.hpp>
+#include <src/Space/ViewportModel.hpp>
+#include <src/Space/DimensionModel.hpp>
 #include <iscore/widgets/GraphicsItem.hpp>
 
 #include <QGraphicsScene>
+#include <QGraphicsItemGroup>
 #include "Widgets/SpaceGuiWindow.hpp"
 #include <iscore/document/DocumentInterface.hpp>
 #include <core/document/Document.hpp>
@@ -12,6 +16,7 @@
 
 #include "src/Area/AreaFactory.hpp"
 #include "src/Area/SingletonAreaFactoryList.hpp"
+
 
 namespace Space
 {
@@ -23,7 +28,8 @@ LayerPresenter::LayerPresenter(
     m_model{static_cast<const Space::LayerModel&>(model)},
     m_view{static_cast<LayerView*>(view)},
     m_ctx{iscore::IDocument::documentContext(m_model.processModel())},
-    m_focusDispatcher{m_ctx.document}
+    m_focusDispatcher{m_ctx.document},
+    m_spaceItem{new EmptySpaceItem{m_view}}
 {
     const auto& procmodel = static_cast<Space::ProcessModel&>(m_model.processModel());
     m_spaceWindowView = new QMainWindow;
@@ -58,12 +64,14 @@ LayerPresenter::~LayerPresenter()
 void LayerPresenter::setWidth(qreal width)
 {
     m_view->setWidth(width);
+    reset();
     update();
 }
 
 void LayerPresenter::setHeight(qreal height)
 {
     m_view->setHeight(height);
+    reset();
     update();
 }
 void LayerPresenter::on_focusChanged()
@@ -85,13 +93,13 @@ void LayerPresenter::putBehind()
 
 void LayerPresenter::on_zoomRatioChanged(ZoomRatio)
 {
-    //ISCORE_TODO;
+    reset();
     update();
 }
 
 void LayerPresenter::parentGeometryChanged()
 {
-    //ISCORE_TODO;
+    reset();
     update();
 }
 
@@ -114,12 +122,30 @@ void LayerPresenter::update()
     }
 }
 
+void LayerPresenter::reset()
+{
+    const auto& procmodel = static_cast<Space::ProcessModel&>(m_model.processModel());
+
+    // x0 is vp.XDim.min, etc...
+    auto& space = procmodel.space();
+
+    const DimensionModel& xDim = space.dimension("x");
+    const DimensionModel& yDim = space.dimension("y");
+
+    QTransform t;
+    t.scale(m_view->width() / (xDim.max() - xDim.min()),
+            m_view->height() / (yDim.max() - yDim.min()));
+    t.translate(-xDim.min(), -yDim.min());
+
+    m_spaceItem->setTransform(t);
+}
+
 void LayerPresenter::on_areaAdded(const AreaModel & a)
 {
-    auto fact = m_ctx.app.components.factory<SingletonAreaFactoryList>().get(a.concreteFactoryKey());
+    AreaFactory* fact = m_ctx.app.components.factory<SingletonAreaFactoryList>().get(a.concreteFactoryKey());
 
-    auto v = fact->makeView(m_view);
-    // TODO call the factory list
+    auto v = fact->makeView(m_spaceItem);
+
     auto pres = fact->makePresenter(v, a, this);
 
     con(a, &AreaModel::areaChanged,

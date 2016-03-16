@@ -32,35 +32,6 @@ void ViewportModel::setDefaultValuesMap(const QMap<Id<DimensionModel>, double>& 
     m_defaultValuesMap = defaultValuesMap;
 }
 
-double ViewportModel::zoomLevel() const
-{
-    return m_zoomLevel;
-}
-
-void ViewportModel::setZoomLevel(double zoomLevel)
-{
-    m_zoomLevel = zoomLevel;
-}
-double ViewportModel::rotation() const
-{
-    return m_rotation;
-}
-
-void ViewportModel::setRotation(double rotation)
-{
-    m_rotation = rotation;
-}
-
-const QPointF& ViewportModel::pos() const
-{
-    return m_pos;
-}
-
-void ViewportModel::setPos(const QPointF& pos)
-{
-    m_pos = pos;
-}
-
 const QString& ViewportModel::name() const
 {
     return m_name;

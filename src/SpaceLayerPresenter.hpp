@@ -7,11 +7,28 @@
 #include "Area/AreaModel.hpp"
 #include "Area/AreaPresenter.hpp"
 class QMainWindow;
+class QGraphicsItemGroup;
 namespace Process {
 class LayerModel;
 class LayerView;
 }
 
+struct EmptySpaceItem : public QGraphicsItem
+{
+        QRectF m_rect;
+    public:
+        using QGraphicsItem::QGraphicsItem;
+        void setRect(const QRectF& rect)
+        {
+
+        }
+
+        QRectF boundingRect() const override
+        { return m_rect; }
+
+        void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override
+        { }
+};
 namespace Space
 {
 class LayerView;
@@ -42,6 +59,7 @@ class LayerPresenter :
         void update();
 
     private:
+        void reset();
         void on_areaAdded(const AreaModel&);
         void on_areaRemoved(const AreaModel& a);
 
@@ -52,6 +70,8 @@ class LayerPresenter :
         QMainWindow* m_spaceWindowView{};
         IdContainer<AreaPresenter, AreaModel> m_areas;
         FocusDispatcher m_focusDispatcher;
+
+        EmptySpaceItem* m_spaceItem{};
 
     public:
         void fillContextMenu(QMenu*, const QPoint& pos, const QPointF& scenepos) const override;

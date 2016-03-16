@@ -8,13 +8,26 @@ SpaceModel::SpaceModel(
         QObject *parent):
     IdentifiedObject{id, staticMetaObject.className(), parent}
 {
-    rebuildSpace();
+    emit spaceChanged();
+}
+
+Bounds SpaceModel::bounds() const
+{
+    const auto& x = dimension("x");
+    const auto& y = dimension("y");
+    return {
+        x.min(),
+        x.max(),
+        y.min(),
+        y.max(),
+        double(m_precision)
+    };
 }
 
 void SpaceModel::addDimension(DimensionModel *dim)
 {
     m_dimensions.insert(dim);
-    rebuildSpace();
+    emit spaceChanged();
 }
 
 const DimensionModel& SpaceModel::dimension(const QString& name) const
@@ -36,7 +49,7 @@ const DimensionModel& SpaceModel::dimension(const Id<DimensionModel> &id) const
 void SpaceModel::removeDimension(const QString &name)
 {
     ISCORE_TODO;
-    rebuildSpace();
+    emit spaceChanged();
 }
 
 
@@ -63,15 +76,5 @@ void SpaceModel::removeViewport(const Id<ViewportModel>& vm)
             m_defaultViewport = Id<ViewportModel>{};
         }
     }
-}
-
-void SpaceModel::rebuildSpace()
-{
-    std::vector<spacelib::minmax_symbol> syms;
-    for(const auto& elt : m_dimensions)
-        syms.push_back(elt.sym());
-
-    m_space = std::make_unique<spacelib::euclidean_space>(std::move(syms));
-    emit spaceChanged();
 }
 }

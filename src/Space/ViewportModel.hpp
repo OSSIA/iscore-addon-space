@@ -12,6 +12,9 @@ namespace Space
 class ViewportModel : public IdentifiedObject<ViewportModel>
 {
         Q_OBJECT
+        Q_PROPERTY(QTransform transform READ transform WRITE setTransform NOTIFY transformChanged)
+        Q_PROPERTY(int renderPrecision READ renderPrecision WRITE setRenderPrecision NOTIFY renderPrecisionChanged)
+
     public:
         ViewportModel(const Id<ViewportModel>& id, QObject* parent):
             IdentifiedObject{id, staticMetaObject.className(), parent}
@@ -28,26 +31,45 @@ class ViewportModel : public IdentifiedObject<ViewportModel>
         const QMap<Id<DimensionModel>, double>& defaultValuesMap() const;
         void setDefaultValuesMap(const QMap<Id<DimensionModel>, double>& defaultValuesMap);
 
-        double zoomLevel() const;
-        void setZoomLevel(double zoomLevel);
-
-        double rotation() const;
-        void setRotation(double rotation);
-
-        const QPointF& pos() const;
-        void setPos(const QPointF& pos);
-
         const QString& name() const;
         void setName(const QString& name);
 
+        const QTransform& transform() const
+        {
+            return m_transform;
+        }
+
+        void setTransform(const QTransform& transform)
+        {
+            if (m_transform == transform)
+                return;
+
+            m_transform = transform;
+            emit transformChanged(transform);
+        }
+
+        int renderPrecision() const
+        {
+            return m_renderPrecision;
+        }
+
+        void setRenderPrecision(int renderPrecision)
+        {
+            if (m_renderPrecision == renderPrecision)
+                return;
+
+            m_renderPrecision = renderPrecision;
+            emit renderPrecisionChanged(renderPrecision);
+        }
+
+    signals:
+        void transformChanged(const QTransform& transform);
+
+        void renderPrecisionChanged(int renderPrecision);
+
     private:
         QString m_name;
-
-        // Should be part of the presenter?
-        double m_zoomLevel{}; // what is the reference ? 1.0 = 1 pixel ? think of retina, too.
-        // Maybe use the zooming features of QGraphicsScene, view, etc.
-        double m_rotation{}; // Degrees ? Radians ?
-        QPointF m_pos; // Top left point
+        QTransform m_transform;
 
         // Map from a dimension in space to a dimension in the GUI
         Id<DimensionModel> m_xDim;
@@ -56,5 +78,6 @@ class ViewportModel : public IdentifiedObject<ViewportModel>
         // Map from a dimension in space to a default value.
         // e.g. : for (x, y, z), we set z = 0.
         QMap<Id<DimensionModel>, double> m_defaultValuesMap;
+        int m_renderPrecision;
 };
 }

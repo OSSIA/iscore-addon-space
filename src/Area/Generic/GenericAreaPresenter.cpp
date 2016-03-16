@@ -39,8 +39,9 @@ void GenericAreaPresenter::update()
 
 // Il vaut mieux faire comme dans les courbes ou le curvepresenter s'occupe des segments....
 void GenericAreaPresenter::on_areaChanged(ValMap map)
-{
+{;
     emit startCompute(
+                model(this).space().bounds(),
                 model(this).spaceMapping(),
                 map);
 

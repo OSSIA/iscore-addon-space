@@ -15,11 +15,11 @@ DimensionEditWidget::DimensionEditWidget(const DimensionModel& dim, QWidget* par
     lay->addWidget(m_name);
 
     m_minBound = new iscore::SpinBox<float>;
-    m_minBound->setValue(m_dim.sym().domain().min);
+    m_minBound->setValue(m_dim.min());
     lay->addWidget(m_minBound);
 
     m_maxBound = new iscore::SpinBox<float>;
-    m_maxBound->setValue(m_dim.sym().domain().max);
+    m_maxBound->setValue(m_dim.max());
     lay->addWidget(m_maxBound);
 
     m_remove = new QPushButton{tr("Remove")};

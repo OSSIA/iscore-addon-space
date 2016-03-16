@@ -7,6 +7,7 @@
 #include "DimensionModel.hpp"
 #include "ViewportModel.hpp"
 #include <src/SpaceContext.hpp>
+#include <src/Bounds.hpp>
 
 namespace Space
 {
@@ -14,14 +15,15 @@ namespace Space
 class SpaceModel : public IdentifiedObject<SpaceModel>
 {
         Q_OBJECT
+
+        // Precision used for distance, etc... computations
+        Q_PROPERTY(int precision READ precision WRITE setPrecision NOTIFY precisionChanged)
     public:
         SpaceModel(
                 const Id<SpaceModel>& id,
                 QObject* parent);
 
-        const auto& space() const
-        { return *m_space; }
-
+        Bounds bounds() const;
         void addDimension(DimensionModel* dim);
         void removeDimension(const QString& name);
         const DimensionModel& dimension(const Id<DimensionModel>& id) const;
@@ -39,18 +41,32 @@ class SpaceModel : public IdentifiedObject<SpaceModel>
         const Id<ViewportModel>& defaultViewport() const
         { return m_defaultViewport; }
 
+        int precision() const
+        {
+            return m_precision;
+        }
+
+        void setPrecision(int precision)
+        {
+            if (m_precision == precision)
+                return;
+
+            m_precision = precision;
+            emit precisionChanged(precision);
+        }
+
     signals:
         void dimensionAdded(const DimensionModel&);
         void viewportAdded(const ViewportModel&);
         void spaceChanged();
 
-    private:
-        void rebuildSpace();
+        void precisionChanged(int precision);
 
-        std::unique_ptr<spacelib::euclidean_space> m_space;
+    private:
         IdContainer<DimensionModel> m_dimensions;
         IdContainer<ViewportModel> m_viewports;
 
         Id<ViewportModel> m_defaultViewport;
+        int m_precision = 5;
 };
 }

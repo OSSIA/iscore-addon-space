@@ -44,6 +44,14 @@ class ProcessModel : public Process::ProcessModel
                 const TimeValue &duration,
                 const Id<Process::ProcessModel> &id,
                 QObject *parent);
+
+        ProcessModel(
+                const ProcessModel& other,
+                const iscore::DocumentContext& doc,
+                const TimeValue &duration,
+                const Id<Process::ProcessModel> &id,
+                QObject *parent);
+
         const SpaceModel& space() const
         { return *m_space; }
         const Space::AreaContext& context() const

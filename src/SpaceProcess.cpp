@@ -25,7 +25,11 @@ ProcessModel::ProcessModel(
     using namespace spacelib;
 
     auto x_dim = new DimensionModel{"x", Id<DimensionModel>{0}, m_space};
+    x_dim->setMin(-100);
+    x_dim->setMax(100);
     auto y_dim = new DimensionModel{"y", Id<DimensionModel>{1}, m_space};
+    y_dim->setMin(-100);
+    y_dim->setMax(100);
 
     m_space->addDimension(x_dim);
     m_space->addDimension(y_dim);
@@ -36,7 +40,7 @@ ProcessModel::ProcessModel(
     setDuration(duration);
 }
 
-ProcessModel *ProcessModel::clone(
+ProcessModel* ProcessModel::clone(
         const Id<Process::ProcessModel> &newId,
         QObject *newParent) const
 {
