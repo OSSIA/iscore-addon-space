@@ -18,14 +18,13 @@ class PointerAreaModel : public AreaModel
         static QStringList formula();
 
         struct values {
-                double x;
-                double y;
+                QPointF center;
         };
 
         static auto mapToData(
                 const ValMap& map)
         {
-            return values{map.at("x0"), map.at("y0")};
+            return values{QPointF{map.at("x0"), map.at("y0")}};
         }
 
         PointerAreaModel(

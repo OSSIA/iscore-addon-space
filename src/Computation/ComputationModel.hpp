@@ -16,6 +16,7 @@ class ComputationModel : public IdentifiedObject<ComputationModel>
         iscore::Components components;
         using Computation = std::function<double()>;
         ComputationModel(
+                QObject* computationContext,
                 const Computation& comp,
                 const SpaceModel& space,
                 const Id<ComputationModel>&,
@@ -32,6 +33,7 @@ class ComputationModel : public IdentifiedObject<ComputationModel>
         { return m_space; }
 
     private:
+        QObject* m_context{};
         Computation m_fun;
         const SpaceModel& m_space;
         //std::unique_ptr<spacelib::computation> m_computation;

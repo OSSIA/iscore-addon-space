@@ -23,43 +23,40 @@
 
 namespace Space
 {
-template<typename K>
-struct KeyPair : std::pair<K, K>
-{
-    public:
-        using std::pair<K, K>::pair;
 
-        friend bool operator==(
-                const KeyPair& lhs,
-                const KeyPair& rhs)
-        {
-            return (lhs.first == rhs.first && lhs.second == rhs.second)
-                    ||
-                   (lhs.first == rhs.second && lhs.second == rhs.first);
-        }
-
-        friend bool operator!=(
-                const KeyPair& lhs,
-                const KeyPair& rhs)
-        {
-            return !(lhs == rhs);
-        }
-};
-template<typename K>
-auto make_keys(const K& k1, const K& k2)
+template<int Pres>
+QPolygonF circleToPoly(CircleAreaModel::values val)
 {
-    return KeyPair<K>{k1, k2};
+    QPolygonF poly;
+    for(int i = 0; i < Pres; i++)
+    {
+        poly.append(val.center + val.r * QPointF(
+                        std::cos((i / Pres) * 2 * M_PI),
+                        std::sin((i / Pres) * 2 * M_PI)
+                        ));
+    }
+    return poly;
 }
 
 using CollisionFun = std::function<bool(const AreaModel& a1, const AreaModel& a2)>;
 
-class CollisionHandler
+class CollisionHandler : public QObject
 {
         std::map<KeyPair<UuidKey<AreaFactory>>, CollisionFun> m_handlers;
         CollisionFun m_genericHandler;
+        CollisionAreaComputer* m_cptr;
+
+        std::map<KeyPair<Id<AreaModel>>, bool> m_genericResult;
+
     public:
-        CollisionHandler()
+        CollisionHandler():
+            m_cptr{new CollisionAreaComputer} // TODO delete
         {
+            connect(m_cptr, &CollisionAreaComputer::ready, this,
+                    [=] (bool res, KeyPair<Id<AreaModel>> keys) {
+                m_genericResult[keys] = res;
+            }, Qt::QueuedConnection);
+
             m_handlers.insert(
                         std::make_pair(
                         make_keys(
@@ -73,11 +70,10 @@ class CollisionHandler
                 auto c1_val = c1.mapToData(c1.currentMapping());
                 auto c2_val = c2.mapToData(c2.currentMapping());
 
-                // Check if the distance of both centers is < to the sum of radiuses
-                auto dist = [] (auto v1, auto v2) {
-                    return std::sqrt(std::pow(v2.x - v1.x, 2) + std::pow(v2.y - v1.y, 2));
-                };
-                return dist(c1_val, c2_val) < (c1_val.r + c2_val.r);
+                auto c1_poly = a1.transform().map(circleToPoly<12>(c1_val));
+                auto c2_poly = a2.transform().map(circleToPoly<12>(c2_val));
+                return !c1_poly.intersected(c2_poly).isEmpty();
+
             }));
 
             m_handlers.insert(
@@ -93,20 +89,34 @@ class CollisionHandler
                 auto c_val = c.mapToData(c.currentMapping());
                 auto p_val = p.mapToData(p.currentMapping());
 
-                // Check if the distance of both centers is < to the sum of radiuses
-                auto dist = [] (auto v1, auto v2) {
-                    return std::sqrt(std::pow(v2.x - v1.x, 2) + std::pow(v2.y - v1.y, 2));
-                };
-                return dist(c_val, p_val) < c_val.r;
+                auto c_poly = a1.transform().map(circleToPoly<12>(c_val));
+                return c_poly.contains(a2.transform().map(p_val.center));
             }));
         }
 
-        static bool genericHandler(const AreaModel& a1, const AreaModel& a2)
+        bool genericHandler(const AreaModel& a1, const AreaModel& a2)
         {
-            auto forms = AreaComputer::make_funs(a1.formula());
-            {
-                auto f2 = AreaComputer::make_funs(a2.formula());
+            auto forms = Computations::make_funs(a1.formula());
 
+            for(auto& f : forms)
+            {
+                for(auto val : a1.currentMapping())
+                {
+                    f.lhs->SetScalarVariableValue(val.first.c_str(), val.second);
+                    f.rhs->SetScalarVariableValue(val.first.c_str(), val.second);
+                }
+            }
+            {
+                auto f2 = Computations::make_funs(a2.formula());
+
+                for(auto& f : f2)
+                {
+                    for(auto val : a2.currentMapping())
+                    {
+                        f.lhs->SetScalarVariableValue(val.first.c_str(), val.second);
+                        f.rhs->SetScalarVariableValue(val.first.c_str(), val.second);
+                    }
+                }
                 forms.insert(
                             forms.end(),
                             std::make_move_iterator(f2.begin()),
@@ -115,13 +125,21 @@ class CollisionHandler
             }
 
             // Check if a1 == a2 for any value (TODO or more generally if the {f1, f2} system admits a solution)
-
-            return AreaComputer::find_true(
-                           a1.space().bounds(),
-                           a1.spaceMapping(),
-                           forms);
-
-
+            auto p = make_keys(a1.id(), a2.id());
+            m_cptr->computeArea(
+                        a1.space().bounds(),
+                        a1.spaceMapping(),
+                        forms,
+                        p);
+            auto it = m_genericResult.find(p);
+            if(it != m_genericResult.end())
+            {
+                return it->second;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         void inscribe(std::pair<KeyPair<UuidKey<AreaFactory>>, CollisionFun> val)
@@ -145,6 +163,137 @@ class CollisionHandler
         }
 };
 
+
+class DistanceHandler : public QObject
+{
+        std::map<KeyPair<UuidKey<AreaFactory>>, CollisionFun> m_handlers;
+        CollisionFun m_genericHandler;
+        DistanceAreaComputer* m_cptr;
+
+        std::map<KeyPair<Id<AreaModel>>, double> m_genericResult;
+
+    public:
+        DistanceHandler():
+            m_cptr{new DistanceAreaComputer} // TODO delete
+        {
+            connect(m_cptr, &DistanceAreaComputer::ready, this, [=] (double d, KeyPair<Id<AreaModel>> keys) {
+                m_genericResult[keys] = d;
+            }, Qt::QueuedConnection);
+
+            m_handlers.insert(
+                        std::make_pair(
+                        make_keys(
+                                CircleAreaModel::static_concreteFactoryKey(),
+                                CircleAreaModel::static_concreteFactoryKey()),
+                              [] (const AreaModel& a1, const AreaModel& a2)
+            {
+                auto& c1 = static_cast<const CircleAreaModel&>(a1);
+                auto& c2 = static_cast<const CircleAreaModel&>(a2);
+
+                auto c1_val = c1.mapToData(c1.currentMapping());
+                auto c2_val = c2.mapToData(c2.currentMapping());
+
+                // Distance of centers
+                auto dist = [] (auto v1, auto v2) {
+                    return std::sqrt(std::pow(v2.center.x() - v1.center.x(), 2) + std::pow(v2.center.y() - v1.center.y(), 2));
+                };
+                return dist(c1_val, c2_val);
+            }));
+
+            m_handlers.insert(
+                        std::make_pair(
+                        make_keys(
+                                CircleAreaModel::static_concreteFactoryKey(),
+                                PointerAreaModel::static_concreteFactoryKey()),
+                              [] (const AreaModel& a1, const AreaModel& a2)
+            {
+                auto& c = static_cast<const CircleAreaModel&>(a1);
+                auto& p = static_cast<const PointerAreaModel&>(a2);
+
+                auto c_val = c.mapToData(c.currentMapping());
+                auto p_val = p.mapToData(p.currentMapping());
+
+                // Check if the distance of both centers is < to the sum of radiuses
+                auto dist = [] (auto v1, auto v2) {
+                    return std::sqrt(std::pow(v2.center.x() - v1.center.x(), 2) + std::pow(v2.center.y() - v1.center.y(), 2));
+                };
+                return dist(c_val, p_val);
+            }));
+        }
+
+        double genericHandler(const AreaModel& a1, const AreaModel& a2)
+        {
+            /*
+            auto forms = Computations::make_funs(a1.formula());
+
+            for(auto& f : forms)
+            {
+                for(auto val : a1.currentMapping())
+                {
+                    f.lhs->SetScalarVariableValue(val.first.c_str(), val.second);
+                    f.rhs->SetScalarVariableValue(val.first.c_str(), val.second);
+                }
+            }
+            {
+                auto f2 = Computations::make_funs(a2.formula());
+
+                for(auto& f : f2)
+                {
+                    for(auto val : a2.currentMapping())
+                    {
+                        f.lhs->SetScalarVariableValue(val.first.c_str(), val.second);
+                        f.rhs->SetScalarVariableValue(val.first.c_str(), val.second);
+                    }
+                }
+                forms.insert(
+                            forms.end(),
+                            std::make_move_iterator(f2.begin()),
+                            std::make_move_iterator(f2.end())
+                            );
+            }
+
+            // Check if a1 == a2 for any value (TODO or more generally if the {f1, f2} system admits a solution)
+
+
+            auto p = make_keys(a1.id(), a2.id());
+            m_cptr->computeArea(
+                        a1.space().bounds(),
+                        a1.spaceMapping(),
+                        forms,
+                        p);
+            auto it = m_genericResult.find(p);
+            if(it != m_genericResult.end())
+            {
+                return it->second;
+            }
+            else
+            {
+                return false;
+            }
+            */
+            return 0;
+        }
+
+        void inscribe(std::pair<KeyPair<UuidKey<AreaFactory>>, CollisionFun> val)
+        {
+            m_handlers.insert(val);
+        }
+
+        double get(const AreaModel& a1, const AreaModel& a2)
+        {
+            auto it = m_handlers.find(make_keys(a1.concreteFactoryKey(), a2.concreteFactoryKey()));
+            if(it != m_handlers.end())
+            {
+                return it->second(a1, a2);
+            }
+            else
+            {
+                return genericHandler(a1, a2);
+            }
+
+            return false;
+        }
+};
 
 AddArea::AddArea(Path<Space::ProcessModel> &&spacProcess,
                  UuidKey<AreaFactory> type,
@@ -190,9 +339,9 @@ void AddArea::redo() const
     for(auto& area : proc.areas)
     {
         { // collisions
-            auto comp = new ComputationModel([&,ar] () {
-                CollisionHandler h;
-                return (double) h.check(area, *ar);
+            auto ch = new CollisionHandler;
+            auto comp = new ComputationModel(ch, [&,ar, ch] () {
+                return (double) ch->check(area, *ar);
             },
                 proc.space(),
                 m_createdComputations[i++],

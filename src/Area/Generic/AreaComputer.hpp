@@ -9,36 +9,53 @@
 #include <QPainterPath>
 #include <src/Area/Generic/AreaComputerProxy.hpp>
 #include <vtk/vtkFunctionParser.h>
+#include <iscore/tools/IdentifiedObject.hpp>
 #include <vtk/vtkSmartPointer.h>
+#include <QGenericMatrix>
 namespace Space
 {
-class AreaComputer : public QObject
+class AreaModel;
+template<typename K>
+struct KeyPair : std::pair<K, K>
 {
-        Q_OBJECT
-
-        enum RelOp { inf, inf_eq, sup, sup_eq, eq } ;
-        struct LocalSpace
-        {
-                static constexpr int dimension() { return 2; }
-                std::array<GiNaC::symbol, 2> arr;
-
-                auto& variables() const { return arr; }
-        };
-
-        struct VtkFun
-        {
-                vtkSmartPointer<vtkFunctionParser> lhs = vtkSmartPointer<vtkFunctionParser>::New();
-                vtkSmartPointer<vtkFunctionParser> rhs = vtkSmartPointer<vtkFunctionParser>::New();
-                GiNaC::relational::operators op{};
-        };
-
-        std::vector<VtkFun> vtk_vec;
-
-        using pair_t = std::pair<
-            QStringList,
-            GiNaC::relational::operators
-        >;
     public:
+        using std::pair<K, K>::pair;
+
+        friend bool operator==(
+                const KeyPair& lhs,
+                const KeyPair& rhs)
+        {
+            return (lhs.first == rhs.first && lhs.second == rhs.second)
+                    ||
+                   (lhs.first == rhs.second && lhs.second == rhs.first);
+        }
+
+        friend bool operator!=(
+                const KeyPair& lhs,
+                const KeyPair& rhs)
+        {
+            return !(lhs == rhs);
+        }
+};
+template<typename K>
+auto make_keys(const K& k1, const K& k2)
+{
+    return KeyPair<K>{k1, k2};
+}
+
+using pair_t = std::pair<
+    QStringList,
+    GiNaC::relational::operators
+>;
+struct VtkFun
+{
+        vtkSmartPointer<vtkFunctionParser> lhs = vtkSmartPointer<vtkFunctionParser>::New();
+        vtkSmartPointer<vtkFunctionParser> rhs = vtkSmartPointer<vtkFunctionParser>::New();
+        GiNaC::relational::operators op{};
+};
+
+struct Computations
+{
         static std::vector<VtkFun> make_funs(const QStringList& formulas)
         {
             std::vector<VtkFun> res;
@@ -59,23 +76,6 @@ class AreaComputer : public QObject
 
             return res;
         }
-
-        AreaComputer(const QStringList& formulas):
-            vtk_vec{make_funs(formulas)}
-        {
-            m_cp_thread.start();
-
-            this->moveToThread(&m_cp_thread);
-
-            connect(this, &AreaComputer::startRealCompute,
-                    this, &AreaComputer::computeArea_priv, Qt::QueuedConnection);
-        }
-
-        ~AreaComputer()
-        {
-            m_cp_thread.exit();
-        }
-
 
         static bool compare(double lhs_res, double rhs_res, GiNaC::relational::operators op)
         {
@@ -189,6 +189,115 @@ class AreaComputer : public QObject
             return false;
         }
 
+
+        static auto make_area(Bounds b, SpaceMap sm, std::vector<VtkFun>& vtk_vec)
+        {
+            // TODO have multiple threads that work on A / B / A / B sides of the matrix for faster operation
+            std::vector<bool> vec(((b.max_x - b.min_x) / b.side) * ((b.max_y - b.min_y) / b.side), false);
+            do_for(b, sm, vtk_vec, [&] (double x, double y) {
+                vec[int((x + b.min_x)/b.side) + int((y + b.min_y)/b.side)] = true;
+            });
+            return vec;
+        }
+
+        static bool collides(const Bounds b,
+                             const std::vector<bool>& a1,
+                             const std::vector<bool>& a2,
+                             const QTransform& t1,
+                             const QTransform& t2 )
+        {
+            const int num = a1.size();
+            #pragma omp parallel for
+            for(int j = b.min_y; j < b.max_y; j += b.side)
+            {
+                double y = j;
+                for(int i = b.min_x; i < b.max_x; i += b.side)
+                {
+                    double x = i;
+                    QPointF p(x, y);
+                    QPointF p1 = t1.map(p);
+                    QPointF p2 = t2.map(p);
+
+                    int x1 = (p1.x() - b.min_x) / b.side;
+                    int x2 = (p2.x() - b.min_x) / b.side;
+                    int y1 = (p1.y() - b.min_y) / b.side;
+                    int y2 = (p2.y() - b.min_y) / b.side;
+
+                    int s1 = x1 + y1;
+                    if(s1 > num)
+                        continue;
+                    int s2 = x2 + y2;
+                    if(s2 > num)
+                        continue;
+                    if(a1[s1] && a2[s2])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+
+        static double distance(const Bounds b,
+                             const std::vector<bool>& a1,
+                             const std::vector<bool>& a2,
+                             const QTransform& t1,
+                             const QTransform& t2 )
+        {
+            const int num = a1.size();
+
+            // TODO compute centroid of both
+            return false;
+        }
+
+        static bool check_collision(Bounds b, SpaceMap sm,
+                                    std::vector<VtkFun>& vec1,
+                                    std::vector<VtkFun>& vec2,
+                                    const QTransform& t1,
+                                    const QTransform& t2)
+        {
+            auto a1 = make_area(b, sm, vec1);
+            auto a2 = make_area(b, sm, vec2);
+
+            return collides(b, a1, a2, t1, t2);
+        }
+
+
+        static double compute_distance(Bounds b, SpaceMap sm,
+                                    std::vector<VtkFun>& vec1,
+                                    std::vector<VtkFun>& vec2,
+                                    const QTransform& t1,
+                                    const QTransform& t2)
+        {
+            auto a1 = make_area(b, sm, vec1);
+            auto a2 = make_area(b, sm, vec2);
+
+            return distance(b, a1, a2, t1, t2);
+        }
+};
+class DrawAreaComputer : public QObject
+{
+        Q_OBJECT
+
+    public:
+        DrawAreaComputer(const QStringList& formulas):
+            vtk_vec{Computations::make_funs(formulas)}
+        {
+            m_cp_thread.start();
+
+            this->moveToThread(&m_cp_thread);
+
+            connect(this, &DrawAreaComputer::startRealCompute,
+                    this, &DrawAreaComputer::computeArea_priv, Qt::QueuedConnection);
+        }
+
+        ~DrawAreaComputer()
+        {
+            m_cp_thread.exit();
+        }
+
+
     signals:
         void ready(QPainterPath);
         void startRealCompute(Space::Bounds b, SpaceMap sm, ValMap vals);
@@ -223,7 +332,7 @@ class AreaComputer : public QObject
 
             QPainterPath path;
 
-            do_for(b, sm, vtk_vec, [&] (double x, double y) {
+            Computations::do_for(b, sm, vtk_vec, [&] (double x, double y) {
                 path.addRect(x - b.side/2., y - b.side/2., b.side, b.side);
             });
 
@@ -234,10 +343,315 @@ class AreaComputer : public QObject
 
 
     private:
+        std::vector<VtkFun> vtk_vec;
         QThread m_cp_thread;
         std::atomic_bool computing{false};
+};
 
+
+class CollisionAreaComputer : public QObject
+{
+        Q_OBJECT
+
+        using pair_t = std::pair<
+            QStringList,
+            GiNaC::relational::operators
+        >;
+    public:
+        CollisionAreaComputer()
+        {
+            m_cp_thread.start();
+
+            this->moveToThread(&m_cp_thread);
+
+            connect(this, &CollisionAreaComputer::startRealCompute,
+                    this, &CollisionAreaComputer::computeArea_priv, Qt::QueuedConnection);
+        }
+
+        ~CollisionAreaComputer()
+        {
+            m_cp_thread.exit();
+        }
+
+
+    signals:
+        void ready(bool, KeyPair<Id<AreaModel>>);
+        void startRealCompute(
+                Space::Bounds b,
+                SpaceMap sm,
+                std::vector<Space::VtkFun> funs,
+                KeyPair<Id<AreaModel>>);
+
+    public slots:
+        void computeArea(
+                const Space::Bounds& b,
+                const SpaceMap& sm,
+                std::vector<VtkFun> funs,
+                KeyPair<Id<AreaModel>> keys)
+        {
+            if(computing)
+                return;
+
+            computing = true;
+            emit startRealCompute(b, sm, funs, keys);
+        }
+
+    private slots:
+        void computeArea_priv(
+                Space::Bounds b,
+                SpaceMap sm,
+                std::vector<VtkFun> funs,
+                KeyPair<Id<AreaModel>> keys)
+        {
+            if(sm.size() != 2)
+            {
+                return;
+            }
+
+            emit ready(Computations::find_true(b, sm, funs), keys);
+
+            computing = false;
+        }
+
+
+    private:
+        QThread m_cp_thread;
+        std::atomic_bool computing{false};
+};
+
+
+class MatrixCollideComputer : public QObject
+{
+        Q_OBJECT
+
+        using pair_t = std::pair<
+            QStringList,
+            GiNaC::relational::operators
+        >;
+    public:
+        MatrixCollideComputer()
+        {
+            m_cp_thread.start();
+
+            this->moveToThread(&m_cp_thread);
+
+            connect(this, &MatrixCollideComputer::startRealCompute,
+                    this, &MatrixCollideComputer::computeArea_priv, Qt::QueuedConnection);
+        }
+
+        ~MatrixCollideComputer()
+        {
+            m_cp_thread.exit();
+        }
+
+
+    signals:
+        void ready(bool);
+        void startRealCompute(
+                Space::Bounds b,
+                SpaceMap sm,
+                std::vector<Space::VtkFun> funs1,
+                std::vector<Space::VtkFun> funs2,
+                QTransform t1,
+                QTransform t2
+                );
+
+    public slots:
+        void computeArea(
+                const Space::Bounds& b,
+                const SpaceMap& sm,
+                const std::vector<VtkFun>& funs1,
+                const std::vector<VtkFun>& funs2,
+                const QTransform& t1,
+                const QTransform& t2
+                )
+        {
+            if(computing)
+                return;
+
+            computing = true;
+            emit startRealCompute(b, sm, funs1, funs2, t1, t2);
+        }
+
+    private slots:
+        void computeArea_priv(
+                Space::Bounds b,
+                SpaceMap sm,
+                std::vector<VtkFun> funs1,
+                std::vector<VtkFun> funs2,
+                QTransform t1,
+                QTransform t2
+                )
+        {
+            if(sm.size() != 2)
+            {
+                return;
+            }
+
+            emit ready(Computations::check_collision(b, sm, funs1, funs2, t1, t2));
+
+            computing = false;
+        }
+
+
+    private:
+        QThread m_cp_thread;
+        std::atomic_bool computing{false};
+};
+
+
+class MatrixDistanceComputer : public QObject
+{
+        Q_OBJECT
+
+        using pair_t = std::pair<
+            QStringList,
+            GiNaC::relational::operators
+        >;
+    public:
+        MatrixDistanceComputer()
+        {
+            m_cp_thread.start();
+
+            this->moveToThread(&m_cp_thread);
+
+            connect(this, &MatrixDistanceComputer::startRealCompute,
+                    this, &MatrixDistanceComputer::computeArea_priv, Qt::QueuedConnection);
+        }
+
+        ~MatrixDistanceComputer()
+        {
+            m_cp_thread.exit();
+        }
+
+
+    signals:
+        void ready(double);
+        void startRealCompute(
+                Space::Bounds b,
+                SpaceMap sm,
+                std::vector<Space::VtkFun> funs1,
+                std::vector<Space::VtkFun> funs2,
+                QTransform t1,
+                QTransform t2
+                );
+
+    public slots:
+        void computeArea(
+                const Space::Bounds& b,
+                const SpaceMap& sm,
+                const std::vector<VtkFun>& funs1,
+                const std::vector<VtkFun>& funs2,
+                const QTransform& t1,
+                const QTransform& t2
+                )
+        {
+            if(computing)
+                return;
+
+            computing = true;
+            emit startRealCompute(b, sm, funs1, funs2, t1, t2);
+        }
+
+    private slots:
+        void computeArea_priv(
+                Space::Bounds b,
+                SpaceMap sm,
+                std::vector<VtkFun> funs1,
+                std::vector<VtkFun> funs2,
+                QTransform t1,
+                QTransform t2
+                )
+        {
+            if(sm.size() != 2)
+            {
+                return;
+            }
+
+            emit ready(Computations::compute_distance(b, sm, funs1, funs2, t1, t2));
+
+            computing = false;
+        }
+
+
+    private:
+        QThread m_cp_thread;
+        std::atomic_bool computing{false};
+};
+
+
+
+class DistanceAreaComputer : public QObject
+{
+        Q_OBJECT
+
+        using pair_t = std::pair<
+            QStringList,
+            GiNaC::relational::operators
+        >;
+    public:
+        DistanceAreaComputer()
+        {
+            m_cp_thread.start();
+
+            this->moveToThread(&m_cp_thread);
+
+            connect(this, &DistanceAreaComputer::startRealCompute,
+                    this, &DistanceAreaComputer::computeArea_priv, Qt::QueuedConnection);
+        }
+
+        ~DistanceAreaComputer()
+        {
+            m_cp_thread.exit();
+        }
+
+
+    signals:
+        void ready(bool, KeyPair<Id<AreaModel>>);
+        void startRealCompute(
+                Space::Bounds b,
+                SpaceMap sm,
+                std::vector<Space::VtkFun> funs,
+                KeyPair<Id<AreaModel>>);
+
+    public slots:
+        void computeArea(
+                const Space::Bounds& b,
+                const SpaceMap& sm,
+                std::vector<VtkFun> funs,
+                KeyPair<Id<AreaModel>> keys)
+        {
+            if(computing)
+                return;
+
+            computing = true;
+            emit startRealCompute(b, sm, funs, keys);
+        }
+
+    private slots:
+        void computeArea_priv(
+                Space::Bounds b,
+                SpaceMap sm,
+                std::vector<VtkFun> funs,
+                KeyPair<Id<AreaModel>> keys)
+        {
+            if(sm.size() != 2)
+            {
+                return;
+            }
+
+            emit ready(Computations::find_true(b, sm, funs), keys);
+
+            computing = false;
+        }
+
+
+    private:
+        QThread m_cp_thread;
+        std::atomic_bool computing{false};
 };
 }
 
+Q_DECLARE_METATYPE(std::vector<Space::VtkFun>)
 Q_DECLARE_METATYPE(QPainterPath)
+Q_DECLARE_METATYPE(Space::KeyPair<Id<Space::AreaModel>>)

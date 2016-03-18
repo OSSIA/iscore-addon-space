@@ -28,7 +28,7 @@ class GenericAreaPresenter : public AreaPresenter
         void startCompute(Space::Bounds b, SpaceMap sm, ValMap vals);
 
     private:
-        AreaComputer* m_cp{};
+        DrawAreaComputer* m_cp{};
 
 };
 }

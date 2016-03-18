@@ -18,15 +18,14 @@ class CircleAreaModel : public AreaModel
         static QStringList formula();
 
         struct values {
-                double x;
-                double y;
+                QPointF center;
                 double r;
         };
 
         static auto mapToData(
                 const ValMap& map)
         {
-            return values{map.at("x0"), map.at("y0"), map.at("r")};
+            return values{QPointF{map.at("x0"), map.at("y0")}, map.at("r")};
         }
 
         CircleAreaModel(

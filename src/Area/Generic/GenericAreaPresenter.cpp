@@ -14,15 +14,15 @@ GenericAreaPresenter::GenericAreaPresenter(
 {
     this->view(this).setPos(0, 0);
 
-    m_cp = new AreaComputer{model.formula()};
-    connect(m_cp, &AreaComputer::ready,
+    m_cp = new DrawAreaComputer{model.formula()};
+    connect(m_cp, &DrawAreaComputer::ready,
             this, [&] (auto vec) {
         this->view(this).setRects(std::move(vec));
         this->view(this).update();
     }, Qt::QueuedConnection);
 
     connect(this, &GenericAreaPresenter::startCompute,
-            m_cp, &AreaComputer::computeArea,
+            m_cp, &DrawAreaComputer::computeArea,
             Qt::QueuedConnection);
 }
 
