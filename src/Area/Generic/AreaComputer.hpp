@@ -196,7 +196,7 @@ struct Computations
             // TODO have multiple threads that work on A / B / A / B sides of the matrix for faster operation
             std::vector<bool> vec(((b.max_x - b.min_x) / b.side) * ((b.max_y - b.min_y) / b.side), false);
             do_for(b, sm, vtk_vec, [&] (double x, double y) {
-                vec[int((x + b.min_x)/b.side) + int((y + b.min_y)/b.side)] = true;
+                vec[int((x - b.min_x)/b.side) + int((y - b.min_y)/b.side)] = true;
             });
             return vec;
         }
