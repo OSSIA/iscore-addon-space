@@ -93,6 +93,10 @@ std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state(double t)
     // Handle computations / collisions
     for(const ComputationModel& computation : m_process.computations)
     {
+
+        auto res = computation.computation()();
+
+        qDebug() << "Writing" << " => " << res;
         // We look for its tree component
         auto compo_it = find_if(
                             computation.components,
@@ -103,9 +107,11 @@ std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state(double t)
         {
             auto& compo = static_cast<LocalTree::ComputationComponent&>(*compo_it);
             ISCORE_ASSERT(compo.valueNode()->getAddress().get());
+            auto res = computation.computation()();
             auto mess = OSSIA::Message::create(
                             compo.valueNode()->getAddress(),
-                            new OSSIA::Float(computation.computation()()));
+                            new OSSIA::Float(res));
+            qDebug() << "Writing to " << compo.valueNode()->getName().c_str() << " => " << res;
             state->stateElements().push_back(std::move(mess));
         }
 

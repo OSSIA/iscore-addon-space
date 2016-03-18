@@ -11,7 +11,8 @@
 #include <vtk/vtkFunctionParser.h>
 #include <iscore/tools/IdentifiedObject.hpp>
 #include <vtk/vtkSmartPointer.h>
-#include <QGenericMatrix>
+
+#include <QVector2D>
 namespace Space
 {
 class AreaModel;
@@ -200,6 +201,7 @@ struct Computations
             return vec;
         }
 
+
         static bool collides(const Bounds b,
                              const std::vector<bool>& a1,
                              const std::vector<bool>& a2,
@@ -224,10 +226,10 @@ struct Computations
                     int y2 = (p2.y() - b.min_y) / b.side;
 
                     int s1 = x1 + y1;
-                    if(s1 > num)
+                    if(s1 >= num)
                         continue;
                     int s2 = x2 + y2;
-                    if(s2 > num)
+                    if(s2 >= num)
                         continue;
                     if(a1[s1] && a2[s2])
                     {
@@ -239,16 +241,48 @@ struct Computations
         }
 
 
-        static double distance(const Bounds b,
+        static double centroid_distance(const Bounds b,
                              const std::vector<bool>& a1,
                              const std::vector<bool>& a2,
                              const QTransform& t1,
                              const QTransform& t2 )
         {
             const int num = a1.size();
+            QPointF c1, c2;
+            int n1 = 0, n2 = 0;
+            #pragma omp parallel reduction(+:c1,c2)
+            for(int j = b.min_y; j < b.max_y; j += b.side)
+            {
+                double y = j;
+                for(int i = b.min_x; i < b.max_x; i += b.side)
+                {
+                    double x = i;
+                    QPointF p(x, y);
+                    QPointF p1 = t1.map(p);
+                    QPointF p2 = t2.map(p);
 
-            // TODO compute centroid of both
-            return false;
+                    int x1 = (p1.x() - b.min_x) / b.side;
+                    int x2 = (p2.x() - b.min_x) / b.side;
+                    int y1 = (p1.y() - b.min_y) / b.side;
+                    int y2 = (p2.y() - b.min_y) / b.side;
+
+                    int s1 = x1 + y1;
+                    if(s1 < num && a1[s1])
+                    {
+                        c1 += QPointF{x, y};
+                        n1++;
+                    }
+
+                    int s2 = x2 + y2;
+                    if(s2 < num && a2[s2])
+                    {
+                        c2 += QPointF{x, y};
+                        n2++;
+                    }
+                }
+            }
+
+            return QVector2D{c2/n2 - c1/n1}.length();
         }
 
         static bool check_collision(Bounds b, SpaceMap sm,
@@ -270,10 +304,11 @@ struct Computations
                                     const QTransform& t1,
                                     const QTransform& t2)
         {
-            auto a1 = make_area(b, sm, vec1);
-            auto a2 = make_area(b, sm, vec2);
-
-            return distance(b, a1, a2, t1, t2);
+            return centroid_distance(
+                        b,
+                        make_area(b, sm, vec1),
+                        make_area(b, sm, vec2),
+                        t1, t2);
         }
 };
 class DrawAreaComputer : public QObject
@@ -420,7 +455,7 @@ class CollisionAreaComputer : public QObject
 };
 
 
-class MatrixCollideComputer : public QObject
+class MatrixCollisionComputer : public QObject
 {
         Q_OBJECT
 
@@ -429,31 +464,32 @@ class MatrixCollideComputer : public QObject
             GiNaC::relational::operators
         >;
     public:
-        MatrixCollideComputer()
+        MatrixCollisionComputer()
         {
             m_cp_thread.start();
 
             this->moveToThread(&m_cp_thread);
 
-            connect(this, &MatrixCollideComputer::startRealCompute,
-                    this, &MatrixCollideComputer::computeArea_priv, Qt::QueuedConnection);
+            connect(this, &MatrixCollisionComputer::startRealCompute,
+                    this, &MatrixCollisionComputer::computeArea_priv, Qt::QueuedConnection);
         }
 
-        ~MatrixCollideComputer()
+        ~MatrixCollisionComputer()
         {
             m_cp_thread.exit();
         }
 
 
     signals:
-        void ready(bool);
+        void ready(bool, KeyPair<Id<AreaModel>>);
         void startRealCompute(
                 Space::Bounds b,
                 SpaceMap sm,
                 std::vector<Space::VtkFun> funs1,
                 std::vector<Space::VtkFun> funs2,
                 QTransform t1,
-                QTransform t2
+                QTransform t2,
+                KeyPair<Id<AreaModel>> keys
                 );
 
     public slots:
@@ -463,24 +499,26 @@ class MatrixCollideComputer : public QObject
                 const std::vector<VtkFun>& funs1,
                 const std::vector<VtkFun>& funs2,
                 const QTransform& t1,
-                const QTransform& t2
+                const QTransform& t2,
+                const KeyPair<Id<AreaModel>>& k
                 )
         {
             if(computing)
                 return;
 
             computing = true;
-            emit startRealCompute(b, sm, funs1, funs2, t1, t2);
+            emit startRealCompute(b, sm, funs1, funs2, t1, t2, k);
         }
 
     private slots:
         void computeArea_priv(
                 Space::Bounds b,
                 SpaceMap sm,
-                std::vector<VtkFun> funs1,
-                std::vector<VtkFun> funs2,
+                std::vector<Space::VtkFun> funs1,
+                std::vector<Space::VtkFun> funs2,
                 QTransform t1,
-                QTransform t2
+                QTransform t2,
+                KeyPair<Id<AreaModel>> keys
                 )
         {
             if(sm.size() != 2)
@@ -488,7 +526,7 @@ class MatrixCollideComputer : public QObject
                 return;
             }
 
-            emit ready(Computations::check_collision(b, sm, funs1, funs2, t1, t2));
+            emit ready(Computations::check_collision(b, sm, funs1, funs2, t1, t2), keys);
 
             computing = false;
         }
@@ -526,31 +564,33 @@ class MatrixDistanceComputer : public QObject
 
 
     signals:
-        void ready(double);
+        void ready(double, KeyPair<Id<AreaModel>>);
         void startRealCompute(
                 Space::Bounds b,
                 SpaceMap sm,
                 std::vector<Space::VtkFun> funs1,
                 std::vector<Space::VtkFun> funs2,
                 QTransform t1,
-                QTransform t2
+                QTransform t2,
+                KeyPair<Id<AreaModel>>
                 );
 
     public slots:
         void computeArea(
                 const Space::Bounds& b,
                 const SpaceMap& sm,
-                const std::vector<VtkFun>& funs1,
-                const std::vector<VtkFun>& funs2,
+                const std::vector<Space::VtkFun>& funs1,
+                const std::vector<Space::VtkFun>& funs2,
                 const QTransform& t1,
-                const QTransform& t2
+                const QTransform& t2,
+                const KeyPair<Id<AreaModel>>& k
                 )
         {
             if(computing)
                 return;
 
             computing = true;
-            emit startRealCompute(b, sm, funs1, funs2, t1, t2);
+            emit startRealCompute(b, sm, funs1, funs2, t1, t2, k);
         }
 
     private slots:
@@ -560,7 +600,8 @@ class MatrixDistanceComputer : public QObject
                 std::vector<VtkFun> funs1,
                 std::vector<VtkFun> funs2,
                 QTransform t1,
-                QTransform t2
+                QTransform t2,
+                KeyPair<Id<AreaModel>> k
                 )
         {
             if(sm.size() != 2)
@@ -568,7 +609,7 @@ class MatrixDistanceComputer : public QObject
                 return;
             }
 
-            emit ready(Computations::compute_distance(b, sm, funs1, funs2, t1, t2));
+            emit ready(Computations::compute_distance(b, sm, funs1, funs2, t1, t2), k);
 
             computing = false;
         }

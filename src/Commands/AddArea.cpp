@@ -28,31 +28,33 @@ template<int Pres>
 QPolygonF circleToPoly(CircleAreaModel::values val)
 {
     QPolygonF poly;
+    const double f_pres = Pres;
     for(int i = 0; i < Pres; i++)
     {
         poly.append(val.center + val.r * QPointF(
-                        std::cos((i / Pres) * 2 * M_PI),
-                        std::sin((i / Pres) * 2 * M_PI)
+                        std::cos((i / f_pres) * 2. * M_PI),
+                        std::sin((i / f_pres) * 2. * M_PI)
                         ));
     }
     return poly;
 }
 
-using CollisionFun = std::function<bool(const AreaModel& a1, const AreaModel& a2)>;
+using AreaComputationFun = std::function<bool(const AreaModel& a1, const AreaModel& a2)>;
 
 class CollisionHandler : public QObject
 {
-        std::map<KeyPair<UuidKey<AreaFactory>>, CollisionFun> m_handlers;
-        CollisionFun m_genericHandler;
-        CollisionAreaComputer* m_cptr;
+        std::map<KeyPair<UuidKey<AreaFactory>>, AreaComputationFun> m_handlers;
+        AreaComputationFun m_genericHandler;
+        MatrixCollisionComputer* m_cptr;
 
         std::map<KeyPair<Id<AreaModel>>, bool> m_genericResult;
 
     public:
         CollisionHandler():
-            m_cptr{new CollisionAreaComputer} // TODO delete
+            m_cptr{new MatrixCollisionComputer} // TODO delete
         {
-            connect(m_cptr, &CollisionAreaComputer::ready, this,
+            m_cptr->setParent(this);
+            connect(m_cptr, &MatrixCollisionComputer::ready, this,
                     [=] (bool res, KeyPair<Id<AreaModel>> keys) {
                 m_genericResult[keys] = res;
             }, Qt::QueuedConnection);
@@ -96,9 +98,10 @@ class CollisionHandler : public QObject
 
         bool genericHandler(const AreaModel& a1, const AreaModel& a2)
         {
-            auto forms = Computations::make_funs(a1.formula());
+            auto f1 = Computations::make_funs(a1.formula());
+            auto f2 = Computations::make_funs(a2.formula());
 
-            for(auto& f : forms)
+            for(auto& f : f1)
             {
                 for(auto val : a1.currentMapping())
                 {
@@ -106,22 +109,14 @@ class CollisionHandler : public QObject
                     f.rhs->SetScalarVariableValue(val.first.c_str(), val.second);
                 }
             }
-            {
-                auto f2 = Computations::make_funs(a2.formula());
 
-                for(auto& f : f2)
+            for(auto& f : f2)
+            {
+                for(auto val : a2.currentMapping())
                 {
-                    for(auto val : a2.currentMapping())
-                    {
-                        f.lhs->SetScalarVariableValue(val.first.c_str(), val.second);
-                        f.rhs->SetScalarVariableValue(val.first.c_str(), val.second);
-                    }
+                    f.lhs->SetScalarVariableValue(val.first.c_str(), val.second);
+                    f.rhs->SetScalarVariableValue(val.first.c_str(), val.second);
                 }
-                forms.insert(
-                            forms.end(),
-                            std::make_move_iterator(f2.begin()),
-                            std::make_move_iterator(f2.end())
-                            );
             }
 
             // Check if a1 == a2 for any value (TODO or more generally if the {f1, f2} system admits a solution)
@@ -129,7 +124,8 @@ class CollisionHandler : public QObject
             m_cptr->computeArea(
                         a1.space().bounds(),
                         a1.spaceMapping(),
-                        forms,
+                        f1, f2,
+                        a1.transform(), a2.transform(),
                         p);
             auto it = m_genericResult.find(p);
             if(it != m_genericResult.end())
@@ -142,7 +138,7 @@ class CollisionHandler : public QObject
             }
         }
 
-        void inscribe(std::pair<KeyPair<UuidKey<AreaFactory>>, CollisionFun> val)
+        void inscribe(std::pair<KeyPair<UuidKey<AreaFactory>>, AreaComputationFun> val)
         {
             m_handlers.insert(val);
         }
@@ -166,17 +162,18 @@ class CollisionHandler : public QObject
 
 class DistanceHandler : public QObject
 {
-        std::map<KeyPair<UuidKey<AreaFactory>>, CollisionFun> m_handlers;
-        CollisionFun m_genericHandler;
-        DistanceAreaComputer* m_cptr;
+        std::map<KeyPair<UuidKey<AreaFactory>>, AreaComputationFun> m_handlers;
+        AreaComputationFun m_genericHandler;
+        MatrixDistanceComputer* m_cptr;
 
         std::map<KeyPair<Id<AreaModel>>, double> m_genericResult;
 
     public:
         DistanceHandler():
-            m_cptr{new DistanceAreaComputer} // TODO delete
+            m_cptr{new MatrixDistanceComputer} // TODO delete
         {
-            connect(m_cptr, &DistanceAreaComputer::ready, this, [=] (double d, KeyPair<Id<AreaModel>> keys) {
+            m_cptr->setParent(this);
+            connect(m_cptr, &MatrixDistanceComputer::ready, this, [=] (double d, KeyPair<Id<AreaModel>> keys) {
                 m_genericResult[keys] = d;
             }, Qt::QueuedConnection);
 
@@ -223,10 +220,10 @@ class DistanceHandler : public QObject
 
         double genericHandler(const AreaModel& a1, const AreaModel& a2)
         {
-            /*
-            auto forms = Computations::make_funs(a1.formula());
+            auto f1 = Computations::make_funs(a1.formula());
+            auto f2 = Computations::make_funs(a2.formula());
 
-            for(auto& f : forms)
+            for(auto& f : f1)
             {
                 for(auto val : a1.currentMapping())
                 {
@@ -234,32 +231,23 @@ class DistanceHandler : public QObject
                     f.rhs->SetScalarVariableValue(val.first.c_str(), val.second);
                 }
             }
-            {
-                auto f2 = Computations::make_funs(a2.formula());
 
-                for(auto& f : f2)
+            for(auto& f : f2)
+            {
+                for(auto val : a2.currentMapping())
                 {
-                    for(auto val : a2.currentMapping())
-                    {
-                        f.lhs->SetScalarVariableValue(val.first.c_str(), val.second);
-                        f.rhs->SetScalarVariableValue(val.first.c_str(), val.second);
-                    }
+                    f.lhs->SetScalarVariableValue(val.first.c_str(), val.second);
+                    f.rhs->SetScalarVariableValue(val.first.c_str(), val.second);
                 }
-                forms.insert(
-                            forms.end(),
-                            std::make_move_iterator(f2.begin()),
-                            std::make_move_iterator(f2.end())
-                            );
             }
 
             // Check if a1 == a2 for any value (TODO or more generally if the {f1, f2} system admits a solution)
-
-
             auto p = make_keys(a1.id(), a2.id());
             m_cptr->computeArea(
                         a1.space().bounds(),
                         a1.spaceMapping(),
-                        forms,
+                        f1, f2,
+                        a1.transform(), a2.transform(),
                         p);
             auto it = m_genericResult.find(p);
             if(it != m_genericResult.end())
@@ -270,11 +258,9 @@ class DistanceHandler : public QObject
             {
                 return false;
             }
-            */
-            return 0;
         }
 
-        void inscribe(std::pair<KeyPair<UuidKey<AreaFactory>>, CollisionFun> val)
+        void inscribe(std::pair<KeyPair<UuidKey<AreaFactory>>, AreaComputationFun> val)
         {
             m_handlers.insert(val);
         }
