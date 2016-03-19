@@ -22,9 +22,6 @@ class ComputationModel : public IdentifiedObject<ComputationModel>
                 const Id<ComputationModel>&,
                 QObject* parent);
 
-
-        //void setComputation(std::unique_ptr<spacelib::computation> &&ar);
-
         const auto& computation() const
         { return m_fun; }
 
@@ -36,7 +33,5 @@ class ComputationModel : public IdentifiedObject<ComputationModel>
         QObject* m_context{};
         Computation m_fun;
         const SpaceModel& m_space;
-        //std::unique_ptr<spacelib::computation> m_computation;
-
 };
 }

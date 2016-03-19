@@ -53,7 +53,7 @@ std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state(double t)
             {
                 if(addr.device == "parent" && addr.path == QStringList{"t"})
                 {
-                    it_pair.first->second = 100 * t;
+                    it_pair.first->second = t;
                 }
                 else
                 {
@@ -96,7 +96,7 @@ std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state(double t)
 
         auto res = computation.computation()();
 
-        qDebug() << "Writing" << " => " << res;
+        qDebug() << "Colliding" << " => " << res;
         // We look for its tree component
         auto compo_it = find_if(
                             computation.components,

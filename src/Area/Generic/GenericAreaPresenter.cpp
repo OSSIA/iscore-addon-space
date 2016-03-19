@@ -22,14 +22,14 @@ GenericAreaPresenter::GenericAreaPresenter(
     }, Qt::QueuedConnection);
 
     connect(this, &GenericAreaPresenter::startCompute,
-            m_cp, &DrawAreaComputer::computeArea,
+            this, [=] (auto&&... args) { m_cp->computeArea(std::forward<decltype(args)>(args)...); },
             Qt::QueuedConnection);
 }
 
 GenericAreaPresenter::~GenericAreaPresenter()
 {
-    m_cp->thread()->quit();
-    m_cp->deleteLater();
+    if(m_cp->thread()->isRunning())
+        m_cp->thread()->quit();
 }
 
 void GenericAreaPresenter::update()
@@ -43,7 +43,7 @@ void GenericAreaPresenter::on_areaChanged(ValMap map)
     emit startCompute(
                 model(this).space().bounds(),
                 model(this).spaceMapping(),
-                map);
+                std::move(map));
 
 }
 }

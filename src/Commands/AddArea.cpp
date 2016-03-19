@@ -53,7 +53,6 @@ class CollisionHandler : public QObject
         CollisionHandler():
             m_cptr{new MatrixCollisionComputer} // TODO delete
         {
-            m_cptr->setParent(this);
             connect(m_cptr, &MatrixCollisionComputer::ready, this,
                     [=] (bool res, KeyPair<Id<AreaModel>> keys) {
                 m_genericResult[keys] = res;
@@ -172,7 +171,6 @@ class DistanceHandler : public QObject
         DistanceHandler():
             m_cptr{new MatrixDistanceComputer} // TODO delete
         {
-            m_cptr->setParent(this);
             connect(m_cptr, &MatrixDistanceComputer::ready, this, [=] (double d, KeyPair<Id<AreaModel>> keys) {
                 m_genericResult[keys] = d;
             }, Qt::QueuedConnection);
@@ -321,6 +319,7 @@ void AddArea::redo() const
     ar->setParameterMapping(m_symbolToAddressMap);
 
     /// temporarily create "collision" computations
+
     int i = 0;
     for(auto& area : proc.areas)
     {
@@ -342,6 +341,7 @@ void AddArea::redo() const
         // TODO distance ?
         // TODO js ?
     }
+
 
 
     proc.areas.add(ar);
