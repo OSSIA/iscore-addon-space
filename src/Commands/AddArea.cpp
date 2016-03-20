@@ -25,7 +25,7 @@ namespace Space
 {
 
 template<int Pres>
-QPolygonF circleToPoly(CircleAreaModel::values val)
+QPolygonF circleToPoly(CircleArea::values val)
 {
     QPolygonF poly;
     const double f_pres = Pres;
@@ -61,15 +61,15 @@ class CollisionHandler : public QObject
             m_handlers.insert(
                         std::make_pair(
                         make_keys(
-                                CircleAreaModel::static_concreteFactoryKey(),
-                                CircleAreaModel::static_concreteFactoryKey()),
+                                CircleArea::uuid(),
+                                CircleArea::uuid()),
                               [] (const AreaModel& a1, const AreaModel& a2)
             {
-                auto& c1 = static_cast<const CircleAreaModel&>(a1);
-                auto& c2 = static_cast<const CircleAreaModel&>(a2);
+                auto& c1 = safe_cast<const CircleAreaModel&>(a1);
+                auto& c2 = safe_cast<const CircleAreaModel&>(a2);
 
-                auto c1_val = c1.mapToData(c1.currentMapping());
-                auto c2_val = c2.mapToData(c2.currentMapping());
+                auto c1_val = CircleArea::mapToData(c1.currentMapping());
+                auto c2_val = CircleArea::mapToData(c2.currentMapping());
 
                 auto c1_poly = a1.transform().map(circleToPoly<12>(c1_val));
                 auto c2_poly = a2.transform().map(circleToPoly<12>(c2_val));
@@ -80,15 +80,22 @@ class CollisionHandler : public QObject
             m_handlers.insert(
                         std::make_pair(
                         make_keys(
-                                CircleAreaModel::static_concreteFactoryKey(),
-                                PointerAreaModel::static_concreteFactoryKey()),
+                                CircleArea::uuid(),
+                                PointerArea::uuid()),
                               [] (const AreaModel& a1, const AreaModel& a2)
             {
-                auto& c = static_cast<const CircleAreaModel&>(a1);
-                auto& p = static_cast<const PointerAreaModel&>(a2);
+                const CircleAreaModel* c{};
+                const PointerAreaModel* p{};
+                if((c = dynamic_cast<const CircleAreaModel*>(&a1)))
+                    p = safe_cast<const PointerAreaModel*>(&a2);
+                else
+                {
+                    c = safe_cast<const CircleAreaModel*>(&a2);
+                    p = safe_cast<const PointerAreaModel*>(&a1);
+                }
 
-                auto c_val = c.mapToData(c.currentMapping());
-                auto p_val = p.mapToData(p.currentMapping());
+                auto c_val = CircleArea::mapToData(c->currentMapping());
+                auto p_val = PointerArea::mapToData(p->currentMapping());
 
                 auto c_poly = a1.transform().map(circleToPoly<12>(c_val));
                 return c_poly.contains(a2.transform().map(p_val.center));
@@ -158,7 +165,7 @@ class CollisionHandler : public QObject
         }
 };
 
-
+/*
 class DistanceHandler : public QObject
 {
         std::map<KeyPair<UuidKey<AreaFactory>>, AreaComputationFun> m_handlers;
@@ -278,6 +285,7 @@ class DistanceHandler : public QObject
             return false;
         }
 };
+*/
 
 AddArea::AddArea(Path<Space::ProcessModel> &&spacProcess,
                  UuidKey<AreaFactory> type,

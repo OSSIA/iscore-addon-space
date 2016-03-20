@@ -1,28 +1,18 @@
 #pragma once
 #include "src/Area/AreaFactory.hpp"
 
+#include "CircleAreaModel.hpp"
+#include <src/Area/AreaView.hpp>
+#include <src/Area/AreaPresenter.hpp>
 namespace Space
 {
-class CircleAreaFactory : public AreaFactory
-{
-    public:
-        int type() const override;
-        const UuidKey<AreaFactory>& concreteFactoryKey() const override;
-        QString prettyName() const override;
 
-        QStringList generic_formula() const override;
-
-        AreaModel* makeModel(
-                const QStringList& formula,
-                const Space::AreaContext& space,
-                const Id<AreaModel>&,
-                QObject* parent) const override;
-
-        AreaPresenter* makePresenter(
-                QGraphicsItem* view,
-                const AreaModel& model,
-                QObject* parent) const override;
-
-        QGraphicsItem* makeView(QGraphicsItem* parent) const override;
-};
+using CircleAreaFactory = AreaFactory_T<
+    CircleArea,
+    CircleAreaModel,
+    AreaPresenter_T<
+        CircleArea,
+        CircleAreaModel,
+        PathAreaView>,
+    PathAreaView>;
 }

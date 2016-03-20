@@ -53,16 +53,6 @@ set(SRCS
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Area/Generic/GenericAreaPresenter.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Area/Generic/GenericAreaView.cpp"
 
-"${CMAKE_CURRENT_SOURCE_DIR}/src/Area/Circle/CircleAreaFactory.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/Area/Circle/CircleAreaModel.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/Area/Circle/CircleAreaPresenter.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/Area/Circle/CircleAreaView.cpp"
-
-"${CMAKE_CURRENT_SOURCE_DIR}/src/Area/Pointer/PointerAreaFactory.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/Area/Pointer/PointerAreaModel.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/Area/Pointer/PointerAreaPresenter.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/Area/Pointer/PointerAreaView.cpp"
-
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Widgets/ComputationsTab.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Widgets/ComputationsWidget.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Widgets/SpaceTab.cpp"

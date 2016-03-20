@@ -2,6 +2,7 @@
 #include <iscore/tools/SettableIdentifier.hpp>
 #include <iscore/plugins/customfactory/FactoryInterface.hpp>
 #include <src/SpaceContext.hpp>
+#include <src/Area/AreaMetadata.hpp>
 #include <QObject>
 class QGraphicsItem;
 class SpaceModel;
@@ -45,6 +46,48 @@ class AreaFactory : public iscore::AbstractFactory<AreaFactory>
 
         // Widget ?
 };
+
+
+
+template<typename T,
+         typename Model_T,
+         typename Presenter_T,
+         typename View_T>
+class AreaFactory_T : public AreaMetadata_T<T, AreaFactory>
+{
+    public:
+        using metadata_type = T;
+
+        QStringList generic_formula() const override
+        { return T::formula(); }
+
+        AreaModel* makeModel(
+                const QStringList& formula,
+                const Space::AreaContext& space,
+                const Id<AreaModel>& id,
+                QObject* parent) const override
+        {
+            return new Model_T{space, id, parent};
+        }
+
+        AreaPresenter* makePresenter(
+                QGraphicsItem* view,
+                const AreaModel& model,
+                QObject* parent) const override
+        {
+            return new Presenter_T{
+                static_cast<View_T*>(view),
+                static_cast<const Model_T&>(model),
+                        parent};
+        }
+
+        QGraphicsItem* makeView(
+                QGraphicsItem* parent) const override
+        {
+            return new View_T{parent};
+        }
+};
+
 }
 
 Q_DECLARE_METATYPE(UuidKey<Space::AreaFactory>)

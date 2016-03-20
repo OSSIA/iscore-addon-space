@@ -54,4 +54,31 @@ class AreaPresenter : public NamedObject
 
         SingleOngoingCommandDispatcher<UpdateTransform> m_dispatcher;
 };
+
+
+template<typename T,
+         typename Model_T,
+         typename View_T>
+class AreaPresenter_T : public AreaPresenter
+{
+    public:
+        using model_type = Model_T;
+        using view_type = View_T;
+        template<typename... Args>
+        AreaPresenter_T(Args&&... args):
+            AreaPresenter{std::forward<Args>(args)...}
+        {
+
+        }
+
+        void update() override
+        {
+            ((QGraphicsItem&)AreaPresenter::view(this)).update();
+        }
+
+        void on_areaChanged(ValMap v) override
+        {
+            view(this).setPath(T::makePath(v));
+        }
+};
 }

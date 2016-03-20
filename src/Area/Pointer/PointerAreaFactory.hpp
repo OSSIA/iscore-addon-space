@@ -1,28 +1,18 @@
 #pragma once
-#include "src/Area/AreaFactory.hpp"
 
+#include <src/Area/Pointer/PointerAreaModel.hpp>
+#include <src/Area/AreaView.hpp>
+#include <src/Area/AreaFactory.hpp>
+#include <src/Area/AreaPresenter.hpp>
 namespace Space
 {
-class PointerAreaFactory : public AreaFactory
-{
-    public:
-        int type() const override;
-        const UuidKey<AreaFactory>& concreteFactoryKey() const override;
-        QString prettyName() const override;
 
-        QStringList generic_formula() const override;
-
-        AreaModel* makeModel(
-                const QStringList& formula,
-                const Space::AreaContext& space,
-                const Id<AreaModel>&,
-                QObject* parent) const override;
-
-        AreaPresenter* makePresenter(
-                QGraphicsItem* view,
-                const AreaModel& model,
-                QObject* parent) const override;
-
-        QGraphicsItem* makeView(QGraphicsItem* parent) const override;
-};
+using PointerAreaFactory = AreaFactory_T<
+    PointerArea,
+    PointerAreaModel,
+    AreaPresenter_T<
+        PointerArea,
+        PointerAreaModel,
+        PathAreaView>,
+    PathAreaView>;
 }

@@ -7,6 +7,8 @@
 #include <Process/ModelMetadata.hpp>
 #include <iscore/component/Component.hpp>
 #include <src/Area/ValMap.hpp>
+#include <src/Area/AreaMetadata.hpp>
+#include <iscore_plugin_space_export.h>
 class SpaceModel;
 class QGraphicsItem;
 
@@ -16,7 +18,7 @@ namespace Space
 // in the end, isn't an area the same thing as a domain???
 // Maps addresses / values to the parameter of an area
 class AreaPresenter;
-class AreaModel : public IdentifiedObject<AreaModel>
+class ISCORE_PLUGIN_SPACE_EXPORT AreaModel : public IdentifiedObject<AreaModel>
 {
         Q_OBJECT
     public:
@@ -88,13 +90,20 @@ class AreaModel : public IdentifiedObject<AreaModel>
         ValMap m_currentParameterMap; // Current values used for display / execution.
 };
 
-class SpecializedAreaModel : public AreaModel
+template<typename T>
+class AreaModel_T : public AreaMetadata_T<T, AreaModel>
 {
     public:
-        using AreaModel::AreaModel;
-        virtual SpaceMap defaultSpaceMap() const = 0;
-        virtual ParameterMap defaultParameterMap() const = 0;
+        using metadata_type = T;
+
+        template<typename... Args>
+        AreaModel_T(Args&&... args):
+            AreaMetadata_T<T, AreaModel>{T::formula(), std::forward<Args>(args)...}
+        {
+
+        }
 };
+
 
 inline auto makeAddressFromValue(double val)
 {
@@ -102,9 +111,24 @@ inline auto makeAddressFromValue(double val)
     addr.value = State::Value::fromValue(val);
     return addr;
 }
+
+struct Formula_k;
+struct SpaceMap_k;
+struct ParameterMap_k;
+struct IntType_k;
 }
 
 Q_DECLARE_METATYPE(std::string)
 Q_DECLARE_METATYPE(GiNaC::exmap)
 Q_DECLARE_METATYPE(GiNaC::symbol)
 Q_DECLARE_METATYPE(Id<Space::AreaModel>)
+#define AREA_METADATA(Export, Model, Uuid, ObjectKey, PrettyName, AreaFormula, AreaSpaceMap, AreaParameterMap, IntType) \
+    OBJECTKEY_METADATA(Export, Model, ObjectKey) \
+    UUID_METADATA(Export, Process::ProcessFactory, Model, Uuid) \
+    TR_TEXT_METADATA(Export, Model, PrettyName_k, PrettyName) \
+    TYPED_METADATA(Export, Model, Formula_k, QStringList, AreaFormula) \
+    TYPED_METADATA(Export, Model, Formula_k, Space::SpaceMap, AreaSpaceMap) \
+    TYPED_METADATA(Export, Model, Formula_k, Space::ParameterMap, AreaParameterMap) \
+    TYPED_METADATA(Export, Model, Formula_k, int, IntType)
+
+
