@@ -3,7 +3,7 @@
 
 namespace Space
 {
-class PointerAreaModel : public AreaModel
+class PointerAreaModel : public SpecializedAreaModel
 {
         Q_OBJECT
     public:
@@ -14,6 +14,8 @@ class PointerAreaModel : public AreaModel
         const UuidKey<AreaFactory>& concreteFactoryKey() const override;
 
         QString prettyName() const override;
+        SpaceMap defaultSpaceMap() const override;
+        ParameterMap defaultParameterMap() const override;
 
         static QStringList formula();
 

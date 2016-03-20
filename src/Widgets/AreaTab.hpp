@@ -24,7 +24,6 @@ class AreaTab :
 
     private slots:
         void updateDisplayedArea(int);
-        void newArea();
 
     private:
         void rebuildList();
@@ -34,5 +33,6 @@ class AreaTab :
         const Space::ProcessModel &m_space;
         QListWidget* m_listWidget{};
         AreaWidget* m_areaWidget{};
+        QPushButton* m_newArea{};
 };
 }

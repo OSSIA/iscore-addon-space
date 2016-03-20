@@ -23,6 +23,16 @@ QString CircleAreaModel::prettyName() const
     return tr("Circle");
 }
 
+SpaceMap CircleAreaModel::defaultSpaceMap() const
+{
+    return SpaceMap{{Id<DimensionModel>(0), "xv"},{Id<DimensionModel>(1), "yv"}};
+}
+
+ParameterMap CircleAreaModel::defaultParameterMap() const
+{
+    return ParameterMap{{"x0", {}},{"y0", {}}, {"r", makeAddressFromValue(50)}};
+}
+
 QStringList CircleAreaModel::formula()
 {
     return {"(xv-x0)^2 + (yv-y0)^2 <= r^2"};
@@ -32,7 +42,7 @@ CircleAreaModel::CircleAreaModel(
         const Space::AreaContext &space,
         const Id<AreaModel> &id,
         QObject *parent):
-    AreaModel{formula(), space, id, parent}
+    SpecializedAreaModel{formula(), space, id, parent}
 {
 }
 

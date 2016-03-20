@@ -35,3 +35,5 @@ class ComputationModel : public IdentifiedObject<ComputationModel>
         const SpaceModel& m_space;
 };
 }
+
+Q_DECLARE_METATYPE(Id<Space::ComputationModel>)

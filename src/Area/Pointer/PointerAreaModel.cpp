@@ -23,6 +23,16 @@ QString PointerAreaModel::prettyName() const
     return tr("Pointer");
 }
 
+SpaceMap PointerAreaModel::defaultSpaceMap() const
+{
+    return SpaceMap{{Id<DimensionModel>(0), "xv"},{Id<DimensionModel>(1), "yv"}};
+}
+
+ParameterMap PointerAreaModel::defaultParameterMap() const
+{
+    return ParameterMap{{"x0", {}},{"y0", {}}};
+}
+
 QStringList PointerAreaModel::formula()
 {
     return QStringList{"xv == x0", "yv == y0"};
@@ -32,7 +42,7 @@ PointerAreaModel::PointerAreaModel(
         const Space::AreaContext &space,
         const Id<AreaModel> &id,
         QObject *parent):
-    AreaModel{formula(), space, id, parent}
+    SpecializedAreaModel{formula(), space, id, parent}
 {
 
 }

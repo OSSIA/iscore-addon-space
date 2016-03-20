@@ -18,7 +18,8 @@ AreaTab::AreaTab(
     auto list_widg = new QWidget;
     list_widg->setLayout(new QVBoxLayout);
     list_widg->layout()->addWidget(new QLabel{tr("Areas")});
-    list_widg->layout()->addWidget(new QPushButton{tr("New Area")});
+    m_newArea = new QPushButton{tr("New Area")};
+    list_widg->layout()->addWidget(m_newArea);
     m_listWidget = new QListWidget;
     list_widg->layout()->addWidget(m_listWidget);
     lay->addWidget(list_widg, 0, 0);
@@ -33,17 +34,16 @@ AreaTab::AreaTab(
 
     connect(m_listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(updateDisplayedArea(int)));
 
+    connect(m_newArea, &QPushButton::clicked,
+            this, [=] () {
+        m_areaWidget->setActiveArea(nullptr);
+    });
     rebuildList();
 }
 
 void AreaTab::updateDisplayedArea(int i)
 {
     m_areaWidget->setActiveArea(&m_space.areas.at(m_listWidget->item(i)->data(Qt::UserRole).value<Id<AreaModel>>()));
-}
-
-void AreaTab::newArea()
-{
-    m_areaWidget->setActiveArea(nullptr);
 }
 
 void AreaTab::rebuildList()
@@ -55,6 +55,8 @@ void AreaTab::rebuildList()
         auto itm = new QListWidgetItem(QString::number(area.id_val()), m_listWidget);
         itm->setData(Qt::UserRole, QVariant::fromValue(area.id()));
     }
+
+    m_areaWidget->setActiveArea(nullptr);
 }
 
 void AreaTab::on_areaAdded(const AreaModel&)

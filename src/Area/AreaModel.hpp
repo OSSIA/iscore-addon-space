@@ -39,14 +39,20 @@ class AreaModel : public IdentifiedObject<AreaModel>
         const AreaContext& context() const
         { return m_context; }
 
+        // Maps local variable to space dimension, e.g. xv -> x
         void setSpaceMapping(const SpaceMap& mapping);
         const SpaceMap& spaceMapping() const
         { return m_spaceMap; }
 
+        // Maps local variable to address or value, e.g. :
+        // x0 -> 2.45
+        // y0 -> an:/address
+        // r  -> parent:/t
         void setParameterMapping(const ParameterMap& mapping);
         const ParameterMap& parameterMapping() const
         { return m_parameterMap; }
 
+        // Sets the actual current values for the parameters
         void setCurrentMapping(const ValMap& map);
         void updateCurrentMapping(std::string sym, double value);
         const ValMap& currentMapping() const
@@ -64,6 +70,7 @@ class AreaModel : public IdentifiedObject<AreaModel>
         const QStringList& formula() const
         { return m_formula; }
 
+
     signals:
         void currentSymbolChanged(std::string, double);
         void areaChanged(ValMap);
@@ -80,6 +87,21 @@ class AreaModel : public IdentifiedObject<AreaModel>
         ParameterMap m_parameterMap; // General values of the model.
         ValMap m_currentParameterMap; // Current values used for display / execution.
 };
+
+class SpecializedAreaModel : public AreaModel
+{
+    public:
+        using AreaModel::AreaModel;
+        virtual SpaceMap defaultSpaceMap() const = 0;
+        virtual ParameterMap defaultParameterMap() const = 0;
+};
+
+inline auto makeAddressFromValue(double val)
+{
+    Device::FullAddressSettings addr;
+    addr.value = State::Value::fromValue(val);
+    return addr;
+}
 }
 
 Q_DECLARE_METATYPE(std::string)

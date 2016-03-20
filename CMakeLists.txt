@@ -64,6 +64,7 @@ set(SRCS
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Area/Pointer/PointerAreaView.cpp"
 
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Widgets/ComputationsTab.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/Widgets/ComputationsWidget.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Widgets/SpaceTab.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Widgets/AreaTab.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Widgets/AreaWidget.cpp"

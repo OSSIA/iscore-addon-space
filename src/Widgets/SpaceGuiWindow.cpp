@@ -24,6 +24,6 @@ SpaceGuiWindow::SpaceGuiWindow(
 
     tabs->addTab(new AreaTab{ctx, space, this}, tr("Areas"));
     tabs->addTab(new SpaceTab{space.space(), this}, tr("Space"));
-    tabs->addTab(new ComputationsTab{this}, tr("Computation"));
+    tabs->addTab(new ComputationsTab{ctx, space, this}, tr("Computation"));
 }
 }
