@@ -39,7 +39,7 @@ AreaSelectionWidget::AreaSelectionWidget(
         if(index == -1)
             return;
 
-        auto key = m_comboBox->currentData().value<UuidKey<AreaFactory>>();
+        auto key = currentAreaKey();
         if(key == GenericAreaModel::static_concreteFactoryKey())
         {
             m_lineEdit->setEnabled(true);
@@ -53,5 +53,28 @@ AreaSelectionWidget::AreaSelectionWidget(
             lineEditChanged();
         }
     });
+}
+
+void AreaSelectionWidget::setCurrentArea(const AreaModel& m)
+{
+    m_lineEdit->setText(m.toString());
+    m_comboBox->setCurrentIndex(
+                m_comboBox->findData(QVariant::fromValue(m.concreteFactoryKey())));
+}
+
+void AreaSelectionWidget::setNoArea()
+{
+    m_lineEdit->setText("");
+    m_comboBox->setCurrentIndex(0);
+}
+
+UuidKey<AreaFactory> AreaSelectionWidget::currentAreaKey() const
+{
+    return m_comboBox->currentData().value<UuidKey<AreaFactory>>();
+}
+
+QStringList AreaSelectionWidget::currentFormula() const
+{
+    return m_lineEdit->text().split(';');
 }
 }

@@ -1,10 +1,13 @@
 #pragma once
 #include <QWidget>
+#include <iscore/plugins/customfactory/UuidKey.hpp>
 class QComboBox;
 class QLineEdit;
 
 namespace Space
 {
+class AreaFactory;
+class AreaModel;
 class SingletonAreaFactoryList;
 
 class AreaSelectionWidget : public QWidget
@@ -15,7 +18,12 @@ class AreaSelectionWidget : public QWidget
                 const SingletonAreaFactoryList& fact,
                 QWidget* parent);
 
-        QComboBox* comboBox() const { return m_comboBox; }
+        void setCurrentArea(const AreaModel& m);
+        void setNoArea();
+
+        UuidKey<AreaFactory> currentAreaKey() const;
+        QStringList currentFormula() const;
+
         QLineEdit* lineEdit() const { return m_lineEdit; }
 
     signals:

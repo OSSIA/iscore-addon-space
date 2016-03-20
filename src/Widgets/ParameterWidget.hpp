@@ -2,19 +2,31 @@
 #include <QWidget>
 class QLineEdit;
 class QDoubleSpinBox;
-
+namespace Explorer
+{
+class DeviceExplorerModel;
+class AddressEditWidget;
+}
+namespace State
+{
+struct Address;
+struct Value;
+}
 namespace Space
 {
 class ParameterWidget : public QWidget
 {
     public:
-        ParameterWidget();
+        ParameterWidget(Explorer::DeviceExplorerModel*, QWidget* parent);
 
-        auto address() const { return m_address; }
-        auto defaultValue() const { return m_defaultValue; }
+        void setAddress(const State::Address& addr);
+        void setValue(double val);
+
+        State::Address address() const;
+        State::Value value() const;
 
     private:
-        QLineEdit* m_address{};
+        Explorer::AddressEditWidget* m_address{};
         QDoubleSpinBox* m_defaultValue{};
 };
 }

@@ -14,6 +14,7 @@
 #include <src/Area/SingletonAreaFactoryList.hpp>
 #include <src/Space/SpaceModel.hpp>
 #include <src/Space/DimensionModel.hpp>
+#include <Explorer/DocumentPlugin/DeviceDocumentPlugin.hpp>
 namespace Space
 {
 AreaWidget::AreaWidget(
@@ -29,7 +30,8 @@ AreaWidget::AreaWidget(
 
     m_selectionWidget = new AreaSelectionWidget{ctx.app.components.factory<SingletonAreaFactoryList>(), this};
     lay->addWidget(m_selectionWidget);
-    connect(m_selectionWidget, &AreaSelectionWidget::lineEditChanged, this, &AreaWidget::on_formulaChanged);
+    connect(m_selectionWidget, &AreaSelectionWidget::lineEditChanged,
+            this, &AreaWidget::on_formulaChanged);
 
     // This contains a list of comboboxes mapping each dimension of the space we're in,
     // to a parameter of the area
@@ -42,7 +44,8 @@ AreaWidget::AreaWidget(
         {
             auto cb = new QComboBox;
             m_spaceMappingLayout->addRow(dim.name(), cb);
-            connect(cb,  static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &AreaWidget::on_dimensionMapped);
+            connect(cb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+                    this, &AreaWidget::on_dimensionMapped);
         }
     }
 
@@ -66,13 +69,11 @@ void AreaWidget::setActiveArea(const AreaModel *area)
 
     if(m_area)
     {
-        m_selectionWidget->lineEdit()->setText(m_area->toString());
-        m_selectionWidget->comboBox()->setCurrentIndex(
-                    m_selectionWidget->comboBox()->findData(m_area->type()));
+        m_selectionWidget->setCurrentArea(*m_area);
     }
     else
     {
-        m_selectionWidget->lineEdit()->clear();
+        m_selectionWidget->setNoArea();
     }
     on_formulaChanged();
 
@@ -82,9 +83,15 @@ void AreaWidget::setActiveArea(const AreaModel *area)
         const auto& dim_map = area->spaceMapping();
         for(int symb_i = 0; symb_i < m_spaceMappingLayout->rowCount(); symb_i++)
         {
-            auto label = static_cast<QLabel*>(m_spaceMappingLayout->itemAt(symb_i, QFormLayout::ItemRole::LabelRole)->widget());
+            auto label = static_cast<QLabel*>(
+                             m_spaceMappingLayout->itemAt(
+                                 symb_i,
+                                 QFormLayout::ItemRole::LabelRole)->widget());
             ISCORE_ASSERT(label);
-            auto cb = static_cast<QComboBox*>(m_spaceMappingLayout->itemAt(symb_i, QFormLayout::ItemRole::FieldRole)->widget());
+            auto cb = static_cast<QComboBox*>(
+                          m_spaceMappingLayout->itemAt(
+                              symb_i,
+                              QFormLayout::ItemRole::FieldRole)->widget());
             ISCORE_ASSERT(cb);
 
             auto keys = dim_map.keys();
@@ -123,7 +130,10 @@ void AreaWidget::setActiveArea(const AreaModel *area)
 
             auto label = qobject_cast<QLabel*>(widg);
             ISCORE_ASSERT(label);
-            auto param_widg = static_cast<ParameterWidget*>(m_paramMappingLayout->itemAt(param_i, QFormLayout::ItemRole::FieldRole)->widget());
+            auto param_widg = static_cast<ParameterWidget*>(
+                                  m_paramMappingLayout->itemAt(
+                                      param_i,
+                                      QFormLayout::ItemRole::FieldRole)->widget());
             ISCORE_ASSERT(param_widg);
             param_widg->setEnabled(false);
 
@@ -135,14 +145,13 @@ void AreaWidget::setActiveArea(const AreaModel *area)
             }
 
             // Storing a value
-            param_widg->defaultValue()->setValue(State::convert::value<double>((*param_it).value));
+            param_widg->setValue(State::convert::value<double>((*param_it).value));
 
             // Storing an address
-            param_widg->address()->setText((*param_it).address.toString());
+            param_widg->setAddress((*param_it).address);
 
             param_widg->setEnabled(true);
         }
-
     }
 }
 
@@ -152,13 +161,14 @@ void AreaWidget::on_formulaChanged()
 {
     cleanup();
 
-    auto formulas = m_selectionWidget->lineEdit()->text().split(';');
+    auto formulas = m_selectionWidget->currentFormula();
     AreaParser parser{formulas};
     if(!parser.check())
     {
         return;
     }
 
+    auto dev_expl = m_space.context().devices.updateProxy.deviceExplorer;
     auto area = parser.result();
     for(int i = 0; i < m_spaceMappingLayout->rowCount(); i++)
     {
@@ -172,7 +182,8 @@ void AreaWidget::on_formulaChanged()
 
     for(const auto& sym: area->symbols())
     {
-        m_paramMappingLayout->addRow(QString::fromStdString(sym.get_name()), new ParameterWidget);
+        auto pw = new ParameterWidget{dev_expl, this};
+        m_paramMappingLayout->addRow(QString::fromStdString(sym.get_name()), pw);
     }
 }
 
@@ -245,11 +256,8 @@ void AreaWidget::validate()
             continue;
 
         Device::FullAddressSettings addr;
-        if(State::Address::validateString(param_widg->address()->text()))
-        {
-            addr.address = State::Address::fromString(param_widg->address()->text());
-        }
-        addr.value = State::Value::fromValue(param_widg->defaultValue()->value());
+        addr.address = param_widg->address();
+        addr.value = param_widg->value();
         param_map.insert(label->text(), addr);
     }
 
@@ -265,8 +273,8 @@ void AreaWidget::validate()
         m_dispatcher.submitCommand(
                     new AddArea{
                         m_space,
-                        m_selectionWidget->comboBox()->currentData().value<UuidKey<AreaFactory>>(),
-                        QStringList{m_selectionWidget->lineEdit()->text().split(';')}, // TODO multiline
+                        m_selectionWidget->currentAreaKey(),
+                        m_selectionWidget->currentFormula(),
                         dim_map,
                         param_map});
     }
