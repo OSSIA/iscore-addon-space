@@ -20,34 +20,27 @@ struct TSerializer<
             s.stream() << (int32_t) vec.size();
             for(auto& elt : vec)
             {
+                s.stream() << elt.first << elt.second;
             }
-            /*
-            s.stream() << (int32_t)vec.size();
-            for(const auto& elt : vec)
-                s.stream() << elt;
-
             s.insertDelimiter();
-            */
         }
 
         static void writeTo(
                 DataStream::Deserializer& s,
                 Space::ValMap& vec)
         {
-            ISCORE_TODO;
-            /*
             int32_t n = 0;
             s.stream() >> n;
 
             vec.clear();
-            vec.resize(n);
             for(int i = 0; i < n; i++)
             {
-                s.stream() >> vec[i];
+                Space::ValMap::value_type val;
+                s.stream() >> val.first >> val.second;
+                vec.insert(std::move(val));
             }
 
             s.checkDelimiter();
-            */
         }
 };
 
@@ -60,34 +53,34 @@ struct TSerializer<
                 JSONValue::Serializer& s,
                 const Space::SpaceMap& vec)
         {
-            ISCORE_TODO;
-            /*
-            s.stream() << (int32_t)vec.size();
-            for(const auto& elt : vec)
-                s.stream() << elt;
+            QJsonArray arr;
 
-            s.insertDelimiter();
-            */
+            auto end = vec.keyEnd();
+            for(auto it = vec.keyBegin(); it != end; ++it)
+            {
+                QJsonObject obj;
+                obj["k"] = toJsonValue(*it);
+                obj["v"] = vec[*it];
+                arr.append(obj);
+            }
+
+            s.val = arr;
         }
 
         static void writeTo(
                 JSONValue::Deserializer& s,
                 Space::SpaceMap& vec)
         {
-            ISCORE_TODO;
-            /*
-            int32_t n = 0;
-            s.stream() >> n;
-
+            auto arr = s.val.toArray();
             vec.clear();
-            vec.resize(n);
+            int n = arr.size();
             for(int i = 0; i < n; i++)
             {
-                s.stream() >> vec[i];
+                auto obj = arr.at(i).toObject();
+                vec.insert(
+                        fromJsonValue<Id<Space::DimensionModel>>(obj["k"]),
+                        obj["v"].toString());
             }
-
-            s.checkDelimiter();
-            */
         }
 };
 template<>
@@ -99,34 +92,35 @@ struct TSerializer<
                 JSONValue::Serializer& s,
                 const Space::ParameterMap& vec)
         {
-            ISCORE_TODO;
-            /*
-            s.stream() << (int32_t)vec.size();
-            for(const auto& elt : vec)
-                s.stream() << elt;
+            QJsonArray arr;
 
-            s.insertDelimiter();
-            */
+            auto end = vec.keyEnd();
+            for(auto it = vec.keyBegin(); it != end; ++it)
+            {
+                QJsonObject obj;
+                obj["k"] = *it;
+                obj["v"] = toJsonObject(vec[*it]);
+                arr.append(obj);
+            }
+
+            s.val = arr;
         }
 
         static void writeTo(
                 JSONValue::Deserializer& s,
                 Space::ParameterMap& vec)
         {
-            ISCORE_TODO;
-            /*
-            int32_t n = 0;
-            s.stream() >> n;
-
+            auto arr = s.val.toArray();
             vec.clear();
-            vec.resize(n);
+            int n = arr.size();
             for(int i = 0; i < n; i++)
             {
-                s.stream() >> vec[i];
+                auto obj = arr.at(i).toObject();
+                vec.insert(
+                        obj["k"].toString(),
+                        fromJsonObject<Device::FullAddressSettings>(obj["v"].toObject())
+                        );
             }
-
-            s.checkDelimiter();
-            */
         }
 };
 
@@ -139,34 +133,34 @@ struct TSerializer<
                 JSONValue::Serializer& s,
                 const Space::ValMap& vec)
         {
-            ISCORE_TODO;
-            /*
-            s.stream() << (int32_t)vec.size();
+            QJsonArray arr;
             for(const auto& elt : vec)
-                s.stream() << elt;
-
-            s.insertDelimiter();
-            */
+            {
+                QJsonObject obj;
+                obj["k"] = elt.first;
+                obj["v"] = elt.second;
+                arr.append(obj);
+            }
+            s.val = arr;
         }
 
         static void writeTo(
                 JSONValue::Deserializer& s,
                 Space::ValMap& vec)
         {
-            ISCORE_TODO;
-            /*
-            int32_t n = 0;
-            s.stream() >> n;
-
+            auto arr = s.val.toArray();
             vec.clear();
-            vec.resize(n);
+            int n = arr.size();
             for(int i = 0; i < n; i++)
             {
-                s.stream() >> vec[i];
+                auto obj = arr.at(i).toObject();
+                vec.insert(
+                            std::make_pair(
+                        obj["k"].toString(),
+                        obj["v"].toDouble()
+                        )
+                        );
             }
-
-            s.checkDelimiter();
-            */
         }
 };
 template<>
