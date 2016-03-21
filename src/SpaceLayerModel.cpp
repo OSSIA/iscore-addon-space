@@ -1,5 +1,29 @@
 #include "SpaceLayerModel.hpp"
 #include "SpaceProcess.hpp"
+
+template<>
+void Visitor<Reader<DataStream>>::readFrom(const Space::LayerModel& lm)
+{
+}
+
+template<>
+void Visitor<Writer<DataStream>>::writeTo(Space::LayerModel& lm)
+{
+}
+
+
+
+template<>
+void Visitor<Reader<JSONObject>>::readFrom(const Space::LayerModel& lm)
+{
+}
+
+template<>
+void Visitor<Writer<JSONObject>>::writeTo(Space::LayerModel& lm)
+{
+}
+
+
 namespace Space
 {
 LayerModel::LayerModel(

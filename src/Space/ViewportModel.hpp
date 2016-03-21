@@ -12,6 +12,8 @@ namespace Space
 class ViewportModel : public IdentifiedObject<ViewportModel>
 {
         Q_OBJECT
+        ISCORE_SERIALIZE_FRIENDS(Space::ViewportModel, DataStream)
+        ISCORE_SERIALIZE_FRIENDS(Space::ViewportModel, JSONObject)
         Q_PROPERTY(QTransform transform READ transform WRITE setTransform NOTIFY transformChanged)
         Q_PROPERTY(int renderPrecision READ renderPrecision WRITE setRenderPrecision NOTIFY renderPrecisionChanged)
 
@@ -37,8 +39,8 @@ class ViewportModel : public IdentifiedObject<ViewportModel>
         const Id<DimensionModel>& yDim() const;
         void setYDim(const Id<DimensionModel>& yDim);
 
-        const QMap<Id<DimensionModel>, double>& defaultValuesMap() const;
-        void setDefaultValuesMap(const QMap<Id<DimensionModel>, double>& defaultValuesMap);
+//        const QMap<Id<DimensionModel>, double>& defaultValuesMap() const;
+//        void setDefaultValuesMap(const QMap<Id<DimensionModel>, double>& defaultValuesMap);
 
         const QString& name() const;
         void setName(const QString& name);

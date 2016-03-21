@@ -21,6 +21,8 @@ class AreaPresenter;
 class ISCORE_PLUGIN_SPACE_EXPORT AreaModel : public IdentifiedObject<AreaModel>
 {
         Q_OBJECT
+        ISCORE_SERIALIZE_FRIENDS(Space::AreaModel, DataStream)
+        ISCORE_SERIALIZE_FRIENDS(Space::AreaModel, JSONObject)
     public:
         ModelMetadata metadata;
         iscore::Components components;

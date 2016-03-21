@@ -1,4 +1,38 @@
 #include "ComputationModel.hpp"
+
+template<>
+void Visitor<Reader<DataStream>>::readFrom(
+        const Space::ComputationModel& area)
+{
+    // Save the parent class
+    readFrom(static_cast<const IdentifiedObject<Space::ComputationModel>&>(area));
+    ISCORE_TODO;
+}
+
+template<>
+void Visitor<Writer<DataStream>>::writeTo(
+        Space::ComputationModel& area)
+{
+    ISCORE_TODO;
+}
+
+template<>
+void Visitor<Reader<JSONObject>>::readFrom(
+        const Space::ComputationModel& area)
+{
+    // Save the parent class
+    readFrom(static_cast<const IdentifiedObject<Space::ComputationModel>&>(area));
+    ISCORE_TODO;
+
+}
+
+template<>
+void Visitor<Writer<JSONObject>>::writeTo(
+        Space::ComputationModel& area)
+{
+    ISCORE_TODO;
+}
+
 namespace Space
 {
 ComputationModel::ComputationModel(

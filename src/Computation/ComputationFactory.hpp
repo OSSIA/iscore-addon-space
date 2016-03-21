@@ -22,7 +22,7 @@ class ComputationFactory : public iscore::AbstractFactory<ComputationFactory>
                         const Id<ComputationModel>& comp,
                         QObject* parent);
 
-        virtual AreaModel* load(
+        virtual ComputationModel* load(
                 const VisitorVariant& data,
                 const Space::Context& space,
                 QObject* parent) = 0;

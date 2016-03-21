@@ -12,6 +12,7 @@
 #include <iscore/plugins/documentdelegate/plugin/ElementPluginModelList.hpp>
 #include <iscore/serialization/VisitorCommon.hpp>
 #include <src/Space/SpaceModel.hpp>
+
 template<>
 void Visitor<Reader<DataStream>>::readFrom_impl(
         const Space::ProcessModel& proc)
@@ -62,7 +63,7 @@ void Visitor<Writer<DataStream>>::writeTo(
     for(; c_size --> 0;)
     {
         // TODO
-        //proc.computations.add(deserialize_interface(csl, *this, &proc));
+        proc.computations.add(deserialize_interface(csl, *this, proc.context(), &proc));
     }
 
     checkDelimiter();
@@ -104,7 +105,7 @@ void Visitor<Writer<JSONObject>>::writeTo(
     for(const auto& comp : m_obj["Computations"].toArray())
     {
         Deserializer<JSONObject> comp_deser{comp.toObject()};
-        // TODO proc.computations.add(deserialize_interface(comps, comp_deser, &proc));
+        proc.computations.add(deserialize_interface(comps, comp_deser, proc.context(), &proc));
     }
 }
 
