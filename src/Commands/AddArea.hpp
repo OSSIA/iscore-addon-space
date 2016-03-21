@@ -37,7 +37,5 @@ class AddArea : public iscore::SerializableCommand
 
         QMap<Id<DimensionModel>, QString> m_spaceMap;
         QMap<QString, Device::FullAddressSettings> m_symbolToAddressMap;
-
-        std::vector<Id<ComputationModel>> m_createdComputations;
 };
 }

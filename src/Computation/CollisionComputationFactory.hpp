@@ -18,7 +18,7 @@ class CollisionComputationFactory : public ComputationFactory
                 const Space::Context& space,
                 QObject* parent) override;
 
-        const UuidKey<ComputationFactory>& concreteFactoryKey() const;
+        const UuidKey<ComputationFactory>& concreteFactoryKey() const override;
 
 
 };

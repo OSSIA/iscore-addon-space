@@ -1,5 +1,7 @@
 #include "ComputationsWidget.hpp"
 #include <iscore/document/DocumentContext.hpp>
+#include <QComboBox>
+#include <QPushButton>
 namespace Space
 {
 
@@ -11,9 +13,16 @@ ComputationsWidget::ComputationsWidget(
     m_dispatcher{ctx.commandStack},
     m_space{space}
 {
-    auto lay = new QGridLayout;
+    auto lay = new QFormLayout;
     this->setLayout(lay);
 
+    // UI :
+    // select area1
+    // select area2
+    // select computation type
+    // select target address
+
+    // TODO remove computations if an area is removed !!!
     /*
     m_selectionWidget = new AreaSelectionWidget{ctx.app.components.factory<SingletonAreaFactoryList>(), this};
     lay->addWidget(m_selectionWidget);

@@ -26,8 +26,10 @@ class ComputationModel :
                 const Id<ComputationModel>&,
                 QObject* parent);
 
-        State::Address address() const
+        const State::Address& address() const
         { return m_addr; }
+        void setAddress(const State::Address& addr)
+        { m_addr = addr; }
 
         const auto& space() const
         { return m_space; }
