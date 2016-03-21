@@ -62,7 +62,6 @@ void Visitor<Writer<DataStream>>::writeTo(
     auto& csl = context.components.factory<Space::ComputationFactoryList>();
     for(; c_size --> 0;)
     {
-        // TODO
         proc.computations.add(deserialize_interface(csl, *this, proc.context(), &proc));
     }
 

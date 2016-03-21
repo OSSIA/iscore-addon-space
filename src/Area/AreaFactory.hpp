@@ -2,6 +2,7 @@
 #include <iscore/tools/SettableIdentifier.hpp>
 #include <iscore/plugins/customfactory/FactoryInterface.hpp>
 #include <src/SpaceContext.hpp>
+#include <src/Area/ValMap.hpp>
 #include <src/Area/AreaMetadata.hpp>
 #include <iscore/serialization/VisitorCommon.hpp>
 #include <QObject>
@@ -49,7 +50,15 @@ class AreaFactory : public iscore::AbstractFactory<AreaFactory>
         virtual QGraphicsItem* makeView(QGraphicsItem* parent) const = 0;
 
         // Formula
-        virtual QStringList generic_formula() const = 0;
+        virtual QStringList formula() const {
+            return {};
+        }
+        virtual SpaceMap defaultSpaceMap() const {
+            return {};
+        }
+        virtual ParameterMap defaultParameterMap() const {
+            return {};
+        }
 
         // Widget ?
 };
@@ -65,8 +74,12 @@ class AreaFactory_T : public AreaMetadata_T<T, AreaFactory>
     public:
         using metadata_type = T;
 
-        QStringList generic_formula() const override
+        QStringList formula() const override
         { return T::formula(); }
+        SpaceMap defaultSpaceMap() const override
+        { return T::spaceMap(); }
+        ParameterMap defaultParameterMap() const override
+        { return T::parameterMap(); }
 
         AreaModel* makeModel(
                 const QStringList& formula,

@@ -85,6 +85,8 @@ std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state(double t)
     }
     */
 
+    ISCORE_TODO;
+    /*
 
     // Shall be done either here, or in the tree component : choose between reactive, and state mode.
     // Same problem for "mapping" plug-in : react to changes or return state ?
@@ -93,7 +95,6 @@ std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state(double t)
     // Handle computations / collisions
     for(const ComputationModel& computation : m_process.computations)
     {
-
         auto res = computation.computation()();
 
         qDebug() << "Colliding" << " => " << res;
@@ -116,6 +117,8 @@ std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state(double t)
         }
 
     }
+
+    */
 
     // Send the parameters of each area
     // (variables's value ? default computations (like diameter, etc. ?))

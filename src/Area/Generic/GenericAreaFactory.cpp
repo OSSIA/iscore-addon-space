@@ -7,10 +7,6 @@
 
 namespace Space
 {
-QStringList GenericAreaFactory::generic_formula() const
-{
-    return GenericArea::formula();
-}
 
 AreaModel*GenericAreaFactory::makeModel(
         const QStringList& formula,

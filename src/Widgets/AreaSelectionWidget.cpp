@@ -46,7 +46,7 @@ AreaSelectionWidget::AreaSelectionWidget(
         }
         else
         {
-            auto formula = fact.get(key)->generic_formula();
+            auto formula = fact.get(key)->formula();
             if(formula.size() > 0)
                 m_lineEdit->setText(formula.join(';'));
             m_lineEdit->setEnabled(false);

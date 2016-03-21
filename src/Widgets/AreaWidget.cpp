@@ -15,6 +15,7 @@
 #include <src/Space/SpaceModel.hpp>
 #include <src/Space/DimensionModel.hpp>
 #include <Explorer/DocumentPlugin/DeviceDocumentPlugin.hpp>
+#include <src/Area/Generic/GenericAreaModel.hpp>
 namespace Space
 {
 AreaWidget::AreaWidget(
@@ -168,6 +169,7 @@ void AreaWidget::on_formulaChanged()
         return;
     }
 
+
     auto dev_expl = m_space.context().devices.updateProxy.deviceExplorer;
     auto area = parser.result();
     for(int i = 0; i < m_spaceMappingLayout->rowCount(); i++)
@@ -176,6 +178,7 @@ void AreaWidget::on_formulaChanged()
         cb->addItem(""); // What happens if left blank ? e.g. x=5 in 2D space ? Should just do the correct stuff.
         for(const auto& sym: area->symbols())
         {
+            cb->setEnabled(true);
             cb->addItem(QString::fromStdString(sym.get_name()));
         }
     }
@@ -185,6 +188,35 @@ void AreaWidget::on_formulaChanged()
         auto pw = new ParameterWidget{dev_expl, this};
         m_paramMappingLayout->addRow(QString::fromStdString(sym.get_name()), pw);
     }
+
+    if(m_selectionWidget->currentAreaKey() != GenericArea::uuid())
+    {
+        auto& fl = m_space.context().doc.app.components.factory<AreaFactoryList>();
+        auto area_f_it = fl.get(m_selectionWidget->currentAreaKey());
+        if(!area_f_it)
+        {
+            return;
+        }
+
+        AreaFactory& area_factory = *area_f_it;
+        auto dsm = area_factory.defaultSpaceMap();
+        auto dpm = area_factory.defaultParameterMap(); // TODO
+        // we set the default values
+        int i = 0;
+        for(const DimensionModel& dim : m_space.space().dimensions())
+        {
+            auto cb = qobject_cast<QComboBox*>(m_spaceMappingLayout->itemAt(i, QFormLayout::ItemRole::FieldRole)->widget());
+            int text_id = cb->findText(dsm[dim.id()]);
+            if(text_id != -1)
+            {
+                cb->setCurrentIndex(text_id);
+                cb->setEnabled(false);
+            }
+
+            i++;
+        }
+    }
+
 }
 
 

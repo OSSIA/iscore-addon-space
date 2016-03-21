@@ -113,15 +113,14 @@ class MatrixCollisionComputer :
         }
 
     signals:
-        void ready(bool, KeyPair<Id<AreaModel>>);
+        void ready(bool);
         void startRealCompute(
                 Space::Bounds b,
                 SpaceMap sm,
                 std::vector<Space::VtkFun> funs1,
                 std::vector<Space::VtkFun> funs2,
                 QTransform t1,
-                QTransform t2,
-                KeyPair<Id<AreaModel>> keys
+                QTransform t2
                 );
 
     private slots:
@@ -131,8 +130,7 @@ class MatrixCollisionComputer :
                 std::vector<Space::VtkFun> funs1,
                 std::vector<Space::VtkFun> funs2,
                 QTransform t1,
-                QTransform t2,
-                KeyPair<Id<AreaModel>> keys
+                QTransform t2
                 )
         {
             if(sm.size() != 2)
@@ -140,7 +138,7 @@ class MatrixCollisionComputer :
                 return;
             }
 
-            emit ready(Computations::check_collision(b, sm, funs1, funs2, t1, t2), keys);
+            emit ready(Computations::check_collision(b, sm, funs1, funs2, t1, t2));
 
             computing = false;
         }
@@ -164,15 +162,14 @@ class MatrixDistanceComputer :
         }
 
     signals:
-        void ready(double, KeyPair<Id<AreaModel>>);
+        void ready(double);
         void startRealCompute(
                 Space::Bounds b,
                 SpaceMap sm,
                 std::vector<Space::VtkFun> funs1,
                 std::vector<Space::VtkFun> funs2,
                 QTransform t1,
-                QTransform t2,
-                KeyPair<Id<AreaModel>>
+                QTransform t2
                 );
 
 
@@ -183,8 +180,7 @@ class MatrixDistanceComputer :
                 std::vector<VtkFun> funs1,
                 std::vector<VtkFun> funs2,
                 QTransform t1,
-                QTransform t2,
-                KeyPair<Id<AreaModel>> k
+                QTransform t2
                 )
         {
             if(sm.size() != 2)
@@ -192,7 +188,7 @@ class MatrixDistanceComputer :
                 return;
             }
 
-            emit ready(Computations::compute_distance(b, sm, funs1, funs2, t1, t2), k);
+            emit ready(Computations::compute_distance(b, sm, funs1, funs2, t1, t2));
 
             computing = false;
         }

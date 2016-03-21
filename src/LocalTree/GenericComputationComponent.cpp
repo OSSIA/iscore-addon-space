@@ -15,6 +15,8 @@ GenericComputationComponent::GenericComputationComponent(
         QObject* paren_objt):
     ComputationComponent{parent_node, computation, cmp, "GenericComputationComponent", paren_objt}
 {
+    ISCORE_TODO;
+    /*
     Ossia::LocalTree::make_metadata_node(computation.metadata, *node(), m_properties, this);
 
     using namespace GiNaC;
@@ -29,6 +31,7 @@ GenericComputationComponent::GenericComputationComponent(
     auto addr = m_valueNode->getAddress();
     addr->setValue(iscore::convert::toOSSIAValue(
                        State::Value::fromValue(computation.computation()())));
+                       */
 
 }
 

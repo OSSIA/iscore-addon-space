@@ -182,8 +182,10 @@ template<>
 void Visitor<Writer<DataStream>>::writeTo(
         Space::AreaModel& area)
 {
-    m_stream >> area.m_transform
-             >> area.m_formula
+    m_stream >> area.m_transform;
+    area.m_inverted = area.m_transform.inverted();
+
+    m_stream >> area.m_formula
              >> area.m_spaceMap
              >> area.m_parameterMap
              >> area.m_currentParameterMap;
@@ -202,6 +204,7 @@ void Visitor<Reader<JSONObject>>::readFrom(
     m_obj["SpaceMap"] = toJsonValue(area.m_spaceMap);
     m_obj["ParameterMap"] = toJsonValue(area.m_parameterMap);
     m_obj["CurrentParamMap"] = toJsonValue(area.m_currentParameterMap);
+
 }
 
 template<>
@@ -209,6 +212,7 @@ void Visitor<Writer<JSONObject>>::writeTo(
         Space::AreaModel& area)
 {
     area.m_transform = fromJsonValue<QTransform>(m_obj["Transform"]);
+    area.m_inverted = area.m_transform.inverted();
     fromJsonArray(m_obj["Formula"].toArray(), area.m_formula);
     area.m_spaceMap = fromJsonValue<Space::SpaceMap>(m_obj["SpaceMap"]);
     area.m_parameterMap = fromJsonValue<Space::ParameterMap>(m_obj["ParameterMap"]);

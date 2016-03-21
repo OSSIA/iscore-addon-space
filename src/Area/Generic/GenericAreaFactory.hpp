@@ -7,8 +7,6 @@ namespace Space
 class GenericAreaFactory : public AreaMetadata_T<GenericArea, AreaFactory>
 {
     public:
-        QStringList generic_formula() const override;
-
         AreaModel* makeModel(
                 const QStringList& formula,
                 const Space::Context& space,

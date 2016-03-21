@@ -75,9 +75,12 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaModel : public IdentifiedObject<AreaModel>
         QString toString() const;
         const QTransform& transform() const
         { return m_transform; }
+        const QTransform& invertedTransform() const
+        { return m_inverted; }
         void setTransform(const QTransform& t)
         {
             m_transform = t;
+            m_inverted = t.inverted();
             emit transformChanged(m_transform);
         }
 
@@ -91,7 +94,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaModel : public IdentifiedObject<AreaModel>
         void transformChanged(const QTransform&);
 
     private:
-        QTransform m_transform;
+        QTransform m_transform, m_inverted;
         const Space::Context& m_context;
         QStringList m_formula;
 

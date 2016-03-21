@@ -44,4 +44,19 @@ class CircleAreaModel : public AreaModel_T<CircleArea>
 {
         using AreaModel_T::AreaModel_T;
 };
+
+template<int Pres>
+QPolygonF circleToPoly(CircleArea::values val)
+{
+    QPolygonF poly;
+    const double f_pres = Pres;
+    for(int i = 0; i < Pres; i++)
+    {
+        poly.append(val.center + val.r * QPointF(
+                        std::cos((i / f_pres) * 2. * M_PI),
+                        std::sin((i / f_pres) * 2. * M_PI)
+                        ));
+    }
+    return poly;
+}
 }

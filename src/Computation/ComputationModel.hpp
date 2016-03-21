@@ -1,38 +1,43 @@
 #pragma once
-#include <memory>
-#include <Space/computation.hpp>
+
 #include <Process/ModelMetadata.hpp>
 #include <iscore/tools/IdentifiedObject.hpp>
 #include <iscore/component/Component.hpp>
+#include <State/Address.hpp>
 namespace Space
 {
+using Computation = std::function<double()>;
+class AreaModel;
 class SpaceModel;
 // Maps addresses / values to the parameter of an Computation
-class ComputationModel : public IdentifiedObject<ComputationModel>
+class ComputationModel :
+        public IdentifiedObject<ComputationModel>
 {
         Q_OBJECT
+        ISCORE_SERIALIZE_FRIENDS(Space::ComputationModel, DataStream)
+        ISCORE_SERIALIZE_FRIENDS(Space::ComputationModel, JSONObject)
     public:
         ModelMetadata metadata;
         iscore::Components components;
-        using Computation = std::function<double()>;
         ComputationModel(
-                QObject* computationContext,
-                const Computation& comp,
+                const Id<AreaModel>& a1,
+                const Id<AreaModel>& a2,
                 const SpaceModel& space,
                 const Id<ComputationModel>&,
                 QObject* parent);
 
-        const auto& computation() const
-        { return m_fun; }
-
+        State::Address address() const
+        { return m_addr; }
 
         const auto& space() const
         { return m_space; }
 
+        virtual double result() const = 0;
+
     private:
-        QObject* m_context{};
-        Computation m_fun;
         const SpaceModel& m_space;
+        State::Address m_addr;
+        Id<AreaModel> m_a1, m_a2;
 };
 }
 
