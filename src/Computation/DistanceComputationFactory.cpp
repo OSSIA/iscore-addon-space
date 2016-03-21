@@ -22,4 +22,10 @@ ComputationModel*DistanceComputationFactory::load(
     return nullptr;
 }
 
+const UuidKey<ComputationFactory>&DistanceComputationFactory::concreteFactoryKey() const
+{
+    static const UuidKey<ComputationFactory> k{"2437bda3-6c38-46b5-bfac-9661bfcd5bec"};
+    return k;
+}
+
 }

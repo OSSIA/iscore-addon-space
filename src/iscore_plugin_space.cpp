@@ -16,6 +16,9 @@
 #include <iscore/plugins/customfactory/FactorySetup.hpp>
 #include <OSSIA/Executor/DocumentPlugin.hpp>
 #include <src/ApplicationPlugin.hpp>
+#include <src/Computation/ComputationFactoryList.hpp>
+#include <src/Computation/CollisionComputationFactory.hpp>
+#include <src/Computation/DistanceComputationFactory.hpp>
 
 iscore_plugin_space::iscore_plugin_space() :
     QObject {}
@@ -50,6 +53,9 @@ std::vector<std::unique_ptr<iscore::FactoryInterfaceBase>> iscore_plugin_space::
             Space::GenericAreaFactory,
             Space::CircleAreaFactory,
             Space::PointerAreaFactory>,
+        FW<Space::ComputationFactory,
+            Space::CollisionComputationFactory,
+            Space::DistanceComputationFactory>,
         FW<Ossia::LocalTree::ProcessComponentFactory,
             Space::LocalTree::ProcessLocalTreeFactory>,
         FW<RecreateOnPlay::ProcessComponentFactory,
@@ -68,6 +74,7 @@ std::vector<std::unique_ptr<iscore::FactoryListInterface>> iscore_plugin_space::
 {
     return make_ptr_vector<iscore::FactoryListInterface,
             Space::AreaFactoryList,
+            Space::ComputationFactoryList,
             Space::LocalTree::AreaComponentFactoryList,
             Space::LocalTree::ComputationComponentFactoryList
             >();

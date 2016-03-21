@@ -22,4 +22,10 @@ ComputationModel*CollisionComputationFactory::load(
     return nullptr;
 }
 
+const UuidKey<ComputationFactory>&CollisionComputationFactory::concreteFactoryKey() const
+{
+    static const UuidKey<ComputationFactory> k{"3b48d241-c11b-479e-b188-82cef922a0d9"};
+    return k;
+}
+
 }

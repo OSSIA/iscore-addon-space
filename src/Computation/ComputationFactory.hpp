@@ -53,12 +53,12 @@ auto make_computation(
                     return new Computation_T{
                         circle,
                         safe_cast<const CircleAreaModel&>(a2),
-                        ctx, comp, parent};
+                        ctx.space, comp, parent};
                 case 2:
                     return new Computation_T{
                         circle,
                         safe_cast<const PointerAreaModel&>(a2),
-                        ctx, comp, parent};
+                        ctx.space, comp, parent};
                 case 0:
                 default:
                     return new Computation_T{a1, a2, ctx.space, comp, parent};
@@ -73,12 +73,12 @@ auto make_computation(
                     return new Computation_T{
                         safe_cast<const CircleAreaModel&>(a2),
                         pointer,
-                        ctx, comp, parent};
+                        ctx.space, comp, parent};
                 case 2:
                     return new Computation_T{
                         pointer,
                         safe_cast<const PointerAreaModel&>(a2),
-                        ctx, comp, parent};
+                        ctx.space, comp, parent};
                 case 0:
                 default:
                     return new Computation_T{a1, a2, ctx.space, comp, parent};
