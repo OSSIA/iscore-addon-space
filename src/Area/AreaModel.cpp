@@ -6,6 +6,7 @@
 #include <Explorer/DocumentPlugin/DeviceDocumentPlugin.hpp>
 
 
+
 template<>
 struct TSerializer<
         DataStream,
@@ -16,7 +17,10 @@ struct TSerializer<
                 DataStream::Serializer& s,
                 const Space::ValMap& vec)
         {
-            ISCORE_TODO;
+            s.stream() << (int32_t) vec.size();
+            for(auto& elt : vec)
+            {
+            }
             /*
             s.stream() << (int32_t)vec.size();
             for(const auto& elt : vec)
@@ -246,13 +250,12 @@ void AreaModel::setParameterMapping(const ParameterMap &parameter_mapping)
     ValMap mapping;
     for(const auto& elt : m_parameterMap.keys())
     {
-        std::string name = elt.toStdString();
         auto& val = m_parameterMap[elt];
         if(val.address.device.isEmpty()) // We use the value
         {
             mapping.insert(
                         std::make_pair(
-                            name,
+                            elt,
                             State::convert::value<double>(val.value)));
         }
         else // We fetch it from the device tree
@@ -262,14 +265,14 @@ void AreaModel::setParameterMapping(const ParameterMap &parameter_mapping)
             {
                 mapping.insert(
                             std::make_pair(
-                                name,
+                                elt,
                                 State::convert::value<double>(n->get<Device::AddressSettings>().value)));
             }
             else
             {
                 mapping.insert(
                             std::make_pair(
-                                name,
+                                elt,
                                 State::convert::value<double>(val.value)));
             }
         }
@@ -291,7 +294,7 @@ void AreaModel::setCurrentMapping(const ValMap& map)
 }
 
 void AreaModel::updateCurrentMapping(
-        std::string sym,
+        QString sym,
         double value)
 {
     m_currentParameterMap.at(sym) = value;

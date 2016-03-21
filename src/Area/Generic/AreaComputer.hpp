@@ -74,8 +74,9 @@ class DrawAreaComputer :
             {
                 for(auto val : vals)
                 {
-                    f.lhs->SetScalarVariableValue(val.first.c_str(), val.second);
-                    f.rhs->SetScalarVariableValue(val.first.c_str(), val.second);
+                    auto v1 = val.first.toLatin1();
+                    f.lhs->SetScalarVariableValue(v1.constData(), val.second);
+                    f.rhs->SetScalarVariableValue(v1.constData(), val.second);
                 }
             }
 

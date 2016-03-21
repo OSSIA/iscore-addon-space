@@ -68,7 +68,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaModel : public IdentifiedObject<AreaModel>
 
         // Sets the actual current values for the parameters
         void setCurrentMapping(const ValMap& map);
-        void updateCurrentMapping(std::string sym, double value);
+        void updateCurrentMapping(QString sym, double value);
         const ValMap& currentMapping() const
         { return m_currentParameterMap;}
 
@@ -86,7 +86,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaModel : public IdentifiedObject<AreaModel>
 
 
     signals:
-        void currentSymbolChanged(std::string, double);
+        void currentSymbolChanged(QString, double);
         void areaChanged(ValMap);
         void transformChanged(const QTransform&);
 

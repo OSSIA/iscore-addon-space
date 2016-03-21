@@ -43,7 +43,7 @@ std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state(double t)
             // We always set the default value just in case.
             auto it_pair = mapping.insert(
                                std::make_pair(
-                                   elt.toStdString(),
+                                   elt,
                                    State::convert::value<double>(val.value)
                                    )
                                );

@@ -8,7 +8,7 @@
 namespace Space
 {
 class DimensionModel;
-using ValMap = boost::container::flat_map<std::string, double>;
+using ValMap = boost::container::flat_map<QString, double>;
 using SpaceMap = QMap<Id<DimensionModel>, QString>;
 
 using ParameterMap = QMap<QString, Device::FullAddressSettings>;

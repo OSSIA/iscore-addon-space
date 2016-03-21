@@ -22,7 +22,7 @@ GenericAreaComponent::GenericAreaComponent(
         constexpr auto t = Ossia::convert::MatchingType<double>::val;
         auto node_it = thisNode().emplace(
                            thisNode().children().end(),
-                           param.first,
+                           param.first.toStdString(),
                            t,
                            OSSIA::AccessMode::BI);
         auto& node = *node_it;
@@ -48,7 +48,7 @@ GenericAreaComponent::GenericAreaComponent(
     // IF Not listening :
 
     QObject::connect(&m_area, &AreaModel::currentSymbolChanged,
-                     this, [=] (std::string sym, double val) {
+                     this, [=] (QString sym, double val) {
         auto newVal = State::Value::fromValue(val);
         auto& addr = m_ginacProperties.at(sym)->addr;
         auto ossia_val = addr->cloneValue();
