@@ -22,6 +22,15 @@ class ViewportModel : public IdentifiedObject<ViewportModel>
 
         }
 
+        template<typename DeserializerVisitor,
+                 enable_if_deserializer<DeserializerVisitor>* = nullptr>
+        ViewportModel(DeserializerVisitor&& vis,
+                   QObject* parent) :
+            IdentifiedObject{vis, parent}
+        {
+            vis.writeTo(*this);
+        }
+
         const Id<DimensionModel>& xDim() const;
         void setXDim(const Id<DimensionModel>& xDim);
 

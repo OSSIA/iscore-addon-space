@@ -10,7 +10,7 @@ class DeviceDocumentPlugin;
 namespace Space
 {
 class SpaceModel;
-struct AreaContext
+struct Context
 {
     const iscore::DocumentContext& doc;
     const SpaceModel& space;

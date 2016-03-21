@@ -40,7 +40,7 @@ QPolygonF circleToPoly(CircleArea::values val)
 }
 
 using AreaComputationFun = std::function<bool(const AreaModel& a1, const AreaModel& a2)>;
-
+/*
 class CollisionHandler : public QObject
 {
         std::map<KeyPair<UuidKey<AreaFactory>>, AreaComputationFun> m_handlers;
@@ -164,6 +164,8 @@ class CollisionHandler : public QObject
             return false;
         }
 };
+
+*/
 
 /*
 class DistanceHandler : public QObject
@@ -318,7 +320,7 @@ void AddArea::redo() const
 {
     auto& proc = m_path.find();
 
-    auto factory = context.components.factory<SingletonAreaFactoryList>().get(m_areaType);
+    auto factory = context.components.factory<AreaFactoryList>().get(m_areaType);
     ISCORE_ASSERT(factory);
 
     AreaModel* ar = factory->makeModel(m_areaFormula, proc.context(), m_createdAreaId, &proc);
@@ -327,7 +329,7 @@ void AddArea::redo() const
     ar->setParameterMapping(m_symbolToAddressMap);
 
     /// temporarily create "collision" computations
-
+/*
     int i = 0;
     for(auto& area : proc.areas)
     {
@@ -349,7 +351,7 @@ void AddArea::redo() const
         // TODO distance ?
         // TODO js ?
     }
-
+*/
 
 
     proc.areas.add(ar);

@@ -40,5 +40,8 @@ struct CircleArea
         }
 };
 
-using CircleAreaModel = AreaModel_T<CircleArea>;
+class CircleAreaModel : public AreaModel_T<CircleArea>
+{
+        using AreaModel_T::AreaModel_T;
+};
 }

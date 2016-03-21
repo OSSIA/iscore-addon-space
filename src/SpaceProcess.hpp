@@ -38,6 +38,8 @@ struct ProcessMetadata
 class ProcessModel : public Process::ProcessModel
 {
         Q_OBJECT
+        ISCORE_SERIALIZE_FRIENDS(Space::ProcessModel, DataStream)
+        ISCORE_SERIALIZE_FRIENDS(Space::ProcessModel, JSONObject)
     public:
         ProcessModel(
                 const iscore::DocumentContext& doc,
@@ -54,7 +56,7 @@ class ProcessModel : public Process::ProcessModel
 
         const SpaceModel& space() const
         { return *m_space; }
-        const Space::AreaContext& context() const
+        const Space::Context& context() const
         { return m_context; }
 
         NotifyingMap<AreaModel> areas;
@@ -62,6 +64,8 @@ class ProcessModel : public Process::ProcessModel
 
 
     private:
+        SpaceModel& space()
+        { return *m_space; }
         ProcessModel *clone(const Id<Process::ProcessModel> &newId, QObject *newParent) const override;
 
         UuidKey<Process::ProcessFactory>concreteFactoryKey() const override;
@@ -98,6 +102,6 @@ class ProcessModel : public Process::ProcessModel
         void stopExecution() override;
 
         SpaceModel* m_space{};
-        Space::AreaContext m_context;
+        Space::Context m_context;
 };
 }

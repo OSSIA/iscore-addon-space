@@ -9,12 +9,12 @@
 #include <src/Area/ValMap.hpp>
 #include <src/Area/AreaMetadata.hpp>
 #include <iscore_plugin_space_export.h>
-class SpaceModel;
 class QGraphicsItem;
 
 
 namespace Space
 {
+class SpaceModel;
 // in the end, isn't an area the same thing as a domain???
 // Maps addresses / values to the parameter of an area
 class AreaPresenter;
@@ -32,13 +32,23 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaModel : public IdentifiedObject<AreaModel>
 
         AreaModel(
                 const QStringList& formula,
-                const Space::AreaContext& space,
+                const Space::Context& space,
                 const Id<AreaModel>&,
                 QObject* parent);
 
+        template<typename Impl>
+        AreaModel(Deserializer<Impl>& vis,
+                  const Space::Context& space,
+                  QObject* parent) :
+            IdentifiedObject<AreaModel>{vis, parent},
+            m_context{space}
+        {
+            vis.writeTo(*this);
+        }
+
         const SpaceModel& space() const
         { return m_context.space; }
-        const AreaContext& context() const
+        const Context& context() const
         { return m_context; }
 
         // Maps local variable to space dimension, e.g. xv -> x
@@ -80,7 +90,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaModel : public IdentifiedObject<AreaModel>
 
     private:
         QTransform m_transform;
-        const Space::AreaContext& m_context;
+        const Space::Context& m_context;
         QStringList m_formula;
 
         // Maps a variable from m_area to a variable from m_space.
@@ -96,12 +106,23 @@ class AreaModel_T : public AreaMetadata_T<T, AreaModel>
     public:
         using metadata_type = T;
 
-        template<typename... Args>
-        AreaModel_T(Args&&... args):
-            AreaMetadata_T<T, AreaModel>{T::formula(), std::forward<Args>(args)...}
+        AreaModel_T(
+                const Space::Context& space,
+                const Id<AreaModel>& id,
+                QObject* parent):
+            AreaMetadata_T<T, AreaModel>{T::formula(), space, id, parent}
         {
 
         }
+
+        template<typename Impl>
+        AreaModel_T(Deserializer<Impl>& vis,
+                    const Space::Context& space,
+                    QObject* parent) :
+            AreaMetadata_T<T, AreaModel>{vis, space, parent}
+        {
+        }
+
 };
 
 

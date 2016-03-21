@@ -3,12 +3,14 @@
 #include <iscore/plugins/customfactory/FactoryInterface.hpp>
 #include <src/SpaceContext.hpp>
 #include <src/Area/AreaMetadata.hpp>
+#include <iscore/serialization/VisitorCommon.hpp>
 #include <QObject>
 class QGraphicsItem;
-class SpaceModel;
+
 
 namespace Space
 {
+class SpaceModel;
 class AreaModel;
 class AreaPresenter;
 
@@ -28,8 +30,13 @@ class AreaFactory : public iscore::AbstractFactory<AreaFactory>
         // Model
         virtual AreaModel* makeModel(
                 const QStringList& generic_formula,
-                const Space::AreaContext& space,
+                const Space::Context& space,
                 const Id<AreaModel>&,
+                QObject* parent) const = 0;
+
+        virtual AreaModel* load(
+                const VisitorVariant& data,
+                const Space::Context& space,
                 QObject* parent) const = 0;
 
         // Presenter
@@ -63,11 +70,21 @@ class AreaFactory_T : public AreaMetadata_T<T, AreaFactory>
 
         AreaModel* makeModel(
                 const QStringList& formula,
-                const Space::AreaContext& space,
+                const Space::Context& space,
                 const Id<AreaModel>& id,
                 QObject* parent) const override
         {
             return new Model_T{space, id, parent};
+        }
+
+        AreaModel* load(
+                        const VisitorVariant& data,
+                        const Space::Context& space,
+                        QObject* parent) const override
+
+        {
+            return deserialize_dyn(data, [&] (auto&& deserializer)
+            { return new Model_T{deserializer, space, parent}; });
         }
 
         AreaPresenter* makePresenter(

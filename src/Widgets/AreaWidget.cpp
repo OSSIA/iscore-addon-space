@@ -28,7 +28,7 @@ AreaWidget::AreaWidget(
     auto lay = new QGridLayout;
     this->setLayout(lay);
 
-    m_selectionWidget = new AreaSelectionWidget{ctx.app.components.factory<SingletonAreaFactoryList>(), this};
+    m_selectionWidget = new AreaSelectionWidget{ctx.app.components.factory<AreaFactoryList>(), this};
     lay->addWidget(m_selectionWidget);
     connect(m_selectionWidget, &AreaSelectionWidget::lineEditChanged,
             this, &AreaWidget::on_formulaChanged);

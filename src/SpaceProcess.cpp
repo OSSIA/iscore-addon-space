@@ -7,8 +7,131 @@
 #include <src/Executor/ProcessExecutor.hpp>
 #include <Explorer/DocumentPlugin/DeviceDocumentPlugin.hpp>
 #include <src/ApplicationPlugin.hpp>
+#include <src/Area/SingletonAreaFactoryList.hpp>
+#include <src/Computation/ComputationFactoryList.hpp>
+#include <iscore/plugins/documentdelegate/plugin/ElementPluginModelList.hpp>
+#include <iscore/serialization/VisitorCommon.hpp>
+#include <src/Space/SpaceModel.hpp>
+template<>
+void Visitor<Reader<DataStream>>::readFrom_impl(
+        const Space::ProcessModel& proc)
+{
+    readFrom(*proc.pluginModelList);
+
+    // Space definition
+    readFrom(proc.space());
+
+    // Arease
+    m_stream << (int32_t)proc.areas.size();
+    for(const auto& area : proc.areas)
+    {
+        readFrom(area);
+    }
+
+    // Computations
+    m_stream << (int32_t)proc.computations.size();
+    for(const auto& comp : proc.computations)
+    {
+        readFrom(comp);
+    }
+
+    insertDelimiter();
+}
+
+template<>
+void Visitor<Writer<DataStream>>::writeTo(
+        Space::ProcessModel& proc)
+{
+    proc.pluginModelList = new iscore::ElementPluginModelList{*this, &proc};
+
+    writeTo(proc.space());
+
+    // Areas
+    int32_t a_size;
+    m_stream >> a_size;
+    auto& al = context.components.factory<Space::AreaFactoryList>();
+    for(; a_size --> 0;)
+    {
+        proc.areas.add(deserialize_interface(al, *this, proc.context(), &proc));
+    }
+
+    // Computations
+    int32_t c_size;
+    m_stream >> c_size;
+    auto& csl = context.components.factory<Space::ComputationFactoryList>();
+    for(; c_size --> 0;)
+    {
+        // TODO
+        //proc.computations.add(deserialize_interface(csl, *this, &proc));
+    }
+
+    checkDelimiter();
+}
+
+
+
+
+template<>
+void Visitor<Reader<JSONObject>>::readFrom_impl(
+        const Space::ProcessModel& proc)
+{
+    m_obj["PluginsMetadata"] = toJsonValue(*proc.pluginModelList);
+
+    m_obj["Space"] = toJsonObject(proc.space());
+    m_obj["Areas"] = toJsonArray(proc.areas);
+    m_obj["Computation"] = toJsonArray(proc.computations);
+}
+
+template<>
+void Visitor<Writer<JSONObject>>::writeTo(
+        Space::ProcessModel& proc)
+{
+    Deserializer<JSONValue> elementPluginDeserializer(m_obj["PluginsMetadata"]);
+    proc.pluginModelList = new iscore::ElementPluginModelList{elementPluginDeserializer, &proc};
+
+    writeTo(proc.space());
+
+    // Areas
+    auto& areas = context.components.factory<Space::AreaFactoryList>();
+    for(const auto& ar : m_obj["Areas"].toArray())
+    {
+        Deserializer<JSONObject> ar_deser{ar.toObject()};
+        proc.areas.add(deserialize_interface(areas, ar_deser, proc.context(), &proc));
+    }
+
+    // Computations
+    auto& comps = context.components.factory<Space::ComputationFactoryList>();
+    for(const auto& comp : m_obj["Computations"].toArray())
+    {
+        Deserializer<JSONObject> comp_deser{comp.toObject()};
+        // TODO proc.computations.add(deserialize_interface(comps, comp_deser, &proc));
+    }
+}
+
+
+
 namespace Space
 {
+
+void ProcessModel::serialize_impl(const VisitorVariant& vis) const
+{
+    serialize_dyn(vis, *this);
+}
+
+Process::LayerModel* ProcessModel::loadLayer_impl(
+        const VisitorVariant& vis,
+        QObject* parent)
+{
+    return deserialize_dyn(vis, [&] (auto&& deserializer)
+    {
+        auto proc = new LayerModel{
+                        deserializer, *this, parent};
+
+        return proc;
+    });
+}
+
+
 ProcessModel::ProcessModel(
         const iscore::DocumentContext& doc,
         const TimeValue &duration,
@@ -110,26 +233,12 @@ void ProcessModel::setSelection(const Selection &s) const
     ISCORE_TODO;
 }
 
-void ProcessModel::serialize_impl(const VisitorVariant &vis) const
-{
-    ISCORE_TODO;
-}
-
-
 Process::LayerModel *ProcessModel::makeLayer_impl(
         const Id<Process::LayerModel> &viewModelId,
         const QByteArray &constructionData,
         QObject *parent)
 {
     return new LayerModel{viewModelId, *this, parent};
-}
-
-Process::LayerModel *ProcessModel::loadLayer_impl(
-        const VisitorVariant &,
-        QObject *parent)
-{
-    ISCORE_TODO;
-    return nullptr;
 }
 
 Process::LayerModel *ProcessModel::cloneLayer_impl(

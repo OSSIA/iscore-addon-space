@@ -2,39 +2,34 @@
 #include "GenericAreaModel.hpp"
 #include "GenericAreaPresenter.hpp"
 #include "GenericAreaView.hpp"
+#include <iscore/serialization/VisitorCommon.hpp>
 
 
 namespace Space
 {
-int GenericAreaFactory::type() const
+QStringList GenericAreaFactory::generic_formula() const
 {
-    return GenericAreaModel::static_type();
-}
-
-const UuidKey<AreaFactory>& GenericAreaFactory::concreteFactoryKey() const
-{
-    return GenericAreaModel::static_concreteFactoryKey();
-}
-
-QString GenericAreaFactory::prettyName() const
-{
-    return QObject::tr("Generic");
+    return GenericArea::formula();
 }
 
 AreaModel*GenericAreaFactory::makeModel(
         const QStringList& formula,
-        const Space::AreaContext& space,
+        const Space::Context& space,
         const Id<AreaModel>& id,
         QObject* parent) const
 {
     return new GenericAreaModel{formula, space, id, parent};
 }
 
-QStringList GenericAreaFactory::generic_formula() const
-{
-    return {};
-}
+AreaModel*GenericAreaFactory::load(
+        const VisitorVariant& data,
+        const Context& space,
+        QObject* parent) const
 
+{
+    return deserialize_dyn(data, [&] (auto&& deserializer)
+    { return new GenericAreaModel{deserializer, space, parent}; });
+}
 
 AreaPresenter*GenericAreaFactory::makePresenter(
         QGraphicsItem* view,

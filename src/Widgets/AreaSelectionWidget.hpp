@@ -8,14 +8,14 @@ namespace Space
 {
 class AreaFactory;
 class AreaModel;
-class SingletonAreaFactoryList;
+class AreaFactoryList;
 
 class AreaSelectionWidget : public QWidget
 {
         Q_OBJECT
     public:
         AreaSelectionWidget(
-                const SingletonAreaFactoryList& fact,
+                const AreaFactoryList& fact,
                 QWidget* parent);
 
         void setCurrentArea(const AreaModel& m);

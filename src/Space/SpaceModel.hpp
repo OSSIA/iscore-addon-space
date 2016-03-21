@@ -15,6 +15,8 @@ namespace Space
 class SpaceModel : public IdentifiedObject<SpaceModel>
 {
         Q_OBJECT
+        ISCORE_SERIALIZE_FRIENDS(Space::SpaceModel, DataStream)
+        ISCORE_SERIALIZE_FRIENDS(Space::SpaceModel, JSONObject)
 
         // Precision used for distance, etc... computations
         Q_PROPERTY(int precision READ precision WRITE setPrecision NOTIFY precisionChanged)
@@ -67,6 +69,6 @@ class SpaceModel : public IdentifiedObject<SpaceModel>
         IdContainer<ViewportModel> m_viewports;
 
         Id<ViewportModel> m_defaultViewport;
-        int m_precision = 5;
+        int32_t m_precision = 5;
 };
 }

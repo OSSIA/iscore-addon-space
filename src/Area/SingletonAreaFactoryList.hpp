@@ -5,9 +5,11 @@
 
 namespace Space
 {
-class ISCORE_PLUGIN_SPACE_EXPORT SingletonAreaFactoryList final :
+class ISCORE_PLUGIN_SPACE_EXPORT AreaFactoryList final :
         public iscore::ConcreteFactoryList<AreaFactory>
 {
+    public:
+        using object_type = Space::AreaModel;
 
 };
 

@@ -9,7 +9,7 @@ namespace Space
 {
 AreaModel::AreaModel(
         const QStringList& form,
-        const Space::AreaContext& space,
+        const Space::Context& space,
         const Id<AreaModel> & id,
         QObject *parent):
     IdentifiedObject{id, staticMetaObject.className(), parent},

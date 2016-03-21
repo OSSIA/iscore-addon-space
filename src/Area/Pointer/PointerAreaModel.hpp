@@ -43,5 +43,8 @@ struct PointerArea
         }
 };
 
-using PointerAreaModel = AreaModel_T<PointerArea>;
+class PointerAreaModel : public AreaModel_T<PointerArea>
+{
+        using AreaModel_T::AreaModel_T;
+};
 }

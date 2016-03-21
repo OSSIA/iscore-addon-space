@@ -37,6 +37,12 @@ set(SRCS
 
 
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/ComputationModel.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/ComputationFactory.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/ComputationFactoryList.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/DistanceComputation.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/DistanceComputationFactory.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/CollisionComputation.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/CollisionComputationFactory.cpp"
 
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Space/DimensionModel.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Space/ViewportModel.cpp"

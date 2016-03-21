@@ -13,7 +13,7 @@
 namespace Space
 {
 AreaSelectionWidget::AreaSelectionWidget(
-        const SingletonAreaFactoryList& fact,
+        const AreaFactoryList& fact,
         QWidget* parent):
     QWidget{parent}
 {
@@ -40,7 +40,7 @@ AreaSelectionWidget::AreaSelectionWidget(
             return;
 
         auto key = currentAreaKey();
-        if(key == GenericAreaModel::static_concreteFactoryKey())
+        if(key == GenericArea::uuid())
         {
             m_lineEdit->setEnabled(true);
         }

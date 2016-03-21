@@ -20,6 +20,15 @@ class DimensionModel : public IdentifiedObject<DimensionModel>
         {
         }
 
+        template<typename DeserializerVisitor,
+                 enable_if_deserializer<DeserializerVisitor>* = nullptr>
+        DimensionModel(DeserializerVisitor&& vis,
+                   QObject* parent) :
+            IdentifiedObject{vis, parent}
+        {
+            vis.writeTo(*this);
+        }
+
         ~DimensionModel();
 
         const QString& name() const
