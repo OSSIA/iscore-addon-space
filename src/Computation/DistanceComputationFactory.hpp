@@ -6,6 +6,7 @@ namespace Space
 class DistanceComputationFactory : public ComputationFactory
 {
     public:
+        QString prettyName() const override;
         ComputationModel* makeModel(
                 const AreaModel& a1,
                 const AreaModel& a2,

@@ -39,6 +39,7 @@ class DistanceComputation :
                 QObject* parent);
 
         double result() const override;
+        UuidKey<ComputationFactory> concreteFactoryKey() const override;
 
     private:
         MatrixDistanceComputer* m_cptr{};

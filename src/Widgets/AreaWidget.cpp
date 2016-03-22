@@ -58,7 +58,7 @@ AreaWidget::AreaWidget(
         paramBox->setLayout(m_paramMappingLayout);
     }
 
-    QPushButton* val = new QPushButton{"Create / update"};
+    QPushButton* val = new QPushButton{tr("Create / update")};
     lay->addWidget(val);
 
     connect(val, &QPushButton::pressed, this, &AreaWidget::validate);

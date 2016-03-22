@@ -9,6 +9,7 @@ namespace Space
 using Computation = std::function<double()>;
 class AreaModel;
 class SpaceModel;
+class ComputationFactory;
 // Maps addresses / values to the parameter of an Computation
 class ComputationModel :
         public IdentifiedObject<ComputationModel>
@@ -36,6 +37,14 @@ class ComputationModel :
 
         virtual double result() const = 0;
 
+        virtual UuidKey<ComputationFactory> concreteFactoryKey() const = 0;
+
+        auto firstArea() const {
+            return m_a1;
+        }
+        auto secondArea() const {
+            return m_a2;
+        }
     private:
         const SpaceModel& m_space;
         State::Address m_addr;

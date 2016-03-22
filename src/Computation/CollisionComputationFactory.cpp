@@ -3,6 +3,11 @@
 
 namespace Space
 {
+QString CollisionComputationFactory::prettyName() const
+{
+    return QObject::tr("Collision");
+}
+
 ComputationModel*CollisionComputationFactory::makeModel(
         const AreaModel& a1,
         const AreaModel& a2,

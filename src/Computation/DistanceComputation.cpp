@@ -123,4 +123,9 @@ double DistanceComputation::result() const
     return m_fun();
 }
 
+UuidKey<ComputationFactory> DistanceComputation::concreteFactoryKey() const
+{
+    return "2437bda3-6c38-46b5-bfac-9661bfcd5bec";
+}
+
 }

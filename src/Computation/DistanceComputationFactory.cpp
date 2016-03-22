@@ -3,6 +3,11 @@
 
 namespace Space
 {
+QString DistanceComputationFactory::prettyName() const
+{
+    return QObject::tr("Distance");
+}
+
 ComputationModel*DistanceComputationFactory::makeModel(
         const AreaModel& a1,
         const AreaModel& a2,

@@ -39,6 +39,7 @@ class CollisionComputation :
                 QObject* parent);
 
         double result() const override;
+        UuidKey<ComputationFactory> concreteFactoryKey() const override;
 
     private:
         MatrixCollisionComputer* m_cptr{};
