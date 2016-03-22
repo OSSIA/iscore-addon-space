@@ -55,7 +55,9 @@ ComputationsWidget::ComputationsWidget(
 
     connect(val, &QPushButton::pressed, this, &ComputationsWidget::validate);
     space.areas.added.connect<ComputationsWidget, &ComputationsWidget::areaAdded>(this);
-    space.areas.removed.connect<ComputationsWidget, &ComputationsWidget::areaAdded>(this);
+    space.areas.removed.connect<ComputationsWidget, &ComputationsWidget::areaRemoved>(this);
+
+    cleanup();
 }
 
 void ComputationsWidget::setActiveComputation(const ComputationModel* comp)
@@ -67,14 +69,15 @@ void ComputationsWidget::setActiveComputation(const ComputationModel* comp)
     {
         loadComputation(*m_computation);
     }
-    else
-    {
-        newComputation();
-    }
 }
 
 void ComputationsWidget::validate()
 {
+    if((m_a1->currentIndex() < 0) ||
+       (m_a2->currentIndex() < 0) ||
+       (m_type->currentIndex() < 0))
+        return;
+
     auto a1 = m_a1->currentData().value<Id<AreaModel>>();
     auto a2 = m_a2->currentData().value<Id<AreaModel>>();
     auto t = m_type->currentData().value<UuidKey<ComputationFactory>>();
@@ -95,14 +98,36 @@ void ComputationsWidget::validate()
 
 void ComputationsWidget::cleanup()
 {
+    m_a1->clear();
+    m_a2->clear();
+    m_type->setCurrentIndex(0);
+    m_address->setAddress({});
 
+    for(AreaModel& area : m_space.areas)
+    {
+        m_a1->addItem(QString::number(area.id_val()), QVariant::fromValue(area.id()));
+        m_a2->addItem(QString::number(area.id_val()), QVariant::fromValue(area.id()));
+    }
+}
+
+// QComboBox::findData doesn't work :(
+static int find_item(const QComboBox& cb, const Id<AreaModel>& id)
+{
+    for(int i = 0; i < cb.count(); i++)
+    {
+        auto res = cb.itemData(i).value<Id<AreaModel>>();
+        if(res == id) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 void ComputationsWidget::loadComputation(
         const ComputationModel& comp)
 {
-    auto a1_idx = m_a1->findData(QVariant::fromValue(comp.firstArea()));
-    auto a2_idx = m_a2->findData(QVariant::fromValue(comp.secondArea()));
+    auto a1_idx = find_item(*m_a1, comp.firstArea());
+    auto a2_idx = find_item(*m_a2, comp.secondArea());
     ISCORE_ASSERT(a1_idx != -1);
     ISCORE_ASSERT(a2_idx != -1);
 
@@ -116,30 +141,14 @@ void ComputationsWidget::loadComputation(
     m_address->setAddress(comp.address());
 }
 
-void ComputationsWidget::newComputation()
-{
-
-}
-
-void ComputationsWidget::rebuildAreas()
-{
-    m_a1->clear();
-    m_a2->clear();
-    for(AreaModel& area : m_space.areas)
-    {
-        m_a1->addItem(QString::number(area.id_val()), QVariant::fromValue(area.id()));
-        m_a2->addItem(QString::number(area.id_val()), QVariant::fromValue(area.id()));
-    }
-}
-
 void ComputationsWidget::areaAdded(const AreaModel&)
 {
-    rebuildAreas();
+    cleanup();
 }
 
 void ComputationsWidget::areaRemoved(const AreaModel&)
 {
-    rebuildAreas();
+    cleanup();
 }
 
 }

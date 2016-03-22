@@ -26,6 +26,9 @@ iscore_plugin_space::iscore_plugin_space() :
     qRegisterMetaType<Space::ValMap>();
     qRegisterMetaType<Space::SpaceMap>();
     qRegisterMetaType<Space::ParameterMap>();
+    qRegisterMetaType<Id<Space::ComputationModel>>();
+
+    QMetaType::registerComparators<Id<Space::ComputationModel>>();
 }
 
 iscore_plugin_space::~iscore_plugin_space()

@@ -10,7 +10,8 @@ namespace Space
 class ComputationModel;
 class ComputationsWidget;
 class ProcessModel;
-class ComputationsTab : public QWidget,
+class ComputationsTab :
+        public QWidget,
         public Nano::Observer
 {
         Q_OBJECT

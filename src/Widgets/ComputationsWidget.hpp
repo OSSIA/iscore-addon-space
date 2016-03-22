@@ -26,9 +26,7 @@ class ComputationsWidget : public QWidget, public Nano::Observer
         void validate();
         void cleanup();
         void loadComputation(const ComputationModel& comp);
-        void newComputation();
 
-        void rebuildAreas();
         void areaAdded(const AreaModel&);
         void areaRemoved(const AreaModel&);
 

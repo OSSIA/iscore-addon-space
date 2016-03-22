@@ -32,10 +32,12 @@ AreaTab::AreaTab(
     m_space.areas.added.connect<AreaTab, &AreaTab::on_areaAdded>(this);
     m_space.areas.removed.connect<AreaTab, &AreaTab::on_areaRemoved>(this);
 
-    connect(m_listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(updateDisplayedArea(int)));
+    connect(m_listWidget, &QListWidget::currentRowChanged,
+            this, &AreaTab::updateDisplayedArea);
 
     connect(m_newArea, &QPushButton::clicked,
             this, [=] () {
+        m_listWidget->clearSelection();
         m_areaWidget->setActiveArea(nullptr);
     });
     rebuildList();

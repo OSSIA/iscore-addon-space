@@ -31,6 +31,19 @@ ComputationsTab::ComputationsTab(
     m_space.computations.added.connect<ComputationsTab, &ComputationsTab::on_compAdded>(this);
     m_space.computations.removed.connect<ComputationsTab, &ComputationsTab::on_compRemoved>(this);
 
+    connect(m_compList, &QListWidget::currentRowChanged,
+            this, [=] (int i ) {
+        if(i == -1)
+            m_compWidget->setActiveComputation(nullptr);
+        else
+            m_compWidget->setActiveComputation(&m_space.computations.at(m_compList->item(i)->data(Qt::UserRole).value<Id<ComputationModel>>()));
+    });
+    connect(m_newComp, &QPushButton::clicked,
+            this, [=] () {
+        m_compList->clearSelection();
+        m_compWidget->setActiveComputation(nullptr);
+    });
+    rebuildList();
 }
 
 void ComputationsTab::rebuildList()

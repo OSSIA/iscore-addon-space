@@ -34,8 +34,7 @@ struct CircleArea
             const auto r = map.at("r");
 
             QPainterPath p;
-            p.moveTo(x0 - r, y0 - r);
-            p.addEllipse({r, r}, r, r);
+            p.addEllipse(QPointF{x0, y0}, r, r);
             return p;
         }
 };
