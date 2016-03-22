@@ -7,6 +7,7 @@
 #include <OSSIA/Executor/DocumentPlugin.hpp>
 #include <Editor/TimeConstraint.h>
 #include <Editor/Message.h>
+#include <OSSIA/iscore2OSSIA.hpp>
 namespace Space
 {
 namespace Executor
@@ -85,8 +86,7 @@ std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state(double t)
     }
     */
 
-    ISCORE_TODO;
-    /*
+
 
     // Shall be done either here, or in the tree component : choose between reactive, and state mode.
     // Same problem for "mapping" plug-in : react to changes or return state ?
@@ -95,9 +95,11 @@ std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state(double t)
     // Handle computations / collisions
     for(const ComputationModel& computation : m_process.computations)
     {
-        auto res = computation.computation()();
-
-        qDebug() << "Colliding" << " => " << res;
+        State::Message mess{computation.address(), computation.result()};
+        auto ossia_mess = iscore::convert::message(mess, m_devices);
+        if(ossia_mess)
+            state->stateElements().push_back(ossia_mess);
+        /*
         // We look for its tree component
         auto compo_it = find_if(
                             computation.components,
@@ -115,10 +117,9 @@ std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state(double t)
             qDebug() << "Writing to " << compo.valueNode()->getName().c_str() << " => " << res;
             state->stateElements().push_back(std::move(mess));
         }
+        */
 
     }
-
-    */
 
     // Send the parameters of each area
     // (variables's value ? default computations (like diameter, etc. ?))

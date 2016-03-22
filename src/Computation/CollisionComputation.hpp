@@ -38,12 +38,12 @@ class CollisionComputation :
                 const Id<ComputationModel>& id,
                 QObject* parent);
 
-        double result() const override;
+        State::Value result() const override;
         UuidKey<ComputationFactory> concreteFactoryKey() const override;
 
     private:
         MatrixCollisionComputer* m_cptr{};
-        std::function<double()> m_fun;
+        std::function<bool()> m_fun;
 
         std::atomic_bool m_currentResult{false};
 };

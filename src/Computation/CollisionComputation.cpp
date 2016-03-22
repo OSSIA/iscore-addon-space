@@ -68,7 +68,7 @@ CollisionComputation::CollisionComputation(
         QObject* parent):
     ComputationModel{a1.id(), a2.id(), space, id, parent},
     m_cptr{new MatrixCollisionComputer},
-    m_fun{[&] () -> double {
+    m_fun{[&] () -> bool {
             auto f1 = Computations::make_funs(a1.formula());
             auto f2 = Computations::make_funs(a2.formula());
 
@@ -76,9 +76,9 @@ CollisionComputation::CollisionComputation(
             {
                 for(auto val : a1.currentMapping())
                 {
-                    auto str = val.first.toLatin1();
-                    f.lhs->SetScalarVariableValue(str.constData(), val.second);
-                    f.rhs->SetScalarVariableValue(str.constData(), val.second);
+                    auto str = val.first.toStdString();
+                    f.lhs->SetScalarVariableValue(str.c_str(), val.second);
+                    f.rhs->SetScalarVariableValue(str.c_str(), val.second);
                 }
             }
 
@@ -86,9 +86,9 @@ CollisionComputation::CollisionComputation(
             {
                 for(auto val : a2.currentMapping())
                 {
-                    auto str = val.first.toLatin1();
-                    f.lhs->SetScalarVariableValue(str.constData(), val.second);
-                    f.rhs->SetScalarVariableValue(str.constData(), val.second);
+                    auto str = val.first.toStdString();
+                    f.lhs->SetScalarVariableValue(str.c_str(), val.second);
+                    f.rhs->SetScalarVariableValue(str.c_str(), val.second);
                 }
             }
 
@@ -96,6 +96,7 @@ CollisionComputation::CollisionComputation(
             m_cptr->computeArea(
                         a1.space().bounds(),
                         a1.spaceMapping(),
+                        a2.spaceMapping(),
                         f1, f2,
                         a1.transform(), a2.transform());
           return m_currentResult;
@@ -110,9 +111,9 @@ CollisionComputation::CollisionComputation(
 
 }
 
-double CollisionComputation::result() const
+State::Value CollisionComputation::result() const
 {
-    return m_fun();
+    return State::Value::fromValue(m_fun());
 }
 
 UuidKey<ComputationFactory> CollisionComputation::concreteFactoryKey() const

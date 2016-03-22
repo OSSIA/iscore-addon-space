@@ -3,7 +3,8 @@
 #include <Process/ModelMetadata.hpp>
 #include <iscore/tools/IdentifiedObject.hpp>
 #include <iscore/component/Component.hpp>
-#include <State/Address.hpp>
+#include <State/Message.hpp>
+
 namespace Space
 {
 using Computation = std::function<double()>;
@@ -35,9 +36,12 @@ class ComputationModel :
         const auto& space() const
         { return m_space; }
 
-        virtual double result() const = 0;
+        virtual State::Value result() const = 0;
 
         virtual UuidKey<ComputationFactory> concreteFactoryKey() const = 0;
+
+        State::Message message() const
+        { return State::Message{m_addr, result()}; }
 
         auto firstArea() const {
             return m_a1;

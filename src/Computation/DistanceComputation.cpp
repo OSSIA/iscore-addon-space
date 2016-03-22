@@ -86,9 +86,9 @@ DistanceComputation::DistanceComputation(
             {
                 for(auto val : a1.currentMapping())
                 {
-                    auto str = val.first.toLatin1();
-                    f.lhs->SetScalarVariableValue(str.constData(), val.second);
-                    f.rhs->SetScalarVariableValue(str.constData(), val.second);
+                    auto str = val.first.toStdString();
+                    f.lhs->SetScalarVariableValue(str.c_str(), val.second);
+                    f.rhs->SetScalarVariableValue(str.c_str(), val.second);
                 }
             }
 
@@ -96,9 +96,9 @@ DistanceComputation::DistanceComputation(
             {
                 for(auto val : a2.currentMapping())
                 {
-                    auto str = val.first.toLatin1();
-                    f.lhs->SetScalarVariableValue(str.constData(), val.second);
-                    f.rhs->SetScalarVariableValue(str.constData(), val.second);
+                    auto str = val.first.toStdString();
+                    f.lhs->SetScalarVariableValue(str.c_str(), val.second);
+                    f.rhs->SetScalarVariableValue(str.c_str(), val.second);
                 }
             }
 
@@ -106,6 +106,7 @@ DistanceComputation::DistanceComputation(
             m_cptr->computeArea(
                         a1.space().bounds(),
                         a1.spaceMapping(),
+                        a2.spaceMapping(),
                         f1, f2,
                         a1.transform(), a2.transform());
           return m_currentResult;
@@ -118,9 +119,9 @@ DistanceComputation::DistanceComputation(
     }, Qt::QueuedConnection);
 }
 
-double DistanceComputation::result() const
+State::Value DistanceComputation::result() const
 {
-    return m_fun();
+    return State::Value::fromValue(m_fun());
 }
 
 UuidKey<ComputationFactory> DistanceComputation::concreteFactoryKey() const

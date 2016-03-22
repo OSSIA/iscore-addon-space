@@ -18,6 +18,7 @@ class ComputationFactory : public iscore::AbstractFactory<ComputationFactory>
                     "60563b69-d8a2-40d4-93b8-284b142fbf4b")
 
     public:
+        virtual ~ComputationFactory();
         virtual QString prettyName() const = 0;
         virtual ComputationModel* makeModel(
                 const AreaModel& a1,

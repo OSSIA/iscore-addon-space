@@ -2,6 +2,7 @@
 
 #include <src/Bounds.hpp>
 #include <src/Area/AreaParser.hpp>
+#include <src/Area/ValMap.hpp>
 #include <Space/area.hpp>
 #include <Space/square_renderer.hpp>
 #include <QThread>
@@ -101,8 +102,10 @@ struct Computations
             for(pair_t& form : vec)
             {
                 VtkFun f;
-                f.lhs->SetFunction(form.first[0].toLatin1().constData());
-                f.rhs->SetFunction(form.first[1].toLatin1().constData());
+                auto s0 = form.first[0].toStdString();
+                auto s1 = form.first[1].toStdString();
+                f.lhs->SetFunction(s0.c_str());
+                f.rhs->SetFunction(s1.c_str());
 
                 f.op = form.second;
                 res.push_back(f);
@@ -327,20 +330,24 @@ struct Computations
             return QVector2D{c2/double(n2) - c1/double(n1)}.length();
         }
 
-        static bool check_collision(Bounds b, SpaceMap sm,
+        static bool check_collision(Bounds b,
+                                    Space::SpaceMap sm_1,
+                                    Space::SpaceMap sm_2,
                                     const std::vector<VtkFun>& vec1,
                                     const std::vector<VtkFun>& vec2,
                                     const QTransform& t1,
                                     const QTransform& t2)
         {
-            auto a1 = make_area(b, sm, vec1);
-            auto a2 = make_area(b, sm, vec2);
+            auto a1 = make_area(b, sm_1, vec1);
+            auto a2 = make_area(b, sm_2, vec2);
 
             return collides(b, a1, a2, t1, t2);
         }
 
 
-        static double compute_distance(Bounds b, SpaceMap sm,
+        static double compute_distance(Bounds b,
+                                       Space::SpaceMap sm_1,
+                                       Space::SpaceMap sm_2,
                                        const std::vector<VtkFun>& vec1,
                                        const std::vector<VtkFun>& vec2,
                                        const QTransform& t1,
@@ -348,8 +355,8 @@ struct Computations
         {
             return centroid_distance(
                         b,
-                        make_area(b, sm, vec1),
-                        make_area(b, sm, vec2),
+                        make_area(b, sm_1, vec1),
+                        make_area(b, sm_2, vec2),
                         t1, t2);
         }
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include <src/Area/Generic/AreaAlgorithms.hpp>
+#include <src/Area/ValMap.hpp>
 #include <atomic>
 
 namespace Space
@@ -74,9 +75,9 @@ class DrawAreaComputer :
             {
                 for(auto val : vals)
                 {
-                    auto v1 = val.first.toLatin1();
-                    f.lhs->SetScalarVariableValue(v1.constData(), val.second);
-                    f.rhs->SetScalarVariableValue(v1.constData(), val.second);
+                    auto v1 = val.first.toStdString();
+                    f.lhs->SetScalarVariableValue(v1.c_str(), val.second);
+                    f.rhs->SetScalarVariableValue(v1.c_str(), val.second);
                 }
             }
 
@@ -116,7 +117,8 @@ class MatrixCollisionComputer :
         void ready(bool);
         void startRealCompute(
                 Space::Bounds b,
-                SpaceMap sm,
+                Space::SpaceMap sm_1,
+                Space::SpaceMap sm_2,
                 std::vector<Space::VtkFun> funs1,
                 std::vector<Space::VtkFun> funs2,
                 QTransform t1,
@@ -126,19 +128,20 @@ class MatrixCollisionComputer :
     private slots:
         void computeArea_priv(
                 Space::Bounds b,
-                SpaceMap sm,
+                Space::SpaceMap sm1,
+                Space::SpaceMap sm2,
                 std::vector<Space::VtkFun> funs1,
                 std::vector<Space::VtkFun> funs2,
                 QTransform t1,
                 QTransform t2
                 )
         {
-            if(sm.size() != 2)
+            if(sm1.size() != 2)
             {
                 return;
             }
 
-            emit ready(Computations::check_collision(b, sm, funs1, funs2, t1, t2));
+            emit ready(Computations::check_collision(b, sm1, sm2, funs1, funs2, t1, t2));
 
             computing = false;
         }
@@ -165,7 +168,8 @@ class MatrixDistanceComputer :
         void ready(double);
         void startRealCompute(
                 Space::Bounds b,
-                SpaceMap sm,
+                Space::SpaceMap sm_1,
+                Space::SpaceMap sm_2,
                 std::vector<Space::VtkFun> funs1,
                 std::vector<Space::VtkFun> funs2,
                 QTransform t1,
@@ -176,19 +180,20 @@ class MatrixDistanceComputer :
     private slots:
         void computeArea_priv(
                 Space::Bounds b,
-                SpaceMap sm,
+                Space::SpaceMap sm1,
+                Space::SpaceMap sm2,
                 std::vector<VtkFun> funs1,
                 std::vector<VtkFun> funs2,
                 QTransform t1,
                 QTransform t2
                 )
         {
-            if(sm.size() != 2)
+            if(sm1.size() != 2)
             {
                 return;
             }
 
-            emit ready(Computations::compute_distance(b, sm, funs1, funs2, t1, t2));
+            emit ready(Computations::compute_distance(b, sm1, sm2, funs1, funs2, t1, t2));
 
             computing = false;
         }

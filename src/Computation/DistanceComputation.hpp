@@ -38,7 +38,7 @@ class DistanceComputation :
                 const Id<ComputationModel>& id,
                 QObject* parent);
 
-        double result() const override;
+        State::Value result() const override;
         UuidKey<ComputationFactory> concreteFactoryKey() const override;
 
     private:
