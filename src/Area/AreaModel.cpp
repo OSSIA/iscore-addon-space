@@ -120,7 +120,7 @@ struct TSerializer<
                 auto obj = arr.at(i).toObject();
                 vec.insert(
                         obj["k"].toString(),
-                        fromJsonObject<Device::FullAddressSettings>(obj["v"].toObject())
+                        fromJsonObject<Device::FullAddressSettings>(obj["v"])
                         );
             }
         }

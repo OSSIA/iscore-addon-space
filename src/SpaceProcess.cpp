@@ -73,7 +73,7 @@ void Visitor<Reader<JSONObject>>::readFrom_impl(
 {
     m_obj["Space"] = toJsonObject(proc.space());
     m_obj["Areas"] = toJsonArray(proc.areas);
-    m_obj["Computation"] = toJsonArray(proc.computations);
+    m_obj["Computations"] = toJsonArray(proc.computations);
 }
 
 template<>
