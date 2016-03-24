@@ -14,7 +14,7 @@ namespace Space
 class AreaModel;
 class GenericAreaView;
 class AreaView;
-
+using TransformData = std::tuple<QPointF, QSizeF, qreal>;
 class AreaPresenter : public NamedObject
 {
     public:
@@ -45,7 +45,7 @@ class AreaPresenter : public NamedObject
         void on_areaMoved(QPointF);
         void on_areaReleased(QPointF);
 
-        QTransform m_originalTransform;
+        TransformData m_originalTransform;
         QPointF m_clickedPoint;
         Bounds m_curBounds;
 

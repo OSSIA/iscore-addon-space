@@ -159,6 +159,12 @@ ProcessModel::ProcessModel(
     auto vp = new ViewportModel{Id<ViewportModel>{0}, m_space};
     m_space->addViewport(vp);
 
+    connect(m_space, &SpaceModel::spaceChanged,
+            this, [=] () {
+        for(auto& area : areas)
+            area.areaChanged(area.currentMapping());
+    });
+
     setDuration(duration);
 }
 

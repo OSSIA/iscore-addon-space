@@ -4,6 +4,7 @@
 #include <src/SpaceContext.hpp>
 #include <src/Area/Circle/CircleAreaModel.hpp>
 #include <src/Area/Pointer/PointerAreaModel.hpp>
+#include <src/Area/Rectangle/Area.hpp>
 #include <src/Area/Generic/GenericAreaModel.hpp>
 #include <QObject>
 
@@ -61,6 +62,11 @@ auto make_computation(
                         circle,
                         safe_cast<const PointerAreaModel&>(a2),
                         ctx.space, comp, parent};
+                case 3:
+                    return new Computation_T{
+                        circle,
+                        safe_cast<const RectangleAreaModel&>(a2),
+                        ctx.space, comp, parent};
                 case 0:
                 default:
                     return new Computation_T{a1, a2, ctx.space, comp, parent};
@@ -80,6 +86,36 @@ auto make_computation(
                     return new Computation_T{
                         pointer,
                         safe_cast<const PointerAreaModel&>(a2),
+                        ctx.space, comp, parent};
+                case 3:
+                    return new Computation_T{
+                        safe_cast<const RectangleAreaModel&>(a2),
+                        pointer,
+                        ctx.space, comp, parent};
+                case 0:
+                default:
+                    return new Computation_T{a1, a2, ctx.space, comp, parent};
+            }
+        }
+        case 3: // rectangle
+        {
+            auto& rect = safe_cast<const RectangleAreaModel&>(a1);
+            switch(a2.type())
+            {
+                case 1:
+                    return new Computation_T{
+                        safe_cast<const CircleAreaModel&>(a2),
+                        rect,
+                        ctx.space, comp, parent};
+                case 2:
+                    return new Computation_T{
+                        rect,
+                        safe_cast<const PointerAreaModel&>(a2),
+                        ctx.space, comp, parent};
+                case 3:
+                    return new Computation_T{
+                        safe_cast<const RectangleAreaModel&>(a2),
+                        rect,
                         ctx.space, comp, parent};
                 case 0:
                 default:

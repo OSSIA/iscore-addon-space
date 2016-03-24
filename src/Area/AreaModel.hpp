@@ -79,12 +79,30 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaModel :
         { return m_transform; }
         const QTransform& invertedTransform() const
         { return m_inverted; }
-        void setTransform(const QTransform& t)
+
+        QPointF translate() const
+        { return m_translate; }
+        QSizeF scale() const
+        { return m_scale; }
+        qreal rotate() const
+        { return m_rotate; }
+
+        void setTranslate(QPointF translate)
         {
-            m_transform = t;
-            m_inverted = t.inverted();
-            emit transformChanged(m_transform);
+            m_translate = translate;
+            updateTransform();
         }
+        void setScale(QSizeF scale)
+        {
+            m_scale = scale;
+            updateTransform();
+        }
+        void setRotate(qreal rotate)
+        {
+            m_rotate = rotate;
+            updateTransform();
+        }
+
 
         const QStringList& formula() const
         { return m_formula; }
@@ -96,6 +114,20 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaModel :
         void transformChanged(const QTransform&);
 
     private:
+        void updateTransform()
+        {
+            m_transform =
+                    QTransform{}
+                    .rotate(m_rotate)
+                    .scale(m_scale.width(), m_scale.height())
+                    .translate(m_translate.x(), m_translate.y());
+
+            m_inverted = m_transform.inverted();
+            emit transformChanged(m_transform);
+        }
+        QPointF m_translate{0, 0};
+        QSizeF m_scale{1, 1};
+        qreal m_rotate{0};
         QTransform m_transform, m_inverted;
         const Space::Context& m_context;
         QStringList m_formula;

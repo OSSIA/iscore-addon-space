@@ -23,7 +23,7 @@ SpaceGuiWindow::SpaceGuiWindow(
     this->setLayout(lay);
 
     tabs->addTab(new AreaTab{ctx, space, this}, tr("Areas"));
-    tabs->addTab(new SpaceTab{space.space(), this}, tr("Space"));
+    tabs->addTab(new SpaceTab{ctx, space.space(), this}, tr("Space"));
     tabs->addTab(new ComputationsTab{ctx, space, this}, tr("Computation"));
 }
 }

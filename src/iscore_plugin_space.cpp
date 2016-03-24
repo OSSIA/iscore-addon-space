@@ -7,6 +7,7 @@
 #include "Area/Circle/CircleAreaFactory.hpp"
 #include "Area/Pointer/PointerAreaFactory.hpp"
 #include "Area/Generic/GenericAreaFactory.hpp"
+#include "Area/Rectangle/Factory.hpp"
 #include <src/SpaceProcess.hpp>
 #include <src/LocalTree/GenericAreaComponentFactory.hpp>
 #include <src/LocalTree/GenericComputationComponentFactory.hpp>
@@ -55,7 +56,9 @@ std::vector<std::unique_ptr<iscore::FactoryInterfaceBase>> iscore_plugin_space::
         FW<Space::AreaFactory,
             Space::GenericAreaFactory,
             Space::CircleAreaFactory,
-            Space::PointerAreaFactory>,
+            Space::PointerAreaFactory,
+            Space::RectangleAreaFactory
+            >,
         FW<Space::ComputationFactory,
             Space::CollisionComputationFactory,
             Space::DistanceComputationFactory>,

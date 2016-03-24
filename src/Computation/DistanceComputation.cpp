@@ -51,6 +51,27 @@ DistanceComputation::DistanceComputation(
 }
 
 DistanceComputation::DistanceComputation(
+        const CircleAreaModel &a1,
+        const RectangleAreaModel &a2,
+        const SpaceModel &space,
+        const Id<ComputationModel> &id,
+        QObject *parent):
+    ComputationModel{a1.id(), a2.id(), space, id, parent},
+    m_fun{[&] {
+    auto circle = CircleArea::mapToData(a1.currentMapping()).center;
+    auto rect = RectangleArea::mapToData(a2.currentMapping()).rect.center();
+
+    auto c_center = a1.invertedTransform().map(circle);
+    auto r_center = a2.invertedTransform().map(rect);
+
+    return distance(c_center, r_center);
+}}
+{
+
+}
+
+
+DistanceComputation::DistanceComputation(
         const PointerAreaModel& a1,
         const PointerAreaModel& a2,
         const SpaceModel& space,
@@ -63,6 +84,46 @@ DistanceComputation::DistanceComputation(
 
     auto p1_center = a1.invertedTransform().map(p1_val.center);
     auto p2_center = a2.invertedTransform().map(p2_val.center);
+
+    return distance(p1_center, p2_center);
+}}
+{
+
+}
+
+DistanceComputation::DistanceComputation(
+        const RectangleAreaModel& a1,
+        const PointerAreaModel& a2,
+        const SpaceModel& space,
+        const Id<ComputationModel>& id,
+        QObject* parent):
+    ComputationModel{a1.id(), a2.id(), space, id, parent},
+    m_fun{[&] {
+    auto r_val = RectangleArea::mapToData(a1.currentMapping());
+    auto p_val = PointerArea::mapToData(a2.currentMapping());
+
+    auto r_center = a1.invertedTransform().map(r_val.rect.center());
+    auto p_center = a2.invertedTransform().map(p_val.center);
+
+    return distance(r_center, p_center);
+}}
+{
+
+}
+
+DistanceComputation::DistanceComputation(
+        const RectangleAreaModel& a1,
+        const RectangleAreaModel& a2,
+        const SpaceModel& space,
+        const Id<ComputationModel>& id,
+        QObject* parent):
+    ComputationModel{a1.id(), a2.id(), space, id, parent},
+    m_fun{[&] {
+    auto p1_val = RectangleArea::mapToData(a1.currentMapping()).rect;
+    auto p2_val = RectangleArea::mapToData(a2.currentMapping()).rect;
+
+    auto p1_center = a1.invertedTransform().map(p1_val.center());
+    auto p2_center = a2.invertedTransform().map(p2_val.center());
 
     return distance(p1_center, p2_center);
 }}

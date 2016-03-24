@@ -8,17 +8,21 @@ namespace Space
 class AreaModel;
 struct UpdateTransform : public iscore::SerializableCommand
 {
-            ISCORE_COMMAND_DECL(CommandFactoryName(), UpdateTransform, "Update Area")
+         ISCORE_COMMAND_DECL(CommandFactoryName(), UpdateTransform, "Update Area")
     public:
         UpdateTransform(
                 const AreaModel& model,
-                const QTransform& newTransf);
+                QPointF translate,
+                QSizeF scale,
+                qreal rotate);
 
         void undo() const override;
         void redo() const override;
 
         void update(const Path<AreaModel>&,
-                    const QTransform& newTransf);
+                    QPointF translate,
+                    QSizeF scale,
+                    qreal rotate);
 
     protected:
         void serializeImpl(DataStreamInput & s) const override;
@@ -26,7 +30,9 @@ struct UpdateTransform : public iscore::SerializableCommand
 
     private:
         Path<AreaModel> m_model;
-        QTransform m_old, m_new;
+        QPointF m_oldTranslate, m_newTranslate;
+        QSizeF m_oldScale, m_newScale;
+        qreal m_oldRot, m_newRot;
 
 };
 }

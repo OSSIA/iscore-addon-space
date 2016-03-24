@@ -133,6 +133,10 @@ Bounds SpaceModel::bounds() const
 void SpaceModel::addDimension(DimensionModel *dim)
 {
     m_dimensions.insert(dim);
+    connect(dim, &DimensionModel::minChanged, this,
+            &SpaceModel::spaceChanged);
+    connect(dim, &DimensionModel::maxChanged, this,
+            &SpaceModel::spaceChanged);
     emit spaceChanged();
 }
 

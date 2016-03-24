@@ -26,10 +26,9 @@ class GenericAreaView : public AreaView
     public:
         GenericAreaView(QGraphicsItem* parent);
 
-        void setRects(QPainterPath path);
+        void setPath(QPainterPath path);
 
         QRectF boundingRect() const override;
-        void updateRect(const QRectF&);
 
         void paint(QPainter* painter,
                    const QStyleOptionGraphicsItem* ,

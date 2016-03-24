@@ -17,8 +17,8 @@ CollisionComputation::CollisionComputation(
     auto c1_val = CircleArea::mapToData(a1.currentMapping());
     auto c2_val = CircleArea::mapToData(a2.currentMapping());
 
-    auto c1_poly = a1.invertedTransform().map(circleToPoly<12>(c1_val));
-    auto c2_poly = a2.invertedTransform().map(circleToPoly<12>(c2_val));
+    QPolygonF c1_poly = a1.invertedTransform().map(circleToPoly<12>(c1_val));
+    QPolygonF c2_poly = a2.invertedTransform().map(circleToPoly<12>(c2_val));
     return !c1_poly.intersected(c2_poly).isEmpty();
 }}
 {
@@ -44,6 +44,24 @@ CollisionComputation::CollisionComputation(
 }
 
 CollisionComputation::CollisionComputation(
+        const CircleAreaModel &a1,
+        const RectangleAreaModel &a2,
+        const SpaceModel &space,
+        const Id<ComputationModel> &id,
+        QObject *parent):
+    ComputationModel{a1.id(), a2.id(), space, id, parent},
+    m_fun{[&] {
+    auto c1_val = CircleArea::mapToData(a1.currentMapping());
+    auto p2_rect = RectangleArea::mapToData(a2.currentMapping()).rect;
+
+    auto c1_poly = a1.invertedTransform().map(circleToPoly<12>(c1_val));
+    return !c1_poly.intersected(a2.invertedTransform().mapRect(p2_rect)).isEmpty();
+}}
+{
+
+}
+
+CollisionComputation::CollisionComputation(
         const PointerAreaModel& a1,
         const PointerAreaModel& a2,
         const SpaceModel& space,
@@ -55,6 +73,40 @@ CollisionComputation::CollisionComputation(
     auto p2_val = PointerArea::mapToData(a2.currentMapping());
 
     return a1.invertedTransform().map(p1_val.center) == a2.invertedTransform().map(p2_val.center);
+}}
+{
+
+}
+
+CollisionComputation::CollisionComputation(
+        const RectangleAreaModel& a1,
+        const PointerAreaModel& a2,
+        const SpaceModel& space,
+        const Id<ComputationModel>& id,
+        QObject* parent):
+    ComputationModel{a1.id(), a2.id(), space, id, parent},
+    m_fun{[&] {
+    auto rect = RectangleArea::mapToData(a1.currentMapping()).rect;
+    auto pt = PointerArea::mapToData(a2.currentMapping());
+
+    return a1.invertedTransform().mapRect(rect).contains(a2.invertedTransform().map(pt.center));
+}}
+{
+
+}
+
+CollisionComputation::CollisionComputation(
+        const RectangleAreaModel &a1,
+        const RectangleAreaModel &a2,
+        const SpaceModel &space,
+        const Id<ComputationModel> &id,
+        QObject *parent):
+    ComputationModel{a1.id(), a2.id(), space, id, parent},
+    m_fun{[&] {
+    auto p1_rect = RectangleArea::mapToData(a1.currentMapping()).rect;
+    auto p2_rect = RectangleArea::mapToData(a2.currentMapping()).rect;
+
+    return a1.invertedTransform().mapRect(p1_rect).intersects(a2.invertedTransform().mapRect(p2_rect));
 }}
 {
 

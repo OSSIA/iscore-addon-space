@@ -9,8 +9,12 @@
 
 namespace Space
 {
-SpaceTab::SpaceTab(const SpaceModel& space, QWidget *parent):
+SpaceTab::SpaceTab(
+        const iscore::DocumentContext& ctx,
+        const SpaceModel& space,
+        QWidget *parent):
     QWidget{parent},
+    m_dispatcher{ctx.commandStack},
     m_space{space}
 {
     auto lay = new iscore::MarginLess<QGridLayout>;
@@ -24,7 +28,7 @@ SpaceTab::SpaceTab(const SpaceModel& space, QWidget *parent):
 
         for(const auto& dim : m_space.dimensions())
         {
-            m_dimensionLayout->addWidget(new DimensionEditWidget{dim, this});
+            m_dimensionLayout->addWidget(new DimensionEditWidget{m_dispatcher, dim, this});
         }
 
         m_addDim = new QPushButton{tr("+")};

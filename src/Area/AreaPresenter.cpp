@@ -49,8 +49,14 @@ static QPointF center(const Bounds& b)
     return QPointF{b.max_x - b.min_x, b.max_y - b.min_y};
 }
 
-static void transform(
-        QTransform& t,
+
+static TransformData make_transform(const AreaModel& area)
+{
+    return std::make_tuple(area.translate(), area.scale(), area.rotate());
+}
+
+static TransformData transform(
+        TransformData area,
         Tool tool,
         QPointF ctr,
         QPointF orig,
@@ -60,8 +66,7 @@ static void transform(
     {
         case Tool::Move:
         {
-            auto diff = cur - orig;
-            t.translate(diff.x(), diff.y());
+            std::get<0>(area) += (cur - orig);
             break;
         }
         case Tool::Rotate:
@@ -70,38 +75,58 @@ static void transform(
             auto angle = QLineF{ctr, orig}.angleTo(QLineF{ctr, cur});
 
             // 2. Transform
-            t.rotate(angle);
+            std::get<2>(area) += angle;
             break;
         }
         case Tool::Scale:
         {
-            t.scale((orig.x() - ctr.x()) / (cur.x() - ctr.x()),
-                    (orig.y() - ctr.y()) / (cur.y() - ctr.y()));
+            auto& s = std::get<1>(area);
+            s.scale((orig.x() - ctr.x()) / (cur.x() - ctr.x()),
+                    (orig.y() - ctr.y()) / (cur.y() - ctr.y()),
+                    Qt::IgnoreAspectRatio);
+            if(s.width() <= 0.1)
+                s.setWidth(0.1);
+            if(s.width() >= 2)
+                s.setWidth(2);
+            if(s.height() <= 0.1)
+                s.setHeight(0.1);
+            if(s.height() >= 2)
+                s.setHeight(2);
             break;
         }
     }
+    return area;
 }
 
 void AreaPresenter::on_areaPressed(QPointF pt)
 {
-    m_originalTransform = m_model.transform();
-    m_clickedPoint = pt;
+    m_originalTransform = make_transform(m_model);
+    m_clickedPoint = m_model.invertedTransform().map(pt);
     m_curBounds = m_model.context().space.bounds();
 }
 
 void AreaPresenter::on_areaMoved(QPointF pt)
 {
-    auto t = m_model.transform();
-    transform(t, m_model.context().settings.tool(), center(m_curBounds), m_clickedPoint, pt);
-    m_dispatcher.submitCommand(model(this), t);
+    auto res = transform(
+                m_originalTransform,
+                m_model.context().settings.tool(),
+                center(m_curBounds),
+                m_clickedPoint,
+                m_model.transform().map(pt));
+
+    m_dispatcher.submitCommand(model(this), std::get<0>(res), std::get<1>(res), std::get<2>(res));
 }
 
 void AreaPresenter::on_areaReleased(QPointF pt)
 {
-    auto t = m_model.transform();
-    transform(t, m_model.context().settings.tool(), center(m_curBounds), m_clickedPoint, pt);
+    auto res = transform(
+                m_originalTransform,
+                m_model.context().settings.tool(),
+                center(m_curBounds),
+                m_clickedPoint,
+                m_model.transform().map(pt));
 
-    m_dispatcher.submitCommand(model(this), t);
+    m_dispatcher.submitCommand(model(this), std::get<0>(res), std::get<1>(res), std::get<2>(res));
     m_dispatcher.commit();
 }
 }

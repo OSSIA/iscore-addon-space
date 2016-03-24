@@ -74,6 +74,7 @@ set(SRCS
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/AddArea.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/AddComputation.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/UpdateTransform.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/UpdateDimension.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Commands/SpaceCommandFactory.cpp"
 
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Executor/ProcessExecutor.cpp"

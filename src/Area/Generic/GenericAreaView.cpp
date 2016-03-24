@@ -10,7 +10,7 @@ GenericAreaView::GenericAreaView(QGraphicsItem *parent):
     m_col = static_cast<Qt::GlobalColor>(std::abs((double)(qrand() % 19)));
 }
 
-void GenericAreaView::setRects(QPainterPath path)
+void GenericAreaView::setPath(QPainterPath path)
 {
     prepareGeometryChange();
 
@@ -23,12 +23,6 @@ void GenericAreaView::setRects(QPainterPath path)
 QRectF GenericAreaView::boundingRect() const
 {
     return m_rect;
-}
-
-void GenericAreaView::updateRect(const QRectF& r)
-{
-    prepareGeometryChange();
-    m_rect = r;
 }
 
 void GenericAreaView::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)

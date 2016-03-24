@@ -17,7 +17,7 @@ GenericAreaPresenter::GenericAreaPresenter(
     m_cp = new DrawAreaComputer{model.formula()};
     connect(m_cp, &DrawAreaComputer::ready,
             this, [&] (auto vec) {
-        this->view(this).setRects(std::move(vec));
+        this->view(this).setPath(std::move(vec));
         this->view(this).update();
     }, Qt::QueuedConnection);
 
@@ -34,7 +34,8 @@ GenericAreaPresenter::~GenericAreaPresenter()
 
 void GenericAreaPresenter::update()
 {
-    view(this).updateRect(view(this).parentItem()->boundingRect());
+    view(this).update();
+    //view(this).updateRect(view(this).parentItem()->boundingRect());
 }
 
 // Il vaut mieux faire comme dans les courbes ou le curvepresenter s'occupe des segments....

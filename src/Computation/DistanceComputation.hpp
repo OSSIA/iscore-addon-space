@@ -3,6 +3,7 @@
 #include <src/Area/Circle/CircleAreaModel.hpp>
 #include <src/Area/Pointer/PointerAreaModel.hpp>
 #include <src/Area/Generic/GenericAreaModel.hpp>
+#include <src/Area/Rectangle/Area.hpp>
 #include <atomic>
 namespace Space
 {
@@ -11,6 +12,7 @@ class DistanceComputation :
         public ComputationModel
 {
     public:
+        // Circle -> ...
         DistanceComputation(
                 const CircleAreaModel& a1,
                 const CircleAreaModel& a2,
@@ -23,11 +25,36 @@ class DistanceComputation :
                 const PointerAreaModel& a2,
                 const SpaceModel& space,
                 const Id<ComputationModel>& id,
+                QObject* parent);        
+
+        DistanceComputation(
+                const CircleAreaModel& a1,
+                const RectangleAreaModel& a2,
+                const SpaceModel& space,
+                const Id<ComputationModel>& id,
                 QObject* parent);
 
+
+        // Pointer -> ...
         DistanceComputation(
                 const PointerAreaModel& a1,
                 const PointerAreaModel& a2,
+                const SpaceModel& space,
+                const Id<ComputationModel>& id,
+                QObject* parent);
+
+
+        // Rectangle -> ...
+        DistanceComputation(
+                const RectangleAreaModel& a2,
+                const PointerAreaModel& a1,
+                const SpaceModel& space,
+                const Id<ComputationModel>& id,
+                QObject* parent);
+
+        DistanceComputation(
+                const RectangleAreaModel& a1,
+                const RectangleAreaModel& a2,
                 const SpaceModel& space,
                 const Id<ComputationModel>& id,
                 QObject* parent);

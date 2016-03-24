@@ -14,6 +14,7 @@
 #include <core/document/Document.hpp>
 #include <QMainWindow>
 
+#include <src/SpaceProcess.hpp>
 #include "src/Area/AreaFactory.hpp"
 #include "src/Area/SingletonAreaFactoryList.hpp"
 
@@ -42,6 +43,8 @@ LayerPresenter::LayerPresenter(
     connect(m_view, &LayerView::guiRequested,
             m_spaceWindowView, &QWidget::show);
 
+    con(procmodel.space(), &SpaceModel::spaceChanged,
+        this, &LayerPresenter::update);
     connect(m_view, &LayerView::contextMenuRequested,
             this, &LayerPresenter::contextMenuRequested);
     for(const auto& area : procmodel.areas)
