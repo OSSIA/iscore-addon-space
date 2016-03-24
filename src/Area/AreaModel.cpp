@@ -166,7 +166,7 @@ struct TSerializer<
         }
 };
 template<>
-void Visitor<Reader<DataStream>>::readFrom(
+void Visitor<Reader<DataStream>>::readFrom_impl(
         const Space::AreaModel& area)
 {
     // Save the parent class
@@ -194,7 +194,7 @@ void Visitor<Writer<DataStream>>::writeTo(
 }
 
 template<>
-void Visitor<Reader<JSONObject>>::readFrom(
+void Visitor<Reader<JSONObject>>::readFrom_impl(
         const Space::AreaModel& area)
 {
     // Save the parent class

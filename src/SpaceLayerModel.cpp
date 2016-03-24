@@ -1,8 +1,9 @@
 #include "SpaceLayerModel.hpp"
 #include "SpaceProcess.hpp"
 
+#include "SpaceProcessPanelProxy.hpp"
 template<>
-void Visitor<Reader<DataStream>>::readFrom(const Space::LayerModel& lm)
+void Visitor<Reader<DataStream>>::readFrom_impl(const Space::LayerModel& lm)
 {
 }
 
@@ -14,7 +15,7 @@ void Visitor<Writer<DataStream>>::writeTo(Space::LayerModel& lm)
 
 
 template<>
-void Visitor<Reader<JSONObject>>::readFrom(const Space::LayerModel& lm)
+void Visitor<Reader<JSONObject>>::readFrom_impl(const Space::LayerModel& lm)
 {
 }
 
@@ -22,7 +23,6 @@ template<>
 void Visitor<Writer<JSONObject>>::writeTo(Space::LayerModel& lm)
 {
 }
-
 
 namespace Space
 {
@@ -35,9 +35,9 @@ LayerModel::LayerModel(
 
 }
 
-void LayerModel::serialize(const VisitorVariant &) const
+void LayerModel::serialize(const VisitorVariant & v) const
 {
-    ISCORE_TODO;
+    serialize_dyn(v, *this);
 }
 
 Process::LayerModelPanelProxy *LayerModel::make_panelProxy(QObject *parent) const

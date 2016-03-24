@@ -17,8 +17,6 @@ template<>
 void Visitor<Reader<DataStream>>::readFrom_impl(
         const Space::ProcessModel& proc)
 {
-    readFrom(*proc.pluginModelList);
-
     // Space definition
     readFrom(proc.space());
 
@@ -43,8 +41,6 @@ template<>
 void Visitor<Writer<DataStream>>::writeTo(
         Space::ProcessModel& proc)
 {
-    proc.pluginModelList = new iscore::ElementPluginModelList{*this, &proc};
-
     writeTo(proc.space());
 
     // Areas
@@ -75,8 +71,6 @@ template<>
 void Visitor<Reader<JSONObject>>::readFrom_impl(
         const Space::ProcessModel& proc)
 {
-    m_obj["PluginsMetadata"] = toJsonValue(*proc.pluginModelList);
-
     m_obj["Space"] = toJsonObject(proc.space());
     m_obj["Areas"] = toJsonArray(proc.areas);
     m_obj["Computation"] = toJsonArray(proc.computations);
@@ -86,10 +80,8 @@ template<>
 void Visitor<Writer<JSONObject>>::writeTo(
         Space::ProcessModel& proc)
 {
-    Deserializer<JSONValue> elementPluginDeserializer(m_obj["PluginsMetadata"]);
-    proc.pluginModelList = new iscore::ElementPluginModelList{elementPluginDeserializer, &proc};
-
-    writeTo(proc.space());
+    Deserializer<JSONObject> obj{m_obj["Space"].toObject()};
+    obj.writeTo(proc.space());
 
     // Areas
     auto& areas = context.components.factory<Space::AreaFactoryList>();
@@ -132,6 +124,13 @@ Process::LayerModel* ProcessModel::loadLayer_impl(
 }
 
 
+Context makeContext(const iscore::DocumentContext &doc, ProcessModel &sp)
+{
+    return Context{doc, sp.space(),
+                doc.app.components.applicationPlugin<ApplicationPlugin>().settings(),
+                doc.plugin<Explorer::DeviceDocumentPlugin>()};
+}
+
 ProcessModel::ProcessModel(
         const iscore::DocumentContext& doc,
         const TimeValue &duration,
@@ -141,7 +140,7 @@ ProcessModel::ProcessModel(
     m_space{new SpaceModel{
             Id<SpaceModel>(0),
             this}},
-    m_context{doc, *m_space, doc.app.components.applicationPlugin<ApplicationPlugin>().settings(), doc.plugin<Explorer::DeviceDocumentPlugin>()}
+    m_context{makeContext(doc, *this)}
 {
     metadata.setName(QString("Space.%1").arg(*this->id().val()));
     using namespace GiNaC;
@@ -246,8 +245,7 @@ Process::LayerModel *ProcessModel::cloneLayer_impl(
         const Process::LayerModel &source,
         QObject *parent)
 {
-    ISCORE_TODO;
-    return nullptr;
+    return new LayerModel{newId, *this, parent};
 }
 
 

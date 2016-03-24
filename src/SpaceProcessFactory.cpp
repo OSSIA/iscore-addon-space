@@ -30,10 +30,12 @@ QByteArray ProcessFactory::makeStaticLayerConstructionData() const
 }
 
 Process::ProcessModel *ProcessFactory::load(
-        const VisitorVariant &,
+        const VisitorVariant & vis,
         QObject *parent)
 {
-    return nullptr;
+    auto& doc = iscore::IDocument::documentContext(*parent);
+    return deserialize_dyn(vis, [&] (auto&& deserializer)
+    { return new Space::ProcessModel{doc, deserializer, parent};});
 }
 
 Process::LayerPresenter *ProcessFactory::makeLayerPresenter(

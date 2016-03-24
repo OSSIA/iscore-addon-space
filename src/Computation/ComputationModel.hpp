@@ -4,6 +4,7 @@
 #include <iscore/tools/IdentifiedObject.hpp>
 #include <iscore/component/Component.hpp>
 #include <State/Message.hpp>
+#include <iscore/plugins/customfactory/SerializableInterface.hpp>
 
 namespace Space
 {
@@ -13,7 +14,8 @@ class SpaceModel;
 class ComputationFactory;
 // Maps addresses / values to the parameter of an Computation
 class ComputationModel :
-        public IdentifiedObject<ComputationModel>
+        public IdentifiedObject<ComputationModel>,
+        public iscore::SerializableInterface<ComputationFactory>
 {
         Q_OBJECT
         ISCORE_SERIALIZE_FRIENDS(Space::ComputationModel, DataStream)
@@ -37,8 +39,6 @@ class ComputationModel :
         { return m_space; }
 
         virtual State::Value result() const = 0;
-
-        virtual UuidKey<ComputationFactory> concreteFactoryKey() const = 0;
 
         State::Message message() const
         { return State::Message{m_addr, result()}; }

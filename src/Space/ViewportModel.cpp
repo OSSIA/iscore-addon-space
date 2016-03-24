@@ -4,6 +4,7 @@ template<>
 void Visitor<Reader<DataStream>>::readFrom(
         const Space::ViewportModel& vp)
 {
+    readFrom(static_cast<const IdentifiedObject<Space::ViewportModel>&>(vp));
     m_stream
             << vp.name()
             << vp.transform()
@@ -34,6 +35,7 @@ template<>
 void Visitor<Reader<JSONObject>>::readFrom(
         const Space::ViewportModel& vp)
 {
+    readFrom(static_cast<const IdentifiedObject<Space::ViewportModel>&>(vp));
     m_obj["Name"] = vp.name();
     m_obj["Transform"] = toJsonValue(vp.m_transform);
     m_obj["xDim"] = toJsonValue(vp.xDim());

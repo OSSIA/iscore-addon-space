@@ -1,6 +1,18 @@
 #include "SpaceModel.hpp"
 #include <algorithm>
 
+static void clear(Space::SpaceModel& sp)
+{
+    while(!sp.dimensions().empty())
+    {
+        sp.removeDimension(sp.dimensions().begin()->id());
+    }
+
+    while(!sp.viewports().empty())
+    {
+        sp.removeViewport(sp.viewports().begin()->id());
+    }
+}
 
 template<>
 void Visitor<Reader<DataStream>>::readFrom(
@@ -30,6 +42,8 @@ template<>
 void Visitor<Writer<DataStream>>::writeTo(
         Space::SpaceModel& proc)
 {
+    clear(proc);
+
     // Dimensions
     int32_t d_size;
     m_stream >> d_size;
@@ -70,6 +84,8 @@ template<>
 void Visitor<Writer<JSONObject>>::writeTo(
         Space::SpaceModel& proc)
 {
+    clear(proc);
+
     for(const auto& json_vref : m_obj["Dimensions"].toArray())
     {
         auto dim = new Space::DimensionModel{
@@ -80,10 +96,10 @@ void Visitor<Writer<JSONObject>>::writeTo(
 
     for(const auto& json_vref : m_obj["Viewports"].toArray())
     {
-        auto dim = new Space::DimensionModel{
+        auto dim = new Space::ViewportModel{
                 Deserializer<JSONObject>{json_vref.toObject()},
                 &proc};
-        proc.m_dimensions.insert(dim);
+        proc.m_viewports.insert(dim);
     }
 
     proc.m_precision = m_obj["Precision"].toInt();
@@ -136,9 +152,12 @@ const DimensionModel& SpaceModel::dimension(const Id<DimensionModel> &id) const
     return m_dimensions.at(id);
 }
 
-void SpaceModel::removeDimension(const QString &name)
+void SpaceModel::removeDimension(const Id<DimensionModel> &id)
 {
-    ISCORE_TODO;
+    auto it = m_dimensions.get().find(id);
+    auto& elt = **it ;
+    m_dimensions.remove(it);
+    delete &elt;
     emit spaceChanged();
 }
 
@@ -153,7 +172,10 @@ void SpaceModel::addViewport(ViewportModel* v)
 
 void SpaceModel::removeViewport(const Id<ViewportModel>& vm)
 {
-    ISCORE_TODO;
+    auto it = m_viewports.get().find(vm);
+    auto& elt = **it ;
+    m_viewports.remove(it);
+    delete &elt;
 
     if(m_defaultViewport == vm)
     {

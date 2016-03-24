@@ -9,6 +9,7 @@
 #include <src/Area/ValMap.hpp>
 #include <src/Area/AreaMetadata.hpp>
 #include <iscore_plugin_space_export.h>
+#include <iscore/plugins/customfactory/SerializableInterface.hpp>
 class QGraphicsItem;
 
 
@@ -18,7 +19,9 @@ class SpaceModel;
 // in the end, isn't an area the same thing as a domain???
 // Maps addresses / values to the parameter of an area
 class AreaPresenter;
-class ISCORE_PLUGIN_SPACE_EXPORT AreaModel : public IdentifiedObject<AreaModel>
+class ISCORE_PLUGIN_SPACE_EXPORT AreaModel :
+        public IdentifiedObject<AreaModel>,
+        public iscore::SerializableInterface<AreaFactory>
 {
         Q_OBJECT
         ISCORE_SERIALIZE_FRIENDS(Space::AreaModel, DataStream)
@@ -28,7 +31,6 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaModel : public IdentifiedObject<AreaModel>
         iscore::Components components;
 
         // The value is used as default value if the address is invalid.
-        virtual const UuidKey<AreaFactory>& concreteFactoryKey() const = 0;
         virtual QString prettyName() const = 0;
         virtual int type() const = 0;
 

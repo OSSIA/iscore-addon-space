@@ -13,7 +13,7 @@ class AreaMetadata_T : public Parent_T
     private:
         int type() const override { return T::type(); }
 
-        const UuidKey<AreaFactory>& concreteFactoryKey() const override
+        decltype(std::declval<Parent_T>().concreteFactoryKey()) concreteFactoryKey() const override
         { return T::uuid(); }
 
         QString prettyName() const override

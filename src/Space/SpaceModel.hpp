@@ -25,9 +25,18 @@ class SpaceModel : public IdentifiedObject<SpaceModel>
                 const Id<SpaceModel>& id,
                 QObject* parent);
 
+        template<typename Impl>
+        SpaceModel(
+                Deserializer<Impl>& vis,
+                QObject* parent) :
+            IdentifiedObject<SpaceModel>{vis, parent}
+        {
+            vis.writeTo(*this);
+        }
+
         Bounds bounds() const;
         void addDimension(DimensionModel* dim);
-        void removeDimension(const QString& name);
+        void removeDimension(const Id<DimensionModel> &id);
         const DimensionModel& dimension(const Id<DimensionModel>& id) const;
         const DimensionModel& dimension(const QString& name) const;
 
