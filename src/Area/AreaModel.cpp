@@ -53,10 +53,11 @@ struct TSerializer<
                 JSONValue::Serializer& s,
                 const Space::SpaceMap& vec)
         {
+            auto keys = vec.keys();
             QJsonArray arr;
 
-            auto end = vec.keyEnd();
-            for(auto it = vec.keyBegin(); it != end; ++it)
+            auto end = keys.end();
+            for(auto it = keys.begin(); it != end; ++it)
             {
                 QJsonObject obj;
                 obj["k"] = toJsonValue(*it);
@@ -92,10 +93,11 @@ struct TSerializer<
                 JSONValue::Serializer& s,
                 const Space::ParameterMap& vec)
         {
+            auto keys = vec.keys();
             QJsonArray arr;
 
-            auto end = vec.keyEnd();
-            for(auto it = vec.keyBegin(); it != end; ++it)
+            auto end = keys.end();
+            for(auto it = keys.begin(); it != end; ++it)
             {
                 QJsonObject obj;
                 obj["k"] = *it;

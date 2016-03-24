@@ -3,6 +3,7 @@
 #include <src/Area/Circle/CircleAreaModel.hpp>
 #include <src/Area/Pointer/PointerAreaModel.hpp>
 #include <src/Area/Generic/GenericAreaModel.hpp>
+#include <atomic>
 namespace Space
 {
 class MatrixDistanceComputer;

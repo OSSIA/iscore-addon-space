@@ -99,13 +99,13 @@ CollisionComputation::CollisionComputation(
                         a2.spaceMapping(),
                         f1, f2,
                         a1.transform(), a2.transform());
-          return m_currentResult;
+          return this->m_currentResult;
     }}
 {
 
     connect(m_cptr, &MatrixCollisionComputer::ready, this,
             [=] (bool res) {
-        m_currentResult = res;
+        this->m_currentResult = res;
     }, Qt::QueuedConnection);
 
 

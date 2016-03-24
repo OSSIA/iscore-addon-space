@@ -146,6 +146,7 @@ struct Computations
                     return lhs_res >= rhs_res;
                 }
             }
+            ISCORE_ABORT;
         }
 
         template<typename Fun>
@@ -220,7 +221,7 @@ struct Computations
 
                     if(a1.valid(x1, y1) && a1.test(x1, y1))
                     {
-                        img.setPixelColor(x1, y1, col);
+                        img.setPixel(x1, y1, col.rgba());
                     }
                 }
             }
