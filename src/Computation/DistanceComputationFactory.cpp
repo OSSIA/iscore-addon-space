@@ -23,8 +23,8 @@ ComputationModel*DistanceComputationFactory::load(
         const Context& space,
         QObject* parent)
 {
-    ISCORE_TODO;
-    return nullptr;
+    return deserialize_dyn(data, [&] (auto&& deserializer)
+    { return new DistanceComputation{deserializer, space, parent};} );
 }
 
 const UuidKey<ComputationFactory>&DistanceComputationFactory::concreteFactoryKey() const

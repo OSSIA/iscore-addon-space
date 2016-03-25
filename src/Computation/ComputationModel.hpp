@@ -30,6 +30,16 @@ class ComputationModel :
                 const Id<ComputationModel>&,
                 QObject* parent);
 
+        template<typename Impl>
+        ComputationModel(Deserializer<Impl>& vis,
+                  const SpaceModel& space,
+                  QObject* parent) :
+            IdentifiedObject<ComputationModel>{vis, parent},
+            m_space{space}
+        {
+            vis.writeTo(*this);
+        }
+
         const State::Address& address() const
         { return m_addr; }
         void setAddress(const State::Address& addr)
@@ -49,7 +59,8 @@ class ComputationModel :
         auto secondArea() const {
             return m_a2;
         }
-    private:
+
+    protected:
         const SpaceModel& m_space;
         State::Address m_addr;
         Id<AreaModel> m_a1, m_a2;

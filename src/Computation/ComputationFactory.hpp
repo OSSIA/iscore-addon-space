@@ -69,7 +69,7 @@ auto make_computation(
                         ctx.space, comp, parent};
                 case 0:
                 default:
-                    return new Computation_T{a1, a2, ctx.space, comp, parent};
+                    return new Computation_T{circle, a2, ctx.space, comp, parent};
             }
         }
         case 2: // pointer
@@ -126,6 +126,88 @@ auto make_computation(
         case 0: // Generic
         default:
             return new Computation_T{a1, a2, ctx.space, comp, parent};
+    }
+
+}
+
+template<typename Computation_T>
+void load_computation(
+        const AreaModel& a1,
+        const AreaModel& a2,
+        Computation_T& comp)
+{
+    switch(a1.type())
+    {
+        case 1: // Circle
+        {
+            auto& circle = safe_cast<const CircleAreaModel&>(a1);
+            switch(a2.type())
+            {
+                case 1:
+                    return comp.setup(
+                                circle,
+                                safe_cast<const CircleAreaModel&>(a2));
+                case 2:
+                    return comp.setup(
+                                circle,
+                                safe_cast<const PointerAreaModel&>(a2));
+                case 3:
+                    return comp.setup(
+                                circle,
+                                safe_cast<const RectangleAreaModel&>(a2));
+                case 0:
+                default:
+                    return comp.setup(circle, a2);
+            }
+        }
+        case 2: // pointer
+        {
+            auto& pointer = safe_cast<const PointerAreaModel&>(a1);
+            switch(a2.type())
+            {
+                case 1:
+                    return comp.setup(
+                                safe_cast<const CircleAreaModel&>(a2),
+                                pointer);
+                case 2:
+                    return comp.setup(
+                                safe_cast<const PointerAreaModel&>(a2),
+                                pointer);
+                case 3:
+                    return comp.setup(
+                                safe_cast<const RectangleAreaModel&>(a2),
+                                pointer);
+                case 0:
+                default:
+                    return comp.setup(pointer, a2);
+            }
+        }
+        case 3: // rectangle
+        {
+            auto& rect = safe_cast<const RectangleAreaModel&>(a1);
+            switch(a2.type())
+            {
+                case 1:
+                    return comp.setup(
+                                safe_cast<const CircleAreaModel&>(a2),
+                                rect);
+                case 2:
+                    return comp.setup(
+                                rect,
+                                safe_cast<const PointerAreaModel&>(a2));
+                case 3:
+                    return comp.setup(
+                                safe_cast<const RectangleAreaModel&>(a2),
+                                rect);
+                case 0:
+                default:
+                    return comp.setup(rect, a2);
+            }
+        }
+
+        case 0: // Generic
+        default:
+            return comp.setup(a1, a2);
     }
 
 }

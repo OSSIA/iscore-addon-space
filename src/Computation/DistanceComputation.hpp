@@ -12,64 +12,57 @@ class DistanceComputation :
         public ComputationModel
 {
     public:
-        // Circle -> ...
-        DistanceComputation(
+        void setup(
                 const CircleAreaModel& a1,
-                const CircleAreaModel& a2,
-                const SpaceModel& space,
-                const Id<ComputationModel>& id,
-                QObject* parent);
-
-        DistanceComputation(
+                const CircleAreaModel& a2);
+        void setup(
                 const CircleAreaModel& a1,
-                const PointerAreaModel& a2,
-                const SpaceModel& space,
-                const Id<ComputationModel>& id,
-                QObject* parent);        
-
-        DistanceComputation(
+                const PointerAreaModel& a2);
+        void setup(
                 const CircleAreaModel& a1,
-                const RectangleAreaModel& a2,
-                const SpaceModel& space,
-                const Id<ComputationModel>& id,
-                QObject* parent);
-
-
-        // Pointer -> ...
-        DistanceComputation(
+                const RectangleAreaModel& a2);
+        void setup(
                 const PointerAreaModel& a1,
-                const PointerAreaModel& a2,
-                const SpaceModel& space,
-                const Id<ComputationModel>& id,
-                QObject* parent);
-
-
-        // Rectangle -> ...
-        DistanceComputation(
-                const RectangleAreaModel& a2,
-                const PointerAreaModel& a1,
-                const SpaceModel& space,
-                const Id<ComputationModel>& id,
-                QObject* parent);
-
-        DistanceComputation(
+                const PointerAreaModel& a2);
+        void setup(
                 const RectangleAreaModel& a1,
-                const RectangleAreaModel& a2,
-                const SpaceModel& space,
-                const Id<ComputationModel>& id,
-                QObject* parent);
-
-        DistanceComputation(
+                const PointerAreaModel& a2);
+        void setup(
+                const RectangleAreaModel& a1,
+                const RectangleAreaModel& a2);
+        void setup(
                 const AreaModel& a1,
-                const AreaModel& a2,
+                const AreaModel& a2);
+
+        template<typename Area1, typename Area2>
+        DistanceComputation(
+                const Area1& a1,
+                const Area2& a2,
                 const SpaceModel& space,
                 const Id<ComputationModel>& id,
-                QObject* parent);
+                QObject* parent):
+            ComputationModel{a1.id(), a2.id(), space, id, parent}
+        {
+            setup(a1, a2);
+        }
+
+        template<typename Deser>
+        DistanceComputation(
+                Deser& d,
+                const Context& space,
+                QObject* parent):
+            ComputationModel{d, space.space, parent}
+        {
+            loadAreas(space.process);
+        }
+
+
 
         State::Value result() const override;
         UuidKey<ComputationFactory> concreteFactoryKey() const override;
 
     private:
+        void loadAreas(const Space::ProcessModel&);
         MatrixDistanceComputer* m_cptr{};
         std::function<double()> m_fun;
 

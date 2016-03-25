@@ -23,8 +23,8 @@ ComputationModel*CollisionComputationFactory::load(
         const Context& space,
         QObject* parent)
 {
-    ISCORE_TODO;
-    return nullptr;
+    return deserialize_dyn(data, [&] (auto&& deserializer)
+    { return new CollisionComputation{deserializer, space, parent};} );
 }
 
 const UuidKey<ComputationFactory>&CollisionComputationFactory::concreteFactoryKey() const

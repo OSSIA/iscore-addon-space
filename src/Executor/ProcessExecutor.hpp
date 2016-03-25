@@ -28,6 +28,7 @@ class ProcessExecutor final :
                 Space::ProcessModel& process,
                 const Device::DeviceList& devices);
 
+        ~ProcessExecutor();
 
         std::shared_ptr<OSSIA::StateElement> state(double);
         std::shared_ptr<OSSIA::StateElement> state() override;

@@ -18,7 +18,64 @@ ProcessExecutor::ProcessExecutor(
     m_process{process},
     m_devices{devices}
 {
+    for(AreaModel& area : m_process.areas)
+    {
+        const auto& parameter_map = area.parameterMapping();
+        for(const auto& elt : parameter_map.keys())
+        {
+            auto& val = parameter_map[elt];
 
+            auto& addr = val.address;
+            if(!addr.device.isEmpty())
+            {
+                if(addr.device == "parent" && addr.path == QStringList{"t"})
+                {
+                    continue;
+                }
+                else
+                {
+                    // We enable listening
+                    auto dev_it = m_devices.find(addr.device);
+                    if(dev_it != m_devices.devices().end())
+                    {
+                        (*dev_it)->setListening(addr, true);
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+ProcessExecutor::~ProcessExecutor()
+{
+
+    for(AreaModel& area : m_process.areas)
+    {
+        const auto& parameter_map = area.parameterMapping();
+        for(const auto& elt : parameter_map.keys())
+        {
+            auto& val = parameter_map[elt];
+
+            auto& addr = val.address;
+            if(!addr.device.isEmpty())
+            {
+                if(addr.device == "parent" && addr.path == QStringList{"t"})
+                {
+                    continue;
+                }
+                else
+                {
+                    // We disable listening
+                    auto dev_it = m_devices.find(addr.device);
+                    if(dev_it != m_devices.devices().end())
+                    {
+                        (*dev_it)->setListening(addr, false);
+                    }
+                }
+            }
+        }
+    }
 }
 
 std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state()
@@ -66,6 +123,7 @@ std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state(double t)
                         if(val)
                         {
                            it_pair.first->second = State::convert::value<double>(*val);
+                           qDebug() << State::convert::value<double>(*val);
                         }
                     }
                 }

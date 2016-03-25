@@ -126,7 +126,7 @@ Process::LayerModel* ProcessModel::loadLayer_impl(
 
 Context makeContext(const iscore::DocumentContext &doc, ProcessModel &sp)
 {
-    return Context{doc, sp.space(),
+    return Context{doc, sp.space(), sp,
                 doc.app.components.applicationPlugin<ApplicationPlugin>().settings(),
                 doc.plugin<Explorer::DeviceDocumentPlugin>()};
 }

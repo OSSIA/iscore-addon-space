@@ -10,10 +10,12 @@ class DeviceDocumentPlugin;
 namespace Space
 {
 class SpaceModel;
+class ProcessModel;
 struct Context
 {
     const iscore::DocumentContext& doc;
     const SpaceModel& space;
+    const ProcessModel& process;
     const EditionSettings& settings;
     Explorer::DeviceDocumentPlugin& devices;
 };

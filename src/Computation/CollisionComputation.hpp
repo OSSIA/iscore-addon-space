@@ -12,63 +12,56 @@ class CollisionComputation :
         public ComputationModel
 {
     public:
-        // Circle -> ...
-        CollisionComputation(
+        void setup(
                 const CircleAreaModel& a1,
-                const CircleAreaModel& a2,
-                const SpaceModel& space,
-                const Id<ComputationModel>& id,
-                QObject* parent);
-
-        CollisionComputation(
+                const CircleAreaModel& a2);
+        void setup(
                 const CircleAreaModel& a1,
-                const PointerAreaModel& a2,
-                const SpaceModel& space,
-                const Id<ComputationModel>& id,
-                QObject* parent);
-
-        CollisionComputation(
+                const PointerAreaModel& a2);
+        void setup(
                 const CircleAreaModel& a1,
-                const RectangleAreaModel& a2,
-                const SpaceModel& space,
-                const Id<ComputationModel>& id,
-                QObject* parent);
-
-        // Pointer -> ...
-        CollisionComputation(
+                const RectangleAreaModel& a2);
+        void setup(
                 const PointerAreaModel& a1,
-                const PointerAreaModel& a2,
-                const SpaceModel& space,
-                const Id<ComputationModel>& id,
-                QObject* parent);
-
-        // Rectangle -> ...
-        CollisionComputation(
-                const RectangleAreaModel& a2,
-                const PointerAreaModel& a1,
-                const SpaceModel& space,
-                const Id<ComputationModel>& id,
-                QObject* parent);
-
-        CollisionComputation(
+                const PointerAreaModel& a2);
+        void setup(
                 const RectangleAreaModel& a1,
-                const RectangleAreaModel& a2,
-                const SpaceModel& space,
-                const Id<ComputationModel>& id,
-                QObject* parent);
-
-        // Generic
-        CollisionComputation(
+                const PointerAreaModel& a2);
+        void setup(
+                const RectangleAreaModel& a1,
+                const RectangleAreaModel& a2);
+        void setup(
                 const AreaModel& a1,
-                const AreaModel& a2,
+                const AreaModel& a2);
+
+        template<typename Area1, typename Area2>
+        CollisionComputation(
+                const Area1& a1,
+                const Area2& a2,
                 const SpaceModel& space,
                 const Id<ComputationModel>& id,
-                QObject* parent);
+                QObject* parent):
+            ComputationModel{a1.id(), a2.id(), space, id, parent}
+        {
+            setup(a1, a2);
+        }
+
+        template<typename Deser>
+        CollisionComputation(
+                Deser& d,
+                const Context& space,
+                QObject* parent):
+            ComputationModel{d, space.space, parent}
+        {
+            loadAreas(space.process);
+        }
+
 
         State::Value result() const override;
         UuidKey<ComputationFactory> concreteFactoryKey() const override;
 
     private:
+        void loadAreas(const Space::ProcessModel&);
         MatrixCollisionComputer* m_cptr{};
         std::function<bool()> m_fun;
 
