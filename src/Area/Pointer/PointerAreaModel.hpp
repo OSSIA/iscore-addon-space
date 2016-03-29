@@ -46,5 +46,13 @@ struct PointerArea
 class PointerAreaModel : public AreaModel_T<PointerArea>
 {
         using AreaModel_T::AreaModel_T;
+
+        AreaModel* clone(
+                const Space::Context& space,
+                const Id<AreaModel>& newId,
+                QObject* parent) const override
+        {
+            return new PointerAreaModel{*this, space, newId, parent};
+        }
 };
 }

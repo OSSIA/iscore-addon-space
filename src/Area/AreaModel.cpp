@@ -235,6 +235,26 @@ AreaModel::AreaModel(
     metadata.setName(QString("Area.%1").arg(*this->id().val()));
 }
 
+AreaModel::AreaModel(
+        const AreaModel& source,
+        const Context& space,
+        const Id<AreaModel>& id,
+        QObject* parent):
+    IdentifiedObject{id, staticMetaObject.className(), parent},
+    m_translate{source.m_translate},
+    m_scale{source.m_scale},
+    m_rotate{source.m_rotate},
+    m_transform{source.m_transform},
+    m_inverted{source.m_inverted},
+    m_context{space},
+    m_formula{source.m_formula},
+    m_spaceMap{source.m_spaceMap},
+    m_parameterMap{source.m_parameterMap},
+    m_currentParameterMap{source.m_currentParameterMap}
+{
+    metadata.setName(QString("Area.%1").arg(*this->id().val()));
+}
+
 
 void AreaModel::setSpaceMapping(const SpaceMap& mapping)
 {

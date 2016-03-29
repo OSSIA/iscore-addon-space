@@ -168,12 +168,44 @@ ProcessModel::ProcessModel(
     setDuration(duration);
 }
 
+ProcessModel::ProcessModel(
+        const ProcessModel& source,
+        const iscore::DocumentContext& doc,
+        const Id<Process::ProcessModel> &id,
+        QObject *parent):
+    Process::ProcessModel{id, ProcessMetadata::objectName(), parent},
+    m_space{new SpaceModel{
+            *source.m_space,
+            this}},
+    m_context{makeContext(doc, *this)}
+{
+    metadata.setName(QString("Space.%1").arg(*this->id().val()));
+
+    for(auto& area : source.areas)
+    {
+        this->areas.add(area.clone(m_context, area.id(), this));
+    }
+    for(auto& comp : source.computations)
+    {
+        this->computations.add(comp.clone(m_context, comp.id(), this));
+    }
+
+    connect(m_space, &SpaceModel::spaceChanged,
+            this, [=] () {
+        for(auto& area : areas)
+            area.areaChanged(area.currentMapping());
+    });
+
+    setDuration(source.duration());
+}
+
+
 ProcessModel* ProcessModel::clone(
         const Id<Process::ProcessModel> &newId,
         QObject *newParent) const
 {
     auto& doc = iscore::IDocument::documentContext(*newParent);
-    return new ProcessModel{doc, this->duration(), newId, newParent};
+    return new ProcessModel{*this,  doc, newId, newParent};
 }
 
 UuidKey<Process::ProcessFactory>ProcessModel::concreteFactoryKey() const

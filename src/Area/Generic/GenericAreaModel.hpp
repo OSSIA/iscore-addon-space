@@ -36,12 +36,30 @@ class GenericAreaModel : public AreaMetadata_T<GenericArea, AreaModel>
 
         }
 
+        GenericAreaModel(
+                const GenericAreaModel& form,
+                const Space::Context& space,
+                const Id<AreaModel>& id,
+                QObject* parent):
+            AreaMetadata_T<GenericArea, AreaModel>{form, space, id, parent}
+        {
+
+        }
+
         template<typename Impl>
         GenericAreaModel(Deserializer<Impl>& vis,
                     const Space::Context& space,
                     QObject* parent) :
             AreaMetadata_T<GenericArea, AreaModel>{vis, space, parent}
         {
+        }
+
+        AreaModel* clone(
+                const Space::Context& space,
+                const Id<AreaModel>& newId,
+                QObject* parent) const override
+        {
+            return new GenericAreaModel{*this, space, newId, parent};
         }
 };
 }

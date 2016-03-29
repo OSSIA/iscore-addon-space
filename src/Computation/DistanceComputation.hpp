@@ -56,6 +56,24 @@ class DistanceComputation :
             loadAreas(space.process);
         }
 
+        DistanceComputation(
+                const DistanceComputation& source,
+                const Context& space,
+                const Id<ComputationModel>& newId,
+                QObject* parent):
+            ComputationModel{source, space.space, newId, parent}
+        {
+            loadAreas(space.process);
+        }
+
+        DistanceComputation* clone(
+                        const Context& space,
+                        const Id<ComputationModel>& newId,
+                        QObject* parent) const override
+        {
+            return new DistanceComputation{*this, space, newId, parent};
+        }
+
 
 
         State::Value result() const override;

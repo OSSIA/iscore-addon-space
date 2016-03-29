@@ -42,6 +42,14 @@ struct CircleArea
 class CircleAreaModel : public AreaModel_T<CircleArea>
 {
         using AreaModel_T::AreaModel_T;
+
+        AreaModel* clone(
+                const Space::Context& space,
+                const Id<AreaModel>& newId,
+                QObject* parent) const override
+        {
+            return new CircleAreaModel{*this, space, newId, parent};
+        }
 };
 
 template<int Pres>

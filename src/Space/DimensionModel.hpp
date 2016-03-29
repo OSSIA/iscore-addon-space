@@ -22,6 +22,15 @@ class DimensionModel : public IdentifiedObject<DimensionModel>
         {
         }
 
+        DimensionModel(const DimensionModel& other, QObject* parent):
+            IdentifiedObject{other.id(), staticMetaObject.className(), parent},
+            m_name{other.m_name},
+            m_val{other.m_val},
+            m_min{other.m_min},
+            m_max{other.m_max}
+        {
+        }
+
         template<typename DeserializerVisitor,
                  enable_if_deserializer<DeserializerVisitor>* = nullptr>
         DimensionModel(DeserializerVisitor&& vis,

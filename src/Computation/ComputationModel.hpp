@@ -5,7 +5,7 @@
 #include <iscore/component/Component.hpp>
 #include <State/Message.hpp>
 #include <iscore/plugins/customfactory/SerializableInterface.hpp>
-
+#include <src/SpaceContext.hpp>
 namespace Space
 {
 using Computation = std::function<double()>;
@@ -30,6 +30,12 @@ class ComputationModel :
                 const Id<ComputationModel>&,
                 QObject* parent);
 
+        ComputationModel(
+                const ComputationModel& source,
+                const SpaceModel& space,
+                const Id<ComputationModel>&,
+                QObject* parent);
+
         template<typename Impl>
         ComputationModel(Deserializer<Impl>& vis,
                   const SpaceModel& space,
@@ -39,6 +45,11 @@ class ComputationModel :
         {
             vis.writeTo(*this);
         }
+
+        virtual ComputationModel* clone(
+                const Space::Context& space,
+                const Id<ComputationModel>& newId,
+                QObject* parent) const = 0;
 
         const State::Address& address() const
         { return m_addr; }

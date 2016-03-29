@@ -37,5 +37,13 @@ struct RectangleArea
 class RectangleAreaModel : public AreaModel_T<RectangleArea>
 {
         using AreaModel_T::AreaModel_T;
+
+        AreaModel* clone(
+                const Space::Context& space,
+                const Id<AreaModel>& newId,
+                QObject* parent) const override
+        {
+            return new RectangleAreaModel{*this, space, newId, parent};
+        }
 };
 }

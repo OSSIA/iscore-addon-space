@@ -117,6 +117,24 @@ SpaceModel::SpaceModel(
     emit spaceChanged();
 }
 
+SpaceModel::SpaceModel(const SpaceModel& other, QObject* parent):
+    IdentifiedObject{other.id(), staticMetaObject.className(), parent}
+{
+    for(auto& dim : other.dimensions())
+    {
+        this->addDimension(new DimensionModel{dim, this});
+    }
+
+    for(auto& vp : other.viewports())
+    {
+        this->addViewport(new ViewportModel{vp, this});
+    }
+
+    m_precision = other.m_precision;
+    m_defaultViewport = other.m_defaultViewport;
+    emit spaceChanged();
+}
+
 Bounds SpaceModel::bounds() const
 {
     const auto& x = dimension("x");

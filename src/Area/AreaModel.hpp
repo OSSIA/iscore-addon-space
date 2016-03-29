@@ -40,6 +40,12 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaModel :
                 const Id<AreaModel>&,
                 QObject* parent);
 
+        AreaModel(
+                const AreaModel& formula,
+                const Space::Context& space,
+                const Id<AreaModel>&,
+                QObject* parent);
+
         template<typename Impl>
         AreaModel(Deserializer<Impl>& vis,
                   const Space::Context& space,
@@ -49,6 +55,11 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaModel :
         {
             vis.writeTo(*this);
         }
+
+        virtual AreaModel* clone(
+                const Space::Context& space,
+                const Id<AreaModel>& newId,
+                QObject* parent) const = 0;
 
         const SpaceModel& space() const
         { return m_context.space; }
@@ -154,6 +165,16 @@ class AreaModel_T : public AreaMetadata_T<T, AreaModel>
 
         }
 
+        AreaModel_T(
+                const AreaModel_T& other,
+                const Space::Context& space,
+                const Id<AreaModel>& id,
+                QObject* parent):
+            AreaMetadata_T<T, AreaModel>{other, space, id, parent}
+        {
+
+        }
+
         template<typename Impl>
         AreaModel_T(Deserializer<Impl>& vis,
                     const Space::Context& space,
@@ -161,7 +182,6 @@ class AreaModel_T : public AreaMetadata_T<T, AreaModel>
             AreaMetadata_T<T, AreaModel>{vis, space, parent}
         {
         }
-
 };
 
 

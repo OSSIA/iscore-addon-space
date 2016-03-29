@@ -24,6 +24,9 @@ class SpaceModel : public IdentifiedObject<SpaceModel>
         SpaceModel(
                 const Id<SpaceModel>& id,
                 QObject* parent);
+        SpaceModel(
+                const SpaceModel& other,
+                QObject* parent);
 
         template<typename Impl>
         SpaceModel(

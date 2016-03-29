@@ -53,7 +53,6 @@ class ProcessModel : public Process::ProcessModel
         ProcessModel(
                 const ProcessModel& other,
                 const iscore::DocumentContext& doc,
-                const TimeValue &duration,
                 const Id<Process::ProcessModel> &id,
                 QObject *parent);
 

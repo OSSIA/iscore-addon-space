@@ -56,6 +56,23 @@ class CollisionComputation :
             loadAreas(space.process);
         }
 
+        CollisionComputation(
+                const CollisionComputation& source,
+                const Context& space,
+                const Id<ComputationModel>& newId,
+                QObject* parent):
+            ComputationModel{source, space.space, newId, parent}
+        {
+            loadAreas(space.process);
+        }
+
+        CollisionComputation* clone(
+                        const Context& space,
+                        const Id<ComputationModel>& newId,
+                        QObject* parent) const override
+        {
+            return new CollisionComputation{*this, space, newId, parent};
+        }
 
         State::Value result() const override;
         UuidKey<ComputationFactory> concreteFactoryKey() const override;

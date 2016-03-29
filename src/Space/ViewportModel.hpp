@@ -24,10 +24,21 @@ class ViewportModel : public IdentifiedObject<ViewportModel>
 
         }
 
+
+        ViewportModel(const ViewportModel& other, QObject* parent):
+            IdentifiedObject{other.id(), staticMetaObject.className(), parent},
+            m_name{other.m_name},
+            m_transform{other.m_transform},
+            m_xDim{other.m_xDim},
+            m_yDim{other.m_yDim},
+            m_defaultValuesMap{other.m_defaultValuesMap},
+            m_renderPrecision{other.m_renderPrecision}
+        {
+        }
         template<typename DeserializerVisitor,
                  enable_if_deserializer<DeserializerVisitor>* = nullptr>
         ViewportModel(DeserializerVisitor&& vis,
-                   QObject* parent) :
+                      QObject* parent) :
             IdentifiedObject{vis, parent}
         {
             vis.writeTo(*this);
@@ -39,8 +50,8 @@ class ViewportModel : public IdentifiedObject<ViewportModel>
         const Id<DimensionModel>& yDim() const;
         void setYDim(const Id<DimensionModel>& yDim);
 
-//        const QMap<Id<DimensionModel>, double>& defaultValuesMap() const;
-//        void setDefaultValuesMap(const QMap<Id<DimensionModel>, double>& defaultValuesMap);
+        //        const QMap<Id<DimensionModel>, double>& defaultValuesMap() const;
+        //        void setDefaultValuesMap(const QMap<Id<DimensionModel>, double>& defaultValuesMap);
 
         const QString& name() const;
         void setName(const QString& name);
