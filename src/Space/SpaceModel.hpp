@@ -4,8 +4,9 @@
 #include <iscore/tools/IdentifiedObjectMap.hpp>
 #include <Space/space.hpp>
 #include <Space/bounded_symbol.hpp>
-#include "DimensionModel.hpp"
-#include "ViewportModel.hpp"
+
+#include <src/Space/Dimension/DimensionModel.hpp>
+#include <src/Space/Viewport/ViewportModel.hpp>
 #include <src/SpaceContext.hpp>
 #include <src/Bounds.hpp>
 
@@ -83,4 +84,6 @@ class SpaceModel : public IdentifiedObject<SpaceModel>
         Id<ViewportModel> m_defaultViewport;
         int32_t m_precision = 5;
 };
+
+void clear(Space::SpaceModel& sp);
 }

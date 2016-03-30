@@ -1,5 +1,5 @@
 #pragma once
-#include "src/Space/DimensionModel.hpp"
+#include "src/Space/Dimension/DimensionModel.hpp"
 #include <QtWidgets>
 #include <iscore/command/Dispatchers/CommandDispatcher.hpp>
 namespace Space

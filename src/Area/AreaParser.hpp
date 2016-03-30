@@ -16,13 +16,13 @@ class AreaParser
 
         static auto toOp(const QString& str)
         {
-            thread_local const QStringList operator_map_rels{"==", "!=", "<", "<=", ">", ">="}; // In the order of GiNaC::relational::operators
+            static const QStringList operator_map_rels{"==", "!=", "<", "<=", ">", ">="}; // In the order of GiNaC::relational::operators
             return static_cast<GiNaC::relational::operators>(operator_map_rels.indexOf(str));
         }
 
         static std::pair<QStringList, GiNaC::relational::operators> splitRelationship(const QString& eq)
         {
-            thread_local const QStringList ordered_rels{"==", "!=", "<=", ">=", "<", ">"}; // Else parsing fails due to < matching before <=
+            static const QStringList ordered_rels{"==", "!=", "<=", ">=", "<", ">"}; // Else parsing fails due to < matching before <=
 
             QString found_rel;
             QStringList res;

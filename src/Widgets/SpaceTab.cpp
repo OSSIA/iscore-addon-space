@@ -3,7 +3,7 @@
 #include <iscore/widgets/SpinBoxes.hpp>
 
 #include "src/Space/SpaceModel.hpp"
-#include "src/Space/DimensionModel.hpp"
+#include "src/Space/Dimension/DimensionModel.hpp"
 #include "ViewportEditWidget.hpp"
 #include "DimensionEditWidget.hpp"
 

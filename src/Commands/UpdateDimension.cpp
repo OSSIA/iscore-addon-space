@@ -1,5 +1,5 @@
 #include "UpdateDimension.hpp"
-#include <src/Space/DimensionModel.hpp>
+#include <src/Space/Dimension/DimensionModel.hpp>
 #include <iscore/tools/ModelPathSerialization.hpp>
 namespace Space
 {

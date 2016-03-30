@@ -24,7 +24,14 @@ file(GLOB_RECURSE HDRS
 set(SRCS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/ApplicationPlugin.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/EditionSettings.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Space/Dimension/ModelSerialization.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Space/Viewport/ModelSerialization.cpp"
 
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Area/ModelSerialization.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/ModelSerialization.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Space/ModelSerialization.cpp"
+
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/ProcessSerialization.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/SpaceProcessFactory.cpp"
 
 "${CMAKE_CURRENT_SOURCE_DIR}/src/SpaceProcess.cpp"
@@ -44,8 +51,8 @@ set(SRCS
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/CollisionComputation.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/CollisionComputationFactory.cpp"
 
-"${CMAKE_CURRENT_SOURCE_DIR}/src/Space/DimensionModel.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/Space/ViewportModel.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/Space/Dimension/DimensionModel.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/Space/Viewport/ViewportModel.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Space/SpaceModel.cpp"
 
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Area/AreaParser.cpp"

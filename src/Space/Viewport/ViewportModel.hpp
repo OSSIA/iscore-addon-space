@@ -1,6 +1,6 @@
 #pragma once
 #include <iscore/tools/IdentifiedObject.hpp>
-#include "DimensionModel.hpp"
+#include <src/Space/Dimension/DimensionModel.hpp>
 #include <QMap>
 #include <QString>
 #include <QPointF>

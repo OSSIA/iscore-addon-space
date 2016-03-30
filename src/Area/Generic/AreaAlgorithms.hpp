@@ -8,9 +8,9 @@
 #include <QThread>
 #include <QMetaType>
 #include <QPainterPath>
-#include <vtk/vtkFunctionParser.h>
+#include <vtkFunctionParser.h>
 #include <iscore/tools/IdentifiedObject.hpp>
-#include <vtk/vtkSmartPointer.h>
+#include <vtkSmartPointer.h>
 #include <QVector2D>
 #include <boost/dynamic_bitset.hpp>
 #include <QImage>

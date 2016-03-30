@@ -3,8 +3,8 @@
 #include "SpaceLayerView.hpp"
 #include "SpaceProcess.hpp"
 #include <src/Space/SpaceModel.hpp>
-#include <src/Space/ViewportModel.hpp>
-#include <src/Space/DimensionModel.hpp>
+#include <src/Space/Viewport/ViewportModel.hpp>
+#include <src/Space/Dimension/DimensionModel.hpp>
 #include <iscore/widgets/GraphicsItem.hpp>
 
 #include <QGraphicsScene>

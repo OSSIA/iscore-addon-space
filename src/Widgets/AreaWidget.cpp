@@ -13,7 +13,7 @@
 #include <iscore/document/DocumentContext.hpp>
 #include <src/Area/SingletonAreaFactoryList.hpp>
 #include <src/Space/SpaceModel.hpp>
-#include <src/Space/DimensionModel.hpp>
+#include <src/Space/Dimension/DimensionModel.hpp>
 #include <Explorer/DocumentPlugin/DeviceDocumentPlugin.hpp>
 #include <src/Area/Generic/GenericAreaModel.hpp>
 namespace Space

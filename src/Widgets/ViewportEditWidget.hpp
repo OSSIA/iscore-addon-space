@@ -1,6 +1,6 @@
 #pragma once
 #include "src/Space/SpaceModel.hpp"
-#include "src/Space/ViewportModel.hpp"
+#include "src/Space/Viewport/ViewportModel.hpp"
 #include <QtWidgets>
 namespace Space
 {

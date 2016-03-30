@@ -39,11 +39,3 @@ void Visitor<Writer<JSONObject>>::writeTo(
     dim.m_min = m_obj["Min"].toDouble();
     dim.m_max = m_obj["Max"].toDouble();
 }
-
-namespace Space
-{
-DimensionModel::~DimensionModel()
-{
-
-}
-}
