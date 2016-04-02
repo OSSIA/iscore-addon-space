@@ -259,7 +259,7 @@ struct Computations
         {
             auto it1 = t1.inverted();
             auto it2 = t2.inverted();
-            #pragma omp parallel for
+            // #pragma omp parallel for
             for(int j = b.min_y; j < b.max_y; j += b.side)
             {
                 double y = j;
@@ -298,7 +298,7 @@ struct Computations
         {
             QPointF c1, c2;
             int n1 = 0, n2 = 0;
-            #pragma omp parallel reduction(+:c1,c2)
+            // #pragma omp parallel reduction(+:c1,c2)
             for(int j = b.min_y; j < b.max_y; j += b.side)
             {
                 double y = j;
