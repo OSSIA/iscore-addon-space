@@ -5,9 +5,8 @@
 #include <iscore/command/Dispatchers/SingleOngoingCommandDispatcher.hpp>
 #include <src/Commands/UpdateTransform.hpp>
 #include <src/EditionSettings.hpp>
+#include <QGraphicsItem>
 #include <src/Bounds.hpp>
-
-class QGraphicsItem;
 
 namespace Space
 {

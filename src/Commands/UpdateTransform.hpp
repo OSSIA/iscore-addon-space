@@ -2,6 +2,8 @@
 #include <iscore/command/SerializableCommand.hpp>
 #include <src/Commands/SpaceCommandFactory.hpp>
 #include <iscore/tools/ModelPath.hpp>
+#include <QPointF>
+#include <QSizeF>
 
 namespace Space
 {
