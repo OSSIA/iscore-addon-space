@@ -9,6 +9,7 @@
 #include "src/Area/SingletonAreaFactoryList.hpp"
 #include "src/Area/AreaModel.hpp"
 #include "src/Area/Circle/CircleAreaModel.hpp"
+#include <iscore/widgets/SignalUtils.hpp>
 
 namespace Space
 {
@@ -34,7 +35,7 @@ AreaSelectionWidget::AreaSelectionWidget(
                     elt.prettyName(),
                     QVariant::fromValue(elt.concreteFactoryKey()));
     }
-    connect(m_comboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+    connect(m_comboBox, SignalUtils::QComboBox_currentIndexChanged_int,
             this, [&] (int index) {
         if(index == -1)
             return;

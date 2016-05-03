@@ -16,6 +16,7 @@
 #include <src/Space/Dimension/DimensionModel.hpp>
 #include <Explorer/DocumentPlugin/DeviceDocumentPlugin.hpp>
 #include <src/Area/Generic/GenericAreaModel.hpp>
+#include <iscore/widgets/SignalUtils.hpp>
 namespace Space
 {
 AreaWidget::AreaWidget(
@@ -45,7 +46,7 @@ AreaWidget::AreaWidget(
         {
             auto cb = new QComboBox;
             m_spaceMappingLayout->addRow(dim.name(), cb);
-            connect(cb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            connect(cb, SignalUtils::QComboBox_currentIndexChanged_int,
                     this, &AreaWidget::on_dimensionMapped);
         }
     }
