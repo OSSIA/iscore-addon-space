@@ -46,7 +46,7 @@ AreaWidget::AreaWidget(
         {
             auto cb = new QComboBox;
             m_spaceMappingLayout->addRow(dim.name(), cb);
-            connect(cb, SignalUtils::QComboBox_currentIndexChanged_int,
+            connect(cb, SignalUtils::QComboBox_currentIndexChanged_int(),
                     this, &AreaWidget::on_dimensionMapped);
         }
     }

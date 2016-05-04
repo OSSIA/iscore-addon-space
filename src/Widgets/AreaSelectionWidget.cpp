@@ -35,7 +35,7 @@ AreaSelectionWidget::AreaSelectionWidget(
                     elt.prettyName(),
                     QVariant::fromValue(elt.concreteFactoryKey()));
     }
-    connect(m_comboBox, SignalUtils::QComboBox_currentIndexChanged_int,
+    connect(m_comboBox, SignalUtils::QComboBox_currentIndexChanged_int(),
             this, [&] (int index) {
         if(index == -1)
             return;
