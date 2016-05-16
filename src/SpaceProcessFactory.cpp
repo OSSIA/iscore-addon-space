@@ -41,10 +41,11 @@ Process::ProcessModel *ProcessFactory::load(
 Process::LayerPresenter *ProcessFactory::makeLayerPresenter(
         const Process::LayerModel & model,
         Process::LayerView * view,
+        const Process::ProcessPresenterContext& ctx,
         QObject *parent)
 {
     // TODO check with panel proxy
-    return new LayerPresenter{model, view, parent};
+    return new LayerPresenter{model, view, ctx, parent};
 }
 
 Process::LayerView *ProcessFactory::makeLayerView(

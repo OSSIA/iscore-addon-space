@@ -38,8 +38,9 @@ class LayerPresenter :
 {
     public:
         LayerPresenter(const Process::LayerModel& model,
-                            Process::LayerView* view,
-                            QObject* parent);
+                       Process::LayerView* view,
+                       const Process::ProcessPresenterContext& ctx,
+                       QObject* parent);
         ~LayerPresenter();
 
         void setWidth(qreal width) override;
@@ -66,10 +67,8 @@ class LayerPresenter :
         const Process::LayerModel& m_model;
         LayerView* m_view;
 
-        const iscore::DocumentContext& m_ctx;
         QMainWindow* m_spaceWindowView{};
         IdContainer<AreaPresenter, AreaModel> m_areas;
-        FocusDispatcher m_focusDispatcher;
 
         EmptySpaceItem* m_spaceItem{};
 

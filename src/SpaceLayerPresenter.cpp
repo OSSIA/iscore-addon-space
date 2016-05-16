@@ -24,19 +24,18 @@ namespace Space
 LayerPresenter::LayerPresenter(
         const Process::LayerModel& model,
         Process::LayerView* view,
+        const Process::ProcessPresenterContext& ctx,
         QObject* parent):
-    Process::LayerPresenter{"LayerPresenter", parent},
+    Process::LayerPresenter{ctx, parent},
     m_model{static_cast<const Space::LayerModel&>(model)},
     m_view{static_cast<LayerView*>(view)},
-    m_ctx{iscore::IDocument::documentContext(m_model.processModel())},
-    m_focusDispatcher{m_ctx.document},
     m_spaceItem{new EmptySpaceItem{m_view}}
 {
     const auto& procmodel = static_cast<Space::ProcessModel&>(m_model.processModel());
     m_spaceWindowView = new QMainWindow;
     m_spaceWindowView->setCentralWidget(
                 new SpaceGuiWindow{
-                    m_ctx,
+                    m_context.context,
                     procmodel,
                     m_spaceWindowView});
 
@@ -145,7 +144,7 @@ void LayerPresenter::reset()
 
 void LayerPresenter::on_areaAdded(const AreaModel & a)
 {
-    AreaFactory* fact = m_ctx.app.components.factory<AreaFactoryList>().get(a.concreteFactoryKey());
+    AreaFactory* fact = m_context.context.app.components.factory<AreaFactoryList>().get(a.concreteFactoryKey());
 
     auto v = fact->makeView(m_spaceItem);
 

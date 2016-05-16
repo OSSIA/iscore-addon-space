@@ -23,6 +23,7 @@ class ProcessFactory final : public Process::ProcessFactory
         Process::LayerPresenter* makeLayerPresenter(
                 const Process::LayerModel &,
                 Process::LayerView *,
+                const Process::ProcessPresenterContext& ctx,
                 QObject *parent) override;
 
         Process::LayerView* makeLayerView(
