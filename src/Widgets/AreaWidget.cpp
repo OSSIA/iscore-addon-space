@@ -171,7 +171,7 @@ void AreaWidget::on_formulaChanged()
     }
 
 
-    auto dev_expl = m_space.context().devices.updateProxy.deviceExplorer;
+    auto& dev_expl = m_space.context().devices.explorer;
     auto area = parser.result();
     for(int i = 0; i < m_spaceMappingLayout->rowCount(); i++)
     {
@@ -186,7 +186,7 @@ void AreaWidget::on_formulaChanged()
 
     for(const auto& sym: area->symbols())
     {
-        auto pw = new ParameterWidget{dev_expl, this};
+        auto pw = new ParameterWidget{&dev_expl, this};
         m_paramMappingLayout->addRow(QString::fromStdString(sym.get_name()), pw);
     }
 
