@@ -1,6 +1,6 @@
 #pragma once
 #include <QString>
-#include <boost/optional.hpp>
+#include <iscore/tools/std/Optional.hpp>
 #include <State/Value.hpp>
 #include <iscore/tools/IdentifiedObject.hpp>
 
@@ -48,7 +48,7 @@ class DimensionModel : public IdentifiedObject<DimensionModel>
         }
 
         const auto& value() const { return m_val; }
-        void setValue(const boost::optional<double>& val) { m_val = val; }
+        void setValue(const optional<double>& val) { m_val = val; }
 
         double min() const
         {
@@ -86,7 +86,7 @@ class DimensionModel : public IdentifiedObject<DimensionModel>
         QString m_name;
 
         // The value is used if valid.
-        boost::optional<double> m_val;
+        optional<double> m_val;
         double m_min;
         double m_max;
 };

@@ -35,7 +35,7 @@ void Visitor<Writer<JSONObject>>::writeTo(
         Space::DimensionModel& dim)
 {
     dim.m_name = m_obj["Name"].toString();
-    dim.m_val = fromJsonValue<boost::optional<double>>(m_obj["Value"]);
+    dim.m_val = fromJsonValue<optional<double>>(m_obj["Value"]);
     dim.m_min = m_obj["Min"].toDouble();
     dim.m_max = m_obj["Max"].toDouble();
 }
