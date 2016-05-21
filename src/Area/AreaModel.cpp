@@ -50,7 +50,6 @@ void AreaModel::setSpaceMapping(const SpaceMap& mapping)
 
 void AreaModel::setParameterMapping(const ParameterMap &parameter_mapping)
 {
-    using namespace GiNaC;
     m_parameterMap = parameter_mapping;
 
     ValMap mapping;
@@ -88,8 +87,6 @@ void AreaModel::setParameterMapping(const ParameterMap &parameter_mapping)
 
 void AreaModel::setCurrentMapping(const ValMap& map)
 {
-    using namespace GiNaC;
-
     m_currentParameterMap = map;
     for(auto sym : map)
     {

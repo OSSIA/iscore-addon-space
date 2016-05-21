@@ -32,5 +32,3 @@ class GenericAreaPresenter : public AreaPresenter
 
 };
 }
-
-Q_DECLARE_METATYPE(spacelib::valued_area)

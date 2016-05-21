@@ -177,14 +177,14 @@ void AreaWidget::on_formulaChanged()
     {
         auto cb = qobject_cast<QComboBox*>(m_spaceMappingLayout->itemAt(i, QFormLayout::ItemRole::FieldRole)->widget());
         cb->addItem(""); // What happens if left blank ? e.g. x=5 in 2D space ? Should just do the correct stuff.
-        for(const auto& sym: area->symbols())
+        for(const auto& sym: area.syms)
         {
             cb->setEnabled(true);
             cb->addItem(QString::fromStdString(sym.get_name()));
         }
     }
 
-    for(const auto& sym: area->symbols())
+    for(const auto& sym: area.syms)
     {
         auto pw = new ParameterWidget{&dev_expl, this};
         m_paramMappingLayout->addRow(QString::fromStdString(sym.get_name()), pw);

@@ -13,10 +13,9 @@ bool AreaParser::check() const
     return !m_splitted.empty() && !m_splitted.front().first.empty();
 }
 
-std::unique_ptr<spacelib::area> AreaParser::result()
+AreaParser::area AreaParser::result()
 {
-    std::vector<GiNaC::relational> rels;
-    std::vector<GiNaC::symbol> syms;
+    area a;
     GiNaC::parser parser;
     for(const auto& elt : m_splitted)
     {
@@ -29,15 +28,15 @@ std::unique_ptr<spacelib::area> AreaParser::result()
             rhs = parser(str[1].toStdString());
         }
 
-        rels.emplace_back(lhs, rhs, op);
+        a.rels.emplace_back(lhs, rhs, op);
     }
 
     // Get all the variables.
     for(const auto& sym : parser.get_syms())
-    { syms.push_back(GiNaC::ex_to<GiNaC::symbol>(sym.second)); }
+    { a.syms.push_back(GiNaC::ex_to<GiNaC::symbol>(sym.second)); }
 
-    return std::make_unique<spacelib::area>(
-                std::move(rels),
-                syms);
+    return a;
 }
+
+
 }

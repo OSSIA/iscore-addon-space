@@ -199,8 +199,6 @@ struct IntType_k;
 }
 
 Q_DECLARE_METATYPE(std::string)
-Q_DECLARE_METATYPE(GiNaC::exmap)
-Q_DECLARE_METATYPE(GiNaC::symbol)
 Q_DECLARE_METATYPE(Id<Space::AreaModel>)
 #define AREA_METADATA(Export, Model, Uuid, ObjectKey, PrettyName, AreaFormula, AreaSpaceMap, AreaParameterMap, IntType) \
     OBJECTKEY_METADATA(Export, Model, ObjectKey) \

@@ -1,16 +1,21 @@
 #pragma once
 #include <Space/area.hpp>
 #include <QStringList>
+#include <ginac/ginac.h>
 
 namespace Space
 {
 class AreaParser
 {
     public:
+        struct area {
+                std::vector<GiNaC::relational> rels;
+                std::vector<GiNaC::symbol> syms;
+        };
         AreaParser(const QStringList& str);
 
         bool check() const;
-        std::unique_ptr<spacelib::area> result();
+        area result();
 
         // Maps to GiNaC::relational::operators
 
