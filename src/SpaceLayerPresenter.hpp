@@ -73,6 +73,10 @@ class LayerPresenter :
         EmptySpaceItem* m_spaceItem{};
 
     public:
-        void fillContextMenu(QMenu*, const QPoint& pos, const QPointF& scenepos) const override;
+        void fillContextMenu(
+                QMenu&,
+                QPoint pos,
+                QPointF scenepos,
+                const Process::LayerContextMenuManager&) const override;
 };
 }

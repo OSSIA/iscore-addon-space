@@ -4,8 +4,8 @@
 namespace Space
 {
 
-ApplicationPlugin::ApplicationPlugin(const iscore::ApplicationContext &app):
-    iscore::GUIApplicationContextPlugin{app, "AudioApplicationPlugin", nullptr}
+ApplicationPlugin::ApplicationPlugin(const iscore::GUIApplicationContext &app):
+    iscore::GUIApplicationContextPlugin{app}
 {
     m_actions = new QActionGroup{nullptr};
     m_actions->setExclusive(true);
@@ -39,11 +39,15 @@ ApplicationPlugin::ApplicationPlugin(const iscore::ApplicationContext &app):
     });
 }
 
-std::vector<iscore::OrderedToolbar> ApplicationPlugin::makeToolbars()
+iscore::GUIElements ApplicationPlugin::makeGUIElements()
 {
+    GUIElements e;
+
     QToolBar* bar = new QToolBar;
     bar->addActions({m_move, m_scale, m_rotate});
-    return std::vector<iscore::OrderedToolbar>{iscore::OrderedToolbar(5, bar)};
+    e.toolbars.emplace_back(bar, StringKey<iscore::Toolbar>("Space"), 0, 5);
+
+    return e;
 }
 
 }

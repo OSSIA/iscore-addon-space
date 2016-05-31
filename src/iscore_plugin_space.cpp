@@ -37,7 +37,8 @@ iscore_plugin_space::~iscore_plugin_space()
 
 }
 
-iscore::GUIApplicationContextPlugin *iscore_plugin_space::make_applicationPlugin(const iscore::ApplicationContext &app)
+iscore::GUIApplicationContextPlugin *iscore_plugin_space::make_applicationPlugin(
+        const iscore::GUIApplicationContext &app)
 {
     return new Space::ApplicationPlugin{app};
 }

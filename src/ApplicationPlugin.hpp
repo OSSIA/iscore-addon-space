@@ -8,12 +8,13 @@ namespace Space
 class ApplicationPlugin : public QObject, public iscore::GUIApplicationContextPlugin
 {
     public:
-        ApplicationPlugin(const iscore::ApplicationContext& app);
+        ApplicationPlugin(const iscore::GUIApplicationContext& app);
         const EditionSettings& settings() const
         { return m_settings; }
 
+
     private:
-        std::vector<iscore::OrderedToolbar> makeToolbars() override;
+        GUIElements makeGUIElements() override;
 
         QAction* m_move{};
         QAction* m_scale{};

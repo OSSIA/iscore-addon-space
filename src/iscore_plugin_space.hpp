@@ -31,7 +31,7 @@ class iscore_plugin_space final :
     private:
 
         iscore::GUIApplicationContextPlugin* make_applicationPlugin(
-                const iscore::ApplicationContext& app) override;
+                const iscore::GUIApplicationContext& app) override;
 
 
         std::vector<std::unique_ptr<iscore::FactoryInterfaceBase>> factories(

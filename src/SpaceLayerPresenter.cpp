@@ -174,11 +174,12 @@ void LayerPresenter::on_areaRemoved(
 
 
 void LayerPresenter::fillContextMenu(
-        QMenu* menu,
-        const QPoint& pos,
-        const QPointF& scenepos) const
+        QMenu& menu,
+        QPoint pos,
+        QPointF scenepos,
+        const Process::LayerContextMenuManager&) const
 {
-    auto act = menu->addAction(tr("Show"));
+    auto act = menu.addAction(tr("Show"));
     connect(act, &QAction::triggered, this, [&] () {
        m_spaceWindowView->show();
     });
