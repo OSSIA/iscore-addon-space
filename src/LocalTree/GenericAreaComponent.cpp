@@ -41,8 +41,9 @@ GenericAreaComponent::GenericAreaComponent(
         wrap->callbackIt = callback_it;
         m_ginacProperties.insert(std::make_pair(param.first, std::move(wrap)));
 
-        addr->setValue(iscore::convert::toOSSIAValue(
-                           State::Value::fromValue(ex_to<numeric>(param.second).to_double())));
+        auto val = iscore::convert::toOSSIAValue(
+                       State::Value::fromValue(ex_to<numeric>(param.second).to_double()));
+        addr->setValue(val.get());
     }
 
     // IF Not listening :
@@ -53,7 +54,10 @@ GenericAreaComponent::GenericAreaComponent(
         auto& addr = m_ginacProperties.at(sym)->addr;
         auto ossia_val = addr->cloneValue();
         if(newVal != Ossia::convert::ToValue(ossia_val))
-            addr->pushValue(iscore::convert::toOSSIAValue(newVal));
+        {
+            auto new_ossia_val = iscore::convert::toOSSIAValue(newVal);
+            addr->pushValue(new_ossia_val.get());
+        }
         delete ossia_val;
     },
     Qt::QueuedConnection);
