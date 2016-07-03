@@ -10,8 +10,14 @@ class LayerModel : public Process::LayerModel
     public:
         using model_type = Space::ProcessModel;
         LayerModel(
-                const Id<Process::LayerModel>&,
                 Space::ProcessModel&,
+                const Id<Process::LayerModel>&,
+                QObject* parent);
+
+        LayerModel(
+                const Space::LayerModel&,
+                Space::ProcessModel&,
+                const Id<Process::LayerModel>&,
                 QObject* parent);
 
         template<typename Impl>

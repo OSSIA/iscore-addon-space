@@ -6,9 +6,22 @@
 #include <iscore/tools/NotifyingMap.hpp>
 #include <src/Space/SpaceModel.hpp>
 
+#include <Process/ProcessMetadata.hpp>
 #include <OSSIA/LocalTree/Scenario/ProcessComponent.hpp>
 #include <OSSIA/LocalTree/Scenario/MetadataParameters.hpp>
 #include <iscore_plugin_space_export.h>
+
+namespace Space
+{
+class ProcessModel;
+}
+PROCESS_METADATA(
+        ISCORE_PLUGIN_SPACE_EXPORT,
+        Space::ProcessModel,
+        "ac4d616e-797d-4fdf-aaf0-0cb131aecc3d",
+        "Space",
+        "Space"
+        )
 namespace Space
 {
 class SpaceModel;
@@ -16,24 +29,6 @@ class LayerModel;
 class ProcessModel;
 namespace Executor { class ProcessExecutor; }
 
-struct ProcessMetadata
-{
-        static const UuidKey<Process::ProcessFactory>& concreteFactoryKey()
-        {
-            static const UuidKey<Process::ProcessFactory>name{"ac4d616e-797d-4fdf-aaf0-0cb131aecc3d"};
-            return name;
-        }
-
-        static QString objectName()
-        {
-            return "Space";
-        }
-
-        static QString factoryPrettyName()
-        {
-            return QObject::tr("Space");
-        }
-};
 class ProcessModel : public Process::ProcessModel
 {
         Q_OBJECT
@@ -87,35 +82,7 @@ class ProcessModel : public Process::ProcessModel
         UuidKey<Process::ProcessFactory> concreteFactoryKey() const override;
         QString prettyName() const override;
 
-        void setDurationAndScale(const TimeValue &newDuration) override;
-        void setDurationAndGrow(const TimeValue &newDuration) override;
-        void setDurationAndShrink(const TimeValue &newDuration) override;
-
-        void reset() override;
-
-        ProcessStateDataInterface *startStateData() const override;
-        ProcessStateDataInterface* endStateData() const override;
-
-        Selection selectableChildren() const override;
-        Selection selectedChildren() const override;
-        void setSelection(const Selection &s) const override;
-
         void serialize_impl(const VisitorVariant &vis) const override;
-
-        Process::LayerModel *makeLayer_impl(
-                const Id<Process::LayerModel> &viewModelId,
-                const QByteArray &constructionData,
-                QObject *parent) override;
-        Process::LayerModel *loadLayer_impl(
-                const VisitorVariant &,
-                QObject *parent) override;
-        Process::LayerModel *cloneLayer_impl(
-                const Id<Process::LayerModel> &newId,
-                const Process::LayerModel &source,
-                QObject *parent) override;
-
-        void startExecution() override;
-        void stopExecution() override;
 
         SpaceModel* m_space{};
         Space::Context m_context;

@@ -1,33 +1,51 @@
 #pragma once
-#include <Process/ProcessFactory.hpp>
+#include <Process/GenericProcessFactory.hpp>
+
+#include <src/SpaceProcess.hpp>
+#include <src/SpaceLayerModel.hpp>
+#include <src/SpaceLayerPresenter.hpp>
+#include <src/SpaceLayerView.hpp>
+#include <iscore/document/DocumentInterface.hpp>
+
+namespace Process
+{
+template<>
+Space::ProcessModel* Process::GenericProcessFactory<
+    Space::ProcessModel,
+    Space::LayerModel,
+    Space::LayerPresenter,
+    Space::LayerView>::makeModel(
+        const TimeValue& duration,
+        const Id<Process::ProcessModel>& id,
+        QObject* parent)
+{
+    auto& doc = iscore::IDocument::documentContext(*parent);
+    return new Space::ProcessModel{doc, duration, id, parent};
+}
+
+template<>
+Space::ProcessModel* Process::GenericProcessFactory<
+    Space::ProcessModel,
+    Space::LayerModel,
+    Space::LayerPresenter,
+    Space::LayerView>::load(
+        const VisitorVariant& vis,
+        QObject* parent)
+{
+    auto& doc = iscore::IDocument::documentContext(*parent);
+    return deserialize_dyn(vis, [&] (auto&& deserializer)
+    { return new Space::ProcessModel{doc, deserializer, parent}; });
+}
+
+
+
+}
 namespace Space
 {
-class ProcessFactory final : public Process::ProcessFactory
-{
-    public:
-        const UuidKey<Process::ProcessFactory>& concreteFactoryKey() const override;
-        QString prettyName() const override;
 
-        Process::ProcessModel* makeModel(
-                const TimeValue &duration,
-                const Id<Process::ProcessModel> &id,
-                QObject *parent) override;
-
-        Process::ProcessModel* load(
-                const VisitorVariant &,
-                QObject *parent) override;
-
-
-        QByteArray makeStaticLayerConstructionData() const override;
-
-        Process::LayerPresenter* makeLayerPresenter(
-                const Process::LayerModel &,
-                Process::LayerView *,
-                const Process::ProcessPresenterContext& ctx,
-                QObject *parent) override;
-
-        Process::LayerView* makeLayerView(
-                const Process::LayerModel &view,
-                QGraphicsItem *parent) override;
-};
+using ProcessFactory = Process::GenericProcessFactory<
+    Space::ProcessModel,
+    Space::LayerModel,
+    Space::LayerPresenter,
+    Space::LayerView>;
 }

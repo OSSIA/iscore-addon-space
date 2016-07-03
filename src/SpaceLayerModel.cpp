@@ -27,8 +27,18 @@ void Visitor<Writer<JSONObject>>::writeTo(Space::LayerModel& lm)
 namespace Space
 {
 LayerModel::LayerModel(
-        const Id<Process::LayerModel> & id,
         Space::ProcessModel & proc,
+        const Id<Process::LayerModel> & id,
+        QObject *parent):
+    Process::LayerModel{id, staticMetaObject.className(), proc, parent}
+{
+
+}
+
+LayerModel::LayerModel(
+        const Space::LayerModel&,
+        Space::ProcessModel & proc,
+        const Id<Process::LayerModel> & id,
         QObject *parent):
     Process::LayerModel{id, staticMetaObject.className(), proc, parent}
 {

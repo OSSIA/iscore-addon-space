@@ -21,20 +21,6 @@ void ProcessModel::serialize_impl(const VisitorVariant& vis) const
     serialize_dyn(vis, *this);
 }
 
-Process::LayerModel* ProcessModel::loadLayer_impl(
-        const VisitorVariant& vis,
-        QObject* parent)
-{
-    return deserialize_dyn(vis, [&] (auto&& deserializer)
-    {
-        auto proc = new LayerModel{
-                        deserializer, *this, parent};
-
-        return proc;
-    });
-}
-
-
 Context makeContext(const iscore::DocumentContext &doc, ProcessModel &sp)
 {
     return Context{doc, sp.space(), sp,
@@ -47,7 +33,7 @@ ProcessModel::ProcessModel(
         const TimeValue &duration,
         const Id<Process::ProcessModel> &id,
         QObject *parent):
-    Process::ProcessModel{id, ProcessMetadata::objectName(), parent},
+    Process::ProcessModel{duration, id, Metadata<ObjectKey_k, ProcessModel>::get(), parent},
     m_space{new SpaceModel{
             Id<SpaceModel>(0),
             this}},
@@ -84,7 +70,7 @@ ProcessModel::ProcessModel(
         const iscore::DocumentContext& doc,
         const Id<Process::ProcessModel> &id,
         QObject *parent):
-    Process::ProcessModel{id, ProcessMetadata::objectName(), parent},
+    Process::ProcessModel{source.duration(), id, Metadata<ObjectKey_k, ProcessModel>::get(), parent},
     m_space{new SpaceModel{
             *source.m_space,
             this}},
@@ -106,8 +92,6 @@ ProcessModel::ProcessModel(
         for(auto& area : areas)
             area.areaChanged(area.currentMapping());
     });
-
-    setDuration(source.duration());
 }
 
 
@@ -121,89 +105,12 @@ ProcessModel* ProcessModel::clone(
 
 UuidKey<Process::ProcessFactory>ProcessModel::concreteFactoryKey() const
 {
-    return ProcessMetadata::concreteFactoryKey();
+    return Metadata<ConcreteFactoryKey_k, ProcessModel>::get();
 }
 
 QString ProcessModel::prettyName() const
 {
-    return tr("Space process");
+    return Metadata<PrettyName_k, ProcessModel>::get();
 }
 
-void ProcessModel::setDurationAndScale(const TimeValue &newDuration)
-{
-    setDuration(newDuration);
-    ISCORE_TODO;
-}
-
-void ProcessModel::setDurationAndGrow(const TimeValue &newDuration)
-{
-    setDuration(newDuration);
-    ISCORE_TODO;
-}
-
-void ProcessModel::setDurationAndShrink(const TimeValue &newDuration)
-{
-    setDuration(newDuration);
-    ISCORE_TODO;
-}
-
-void ProcessModel::reset()
-{
-    ISCORE_TODO;
-}
-
-ProcessStateDataInterface* ProcessModel::startStateData() const
-{
-    ISCORE_TODO;
-    return nullptr;
-}
-
-ProcessStateDataInterface *ProcessModel::endStateData() const
-{
-    ISCORE_TODO;
-    return nullptr;
-}
-
-Selection ProcessModel::selectableChildren() const
-{
-    ISCORE_TODO;
-    return {};
-}
-
-Selection ProcessModel::selectedChildren() const
-{
-    ISCORE_TODO;
-    return {};
-}
-
-void ProcessModel::setSelection(const Selection &s) const
-{
-    ISCORE_TODO;
-}
-
-Process::LayerModel *ProcessModel::makeLayer_impl(
-        const Id<Process::LayerModel> &viewModelId,
-        const QByteArray &constructionData,
-        QObject *parent)
-{
-    return new LayerModel{viewModelId, *this, parent};
-}
-
-Process::LayerModel *ProcessModel::cloneLayer_impl(
-        const Id<Process::LayerModel> &newId,
-        const Process::LayerModel &source,
-        QObject *parent)
-{
-    return new LayerModel{newId, *this, parent};
-}
-
-
-void ProcessModel::startExecution()
-{
-}
-
-void ProcessModel::stopExecution()
-{
-    // Reset everything to the default values.
-}
 }
