@@ -3,8 +3,6 @@
 #include <src/Bounds.hpp>
 #include <src/Area/AreaParser.hpp>
 #include <src/Area/ValMap.hpp>
-#include <Space/area.hpp>
-#include <Space/square_renderer.hpp>
 #include <QThread>
 #include <QMetaType>
 #include <QPainterPath>

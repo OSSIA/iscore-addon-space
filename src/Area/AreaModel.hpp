@@ -1,6 +1,5 @@
 #pragma once
 #include <iscore/tools/IdentifiedObject.hpp>
-#include <Space/area.hpp>
 #include <Device/Address/AddressSettings.hpp>
 #include <src/Area/AreaFactory.hpp>
 #include <src/SpaceContext.hpp>

@@ -2,7 +2,6 @@
 
 #include <iscore/tools/IdentifiedObject.hpp>
 #include <iscore/tools/IdentifiedObjectMap.hpp>
-#include <Space/space.hpp>
 #include <Space/bounded_symbol.hpp>
 
 #include <src/Space/Dimension/DimensionModel.hpp>

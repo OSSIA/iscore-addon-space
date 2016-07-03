@@ -1,5 +1,4 @@
 #pragma once
-#include <Space/area.hpp>
 #include <QStringList>
 #include <ginac/ginac.h>
 
