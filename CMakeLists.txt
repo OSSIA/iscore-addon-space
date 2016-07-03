@@ -32,7 +32,6 @@ set(SRCS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Space/ModelSerialization.cpp"
 
     "${CMAKE_CURRENT_SOURCE_DIR}/src/ProcessSerialization.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/SpaceProcessFactory.cpp"
 
 "${CMAKE_CURRENT_SOURCE_DIR}/src/SpaceProcess.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/SpaceLayerModel.cpp"
@@ -45,7 +44,6 @@ set(SRCS
 
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/ComputationModel.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/ComputationFactory.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/ComputationFactoryList.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/DistanceComputation.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/DistanceComputationFactory.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/CollisionComputation.cpp"
@@ -62,7 +60,6 @@ set(SRCS
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Area/AreaFactory.cpp"
 
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Area/Generic/GenericAreaFactory.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/Area/Generic/GenericAreaModel.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Area/Generic/GenericAreaPresenter.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Area/Generic/GenericAreaView.cpp"
 
