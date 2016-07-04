@@ -58,7 +58,6 @@ GenericAreaComponent::GenericAreaComponent(
             auto new_ossia_val = iscore::convert::toOSSIAValue(newVal);
             addr->pushValue(new_ossia_val.get());
         }
-        delete ossia_val;
     },
     Qt::QueuedConnection);
 }
