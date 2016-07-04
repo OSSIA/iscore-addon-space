@@ -43,7 +43,7 @@ GenericAreaComponent::GenericAreaComponent(
 
         auto val = iscore::convert::toOSSIAValue(
                        State::Value::fromValue(ex_to<numeric>(param.second).to_double()));
-        addr->setValue(val.get());
+        addr->setValue(*val);
     }
 
     // IF Not listening :
@@ -56,7 +56,7 @@ GenericAreaComponent::GenericAreaComponent(
         if(newVal != Ossia::convert::ToValue(ossia_val))
         {
             auto new_ossia_val = iscore::convert::toOSSIAValue(newVal);
-            addr->pushValue(new_ossia_val.get());
+            addr->pushValue(*new_ossia_val);
         }
     },
     Qt::QueuedConnection);
