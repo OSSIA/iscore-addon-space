@@ -80,7 +80,6 @@ class ProcessModel : public Process::ProcessModel
         ProcessModel *clone(const Id<Process::ProcessModel> &newId, QObject *newParent) const override;
 
         UuidKey<Process::ProcessFactory> concreteFactoryKey() const override;
-        QString prettyName() const override;
 
         void serialize_impl(const VisitorVariant &vis) const override;
 

@@ -17,7 +17,12 @@ struct EmptySpaceItem : public QGraphicsItem
 {
         QRectF m_rect;
     public:
-        using QGraphicsItem::QGraphicsItem;
+        EmptySpaceItem(QGraphicsItem* parent = nullptr):
+            QGraphicsItem{parent}
+        {
+            this->setFlag(QGraphicsItem::ItemHasNoContents, true);
+        }
+
         void setRect(const QRectF& rect)
         {
 

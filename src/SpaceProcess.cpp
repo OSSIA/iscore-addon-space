@@ -107,10 +107,4 @@ UuidKey<Process::ProcessFactory>ProcessModel::concreteFactoryKey() const
 {
     return Metadata<ConcreteFactoryKey_k, ProcessModel>::get();
 }
-
-QString ProcessModel::prettyName() const
-{
-    return Metadata<PrettyName_k, ProcessModel>::get();
-}
-
 }
