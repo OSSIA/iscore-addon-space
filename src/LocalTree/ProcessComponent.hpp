@@ -13,7 +13,7 @@ namespace LocalTree
 class ProcessLocalTree final :
         public Ossia::LocalTree::ProcessComponent
 {
-        COMPONENT_METADATA(SpaceProcessLocalTree)
+        COMPONENT_METADATA("08313626-75a8-406e-86fe-b83985c26373")
 
          using system_t = Ossia::LocalTree::DocumentPlugin;
 

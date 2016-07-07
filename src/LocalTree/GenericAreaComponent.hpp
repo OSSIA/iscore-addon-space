@@ -8,7 +8,7 @@ namespace LocalTree
 
 class GenericAreaComponent final : public AreaComponent
 {
-        COMPONENT_METADATA(GenericAreaComponent)
+        COMPONENT_METADATA("8699d312-3e7f-469b-a691-27e05a28e90e")
     public:
         GenericAreaComponent(
                 const Id<iscore::Component>& cmp,
