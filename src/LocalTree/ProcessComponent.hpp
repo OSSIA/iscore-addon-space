@@ -27,7 +27,7 @@ class ProcessLocalTree final :
 
      public:
         ProcessLocalTree(
-                const Id<Component>& id,
+                const Id<iscore::Component>& id,
                 OSSIA::Node& parent,
                 Space::ProcessModel& process,
                 Ossia::LocalTree::DocumentPlugin& doc,
@@ -35,7 +35,7 @@ class ProcessLocalTree final :
 
         template<typename Component_T, typename Element_T, typename Factory_T>
         Component_T* make(
-                const Id<Component>& id,
+                const Id<iscore::Component>& id,
                 Factory_T&,
                 Element_T& elt);
 

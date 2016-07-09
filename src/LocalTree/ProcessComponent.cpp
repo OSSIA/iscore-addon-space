@@ -21,7 +21,7 @@ ProcessLocalTree::ProcessLocalTree(
 
 template<>
 AreaComponent* ProcessLocalTree::make<AreaComponent, AreaModel, AreaComponentFactory>(
-        const Id<Component>& id,
+        const Id<iscore::Component>& id,
         AreaComponentFactory& fact,
         AreaModel& elt)
 {
@@ -30,7 +30,7 @@ AreaComponent* ProcessLocalTree::make<AreaComponent, AreaModel, AreaComponentFac
 
 template<>
 ComputationComponent* ProcessLocalTree::make<ComputationComponent, ComputationModel, ComputationComponentFactory>(
-        const Id<Component>& id,
+        const Id<iscore::Component>& id,
         ComputationComponentFactory& fact,
         ComputationModel& elt)
 {
