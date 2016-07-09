@@ -25,7 +25,6 @@ class ISCORE_PLUGIN_SPACE_EXPORT ComputationComponentFactory :
                 OSSIA::Node& parent,
                 ComputationModel& proc,
                 const Ossia::LocalTree::DocumentPlugin& doc,
-                const iscore::DocumentContext& ctx,
                 QObject* paren_objt) const = 0;
 };
 

@@ -11,7 +11,6 @@ GenericComputationComponent::GenericComputationComponent(
         OSSIA::Node& parent_node,
         ComputationModel& computation,
         const Ossia::LocalTree::DocumentPlugin& doc,
-        const iscore::DocumentContext& ctx,
         QObject* paren_objt):
     ComputationComponent{parent_node, computation, cmp, "GenericComputationComponent", paren_objt}
 {

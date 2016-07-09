@@ -17,15 +17,13 @@ class GenericAreaComponentFactory final
                         OSSIA::Node& parent,
                         AreaModel& proc,
                         const Ossia::LocalTree::DocumentPlugin& doc,
-                        const iscore::DocumentContext& ctx,
                         QObject* paren_objt) const override;
 
         const ConcreteFactoryKey& concreteFactoryKey() const override;
 
         bool matches(
                 Space::AreaModel& p,
-                const Ossia::LocalTree::DocumentPlugin&,
-                const iscore::DocumentContext&) const override;
+                const Ossia::LocalTree::DocumentPlugin&) const override;
 };
 }
 }

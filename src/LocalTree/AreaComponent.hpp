@@ -27,14 +27,12 @@ class SpaceProcessComponentHierarchyManager : public Nano::Observer
                 Component_T& component,
                 Space::ProcessModel& space,
                 const System_T& doc,
-                const iscore::DocumentContext& ctx,
                 QObject* component_as_parent):
             m_process{space},
             m_component{component},
-            m_areaComponentFactory{&ctx.app.components.factory<AreaComponentFactoryList_T>()},
-            m_computationsComponentFactory{&ctx.app.components.factory<ComputationsComponentFactoryList_T>()},
+            m_areaComponentFactory{&doc.context().app.components.template factory<AreaComponentFactoryList_T>()},
+            m_computationsComponentFactory{&doc.context().app.components.template factory<ComputationsComponentFactoryList_T>()},
             m_system{doc},
-            m_context{ctx},
             m_parentObject{component_as_parent}
         {
             setup<AreaModel>();
@@ -89,14 +87,13 @@ class SpaceProcessComponentHierarchyManager : public Nano::Observer
         void add(elt_t& element)
         {
             using map_t = MatchingComponent<elt_t, true>;
-            if(auto factory = (this->*map_t::factory_container)->factory(element, m_system, m_context))
+            if(auto factory = (this->*map_t::factory_container)->factory(element, m_system))
             {
                 auto comp = m_component.template make<typename map_t::type>(
                             getStrongId(element.components),
                             *factory,
                             element,
                             m_system,
-                            m_context,
                             m_parentObject);
                 if(comp)
                 {
@@ -134,7 +131,6 @@ class SpaceProcessComponentHierarchyManager : public Nano::Observer
         const AreaComponentFactoryList_T* m_areaComponentFactory{};
         const ComputationsComponentFactoryList_T* m_computationsComponentFactory{};
         const System_T& m_system;
-        const iscore::DocumentContext& m_context;
 
         QObject* m_parentObject{};
 

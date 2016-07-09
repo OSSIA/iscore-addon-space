@@ -10,12 +10,11 @@ ProcessLocalTree::ProcessLocalTree(
         OSSIA::Node& parent,
         ProcessModel& process,
         const ProcessLocalTree::system_t& doc,
-        const iscore::DocumentContext& ctx,
         QObject* parent_obj):
     ProcessComponent{parent, process, id, "SpaceComponent", parent_obj},
     m_areas{add_node(*node(), "areas")},
     m_computations{add_node(*node(), "computations")},
-    m_hm{*this, process, doc, ctx, this}
+    m_hm{*this, process, doc, this}
 {
     Ossia::LocalTree::make_metadata_node(process.metadata, *node(), m_properties, this);
 }
@@ -26,10 +25,9 @@ AreaComponent* ProcessLocalTree::make<AreaComponent, AreaModel, AreaComponentFac
         AreaComponentFactory& fact,
         AreaModel& elt,
         const system_t& doc,
-        const iscore::DocumentContext& ctx,
         QObject* parent)
 {
-    return fact.make(id, *m_areas, elt, doc, ctx, parent);
+    return fact.make(id, *m_areas, elt, doc, parent);
 }
 
 template<>
@@ -38,10 +36,9 @@ ComputationComponent* ProcessLocalTree::make<ComputationComponent, ComputationMo
         ComputationComponentFactory& fact,
         ComputationModel& elt,
         const system_t& doc,
-        const iscore::DocumentContext& ctx,
         QObject* parent)
 {
-    return fact.make(id, *m_computations, elt, doc, ctx, parent);
+    return fact.make(id, *m_computations, elt, doc, parent);
 }
 
 void ProcessLocalTree::removing(const AreaModel& elt, const AreaComponent& comp)

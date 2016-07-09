@@ -33,7 +33,6 @@ class ProcessLocalTree final :
                 OSSIA::Node& parent,
                 Space::ProcessModel& process,
                 const system_t& doc,
-                const iscore::DocumentContext& ctx,
                 QObject* parent_obj);
 
         template<typename Component_T, typename Element_T, typename Factory_T>
@@ -42,7 +41,6 @@ class ProcessLocalTree final :
                 Factory_T&,
                 Element_T& elt,
                 const system_t& doc,
-                const iscore::DocumentContext& ctx,
                 QObject* parent);
 
         void removing(

@@ -15,15 +15,13 @@ class ProcessLocalTreeFactory final :
 
         bool matches(
                 Process::ProcessModel& p,
-                const Ossia::LocalTree::DocumentPlugin&,
-                const iscore::DocumentContext&) const override;
+                const Ossia::LocalTree::DocumentPlugin&) const override;
 
         Ossia::LocalTree::ProcessComponent* make(
                 const Id<iscore::Component>& id,
                 OSSIA::Node& parent,
                 Process::ProcessModel& proc,
                 Ossia::LocalTree::DocumentPlugin& doc,
-                const iscore::DocumentContext& ctx,
                 QObject* paren_objt) const override;
 };
 

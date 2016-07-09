@@ -21,8 +21,7 @@ ProcessLocalTreeFactory::concreteFactoryKey() const
 
 bool ProcessLocalTreeFactory::matches(
         Process::ProcessModel& p,
-        const Ossia::LocalTree::DocumentPlugin&,
-        const iscore::DocumentContext&) const
+        const Ossia::LocalTree::DocumentPlugin&) const
 {
     return dynamic_cast<Space::ProcessModel*>(&p);
 }
@@ -33,13 +32,12 @@ Ossia::LocalTree::ProcessComponent* ProcessLocalTreeFactory::make(
         OSSIA::Node& parent,
         Process::ProcessModel& proc,
         Ossia::LocalTree::DocumentPlugin& doc,
-        const iscore::DocumentContext& ctx,
         QObject* paren_objt) const
 {
     return new ProcessLocalTree{
         id, parent,
                 static_cast<Space::ProcessModel&>(proc),
-                doc, ctx, paren_objt};
+                doc, paren_objt};
 }
 }
 }

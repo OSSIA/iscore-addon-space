@@ -11,10 +11,9 @@ GenericComputationComponentFactory::make(
         OSSIA::Node& parent,
         ComputationModel& proc,
         const Ossia::LocalTree::DocumentPlugin& doc,
-        const iscore::DocumentContext& ctx,
         QObject* paren_objt) const
 {
-    return new GenericComputationComponent{cmp, parent, proc, doc, ctx, paren_objt};
+    return new GenericComputationComponent{cmp, parent, proc, doc, paren_objt};
 }
 
 const GenericComputationComponentFactory::ConcreteFactoryKey&
@@ -26,8 +25,7 @@ GenericComputationComponentFactory::concreteFactoryKey() const
 
 bool GenericComputationComponentFactory::matches(
         ComputationModel& p,
-        const Ossia::LocalTree::DocumentPlugin&,
-        const iscore::DocumentContext&) const
+        const Ossia::LocalTree::DocumentPlugin&) const
 {
     return true;
 }

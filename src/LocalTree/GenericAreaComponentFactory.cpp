@@ -10,11 +10,10 @@ AreaComponent* GenericAreaComponentFactory::make(
         OSSIA::Node& parent,
         AreaModel& proc,
         const Ossia::LocalTree::DocumentPlugin& doc,
-        const iscore::DocumentContext& ctx,
         QObject* paren_objt) const
 {
     return new GenericAreaComponent{
-        cmp, parent, proc, doc, ctx, paren_objt};
+        cmp, parent, proc, doc, paren_objt};
 }
 
 const GenericAreaComponentFactory::ConcreteFactoryKey& GenericAreaComponentFactory::concreteFactoryKey() const
@@ -25,8 +24,7 @@ const GenericAreaComponentFactory::ConcreteFactoryKey& GenericAreaComponentFacto
 
 bool GenericAreaComponentFactory::matches(
         AreaModel& p,
-        const Ossia::LocalTree::DocumentPlugin&,
-        const iscore::DocumentContext&) const
+        const Ossia::LocalTree::DocumentPlugin&) const
 {
     return true;
 }

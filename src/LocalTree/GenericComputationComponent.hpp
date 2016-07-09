@@ -16,7 +16,6 @@ class GenericComputationComponent final : public ComputationComponent
                 OSSIA::Node& parent_node,
                 ComputationModel& proc,
                 const Ossia::LocalTree::DocumentPlugin& doc,
-                const iscore::DocumentContext& ctx,
                 QObject* paren_objt);
 };
 

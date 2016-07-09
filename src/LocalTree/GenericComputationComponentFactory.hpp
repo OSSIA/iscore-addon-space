@@ -16,15 +16,13 @@ class GenericComputationComponentFactory final
                         OSSIA::Node& parent,
                         ComputationModel& proc,
                         const Ossia::LocalTree::DocumentPlugin& doc,
-                        const iscore::DocumentContext& ctx,
                         QObject* paren_objt) const override;
 
         const ConcreteFactoryKey& concreteFactoryKey() const override;
 
         bool matches(
                 ComputationModel& p,
-                const Ossia::LocalTree::DocumentPlugin&,
-                const iscore::DocumentContext&) const override;
+                const Ossia::LocalTree::DocumentPlugin&) const override;
 };
 
 }

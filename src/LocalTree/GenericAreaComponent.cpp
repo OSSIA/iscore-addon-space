@@ -10,7 +10,6 @@ GenericAreaComponent::GenericAreaComponent(
         OSSIA::Node& parent_node,
         AreaModel& area,
         const Ossia::LocalTree::DocumentPlugin& doc,
-        const iscore::DocumentContext& ctx,
         QObject* paren_objt):
     AreaComponent{parent_node, area, cmp, "GenericAreaComponent", paren_objt}
 {
