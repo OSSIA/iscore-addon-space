@@ -92,9 +92,7 @@ class SpaceProcessComponentHierarchyManager : public Nano::Observer
                 auto comp = m_component.template make<typename map_t::type>(
                             getStrongId(element.components),
                             *factory,
-                            element,
-                            m_system,
-                            m_parentObject);
+                            element);
                 if(comp)
                 {
                     element.components.add(comp);

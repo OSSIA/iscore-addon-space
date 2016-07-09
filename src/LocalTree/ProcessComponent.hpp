@@ -11,11 +11,9 @@ namespace Space
 namespace LocalTree
 {
 class ProcessLocalTree final :
-        public Ossia::LocalTree::ProcessComponent
+        public Ossia::LocalTree::ProcessComponent_T<Space::ProcessModel>
 {
         COMPONENT_METADATA("08313626-75a8-406e-86fe-b83985c26373")
-
-         using system_t = Ossia::LocalTree::DocumentPlugin;
 
         using hierarchy_t =
            SpaceProcessComponentHierarchyManager<
@@ -24,7 +22,7 @@ class ProcessLocalTree final :
                ComputationComponent,
                AreaComponentFactoryList,
                ComputationComponentFactoryList,
-              system_t
+              Ossia::LocalTree::DocumentPlugin
         >;
 
      public:
@@ -32,16 +30,14 @@ class ProcessLocalTree final :
                 const Id<Component>& id,
                 OSSIA::Node& parent,
                 Space::ProcessModel& process,
-                const system_t& doc,
+                Ossia::LocalTree::DocumentPlugin& doc,
                 QObject* parent_obj);
 
         template<typename Component_T, typename Element_T, typename Factory_T>
         Component_T* make(
                 const Id<Component>& id,
                 Factory_T&,
-                Element_T& elt,
-                const system_t& doc,
-                QObject* parent);
+                Element_T& elt);
 
         void removing(
                 const AreaModel& elt,
