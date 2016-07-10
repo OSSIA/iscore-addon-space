@@ -27,11 +27,24 @@ class ISCORE_PLUGIN_SPACE_EXPORT ComputationComponentFactory :
                 QObject* paren_objt) const = 0;
 };
 
-template<typename Computation_T>
+template<typename ComputationComponent_T>
 class ComputationComponentFactory_T :
         public ComputationComponentFactory
 {
     public:
+        using model_type = typename ComputationComponent_T::model_type;
+        using component_type = ComputationComponent_T;
+
+        static auto static_concreteFactoryKey()
+        {
+            return ComputationComponent_T::static_key().impl();
+        }
+
+        ConcreteFactoryKey concreteFactoryKey() const final override
+        {
+            return ComputationComponent_T::static_key().impl(); // Note : here there is a conversion between UuidKey<Component> and ConcreteFactoryKey
+        }
+
         ComputationComponent* make(
                 const Id<iscore::Component>& cmp,
                 OSSIA::Node& parent,
@@ -39,25 +52,32 @@ class ComputationComponentFactory_T :
                 const Ossia::LocalTree::DocumentPlugin& doc,
                 QObject* paren_objt) const override
         {
-            return new Computation_T{cmp, parent, proc, doc, paren_objt};
+            return new ComputationComponent_T{cmp, parent, proc, doc, paren_objt};
         }
 
         bool matches(
                 ComputationModel& p,
-                const Ossia::LocalTree::DocumentPlugin&) const override
-        {
-            return dynamic_cast<Computation_T*>(&p);
-        }
+                const Ossia::LocalTree::DocumentPlugin&) const override;
 };
 
-#define SPACE_LOCALTREE_COMPUTATION_COMPONENT_FACTORY(FactoryName, Uuid, Model) \
-class FactoryName final : \
-        public Space::LocalTree::ComputationComponentFactory_T<Model> \
-{ \
-        ISCORE_CONCRETE_FACTORY(Uuid)  \
-};
+template<typename ComputationComponent_T>
+bool ComputationComponentFactory_T<ComputationComponent_T>::matches(
+        ComputationModel& p,
+        const Ossia::LocalTree::DocumentPlugin&) const
+{
+    return dynamic_cast<ComputationComponent_T*>(&p);
+}
 
-SPACE_LOCALTREE_COMPUTATION_COMPONENT_FACTORY(GenericComputationComponentFactory, "133fdabd-bec5-4359-aab6-df0177b6761b", GenericComputationComponent)
+template<>
+inline bool ComputationComponentFactory_T<GenericComputationComponent>::matches(
+        ComputationModel& p,
+        const Ossia::LocalTree::DocumentPlugin&) const
+{
+    return false; // We want it to be the fall-back default case
+}
+
+
+using GenericComputationComponentFactory = ComputationComponentFactory_T<GenericComputationComponent>;
 
 using ComputationComponentFactoryList =
     iscore::DefaultedGenericComponentFactoryList<
