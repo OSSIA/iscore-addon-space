@@ -195,52 +195,16 @@ std::shared_ptr<OSSIA::StateElement> ProcessExecutor::offset(const OSSIA::TimeVa
 
 
 
-ProcessComponent::ProcessComponent(
-        RecreateOnPlay::ConstraintElement& parentConstraint,
+Component::Component(
+        ::RecreateOnPlay::ConstraintElement& parentConstraint,
         Space::ProcessModel& element,
-        const RecreateOnPlay::Context& ctx,
+        const ::RecreateOnPlay::Context& ctx,
         const Id<iscore::Component>& id,
         QObject* parent):
-    RecreateOnPlay::ProcessComponent{parentConstraint, element, id, "SpaceComponent", parent}
+    ::RecreateOnPlay::ProcessComponent_T<Space::ProcessModel>{parentConstraint, element, ctx, id, "SpaceComponent", parent}
 {
     m_ossia_process = std::make_shared<ProcessExecutor>(element, ctx.devices.list());
 }
-
-const iscore::Component::Key&ProcessComponent::key() const
-{
-    static iscore::Component::Key k("SpaceComponent");
-    return k;
-}
-
-ProcessComponentFactory::~ProcessComponentFactory()
-{
-
-}
-
-RecreateOnPlay::ProcessComponent* ProcessComponentFactory::make(
-        RecreateOnPlay::ConstraintElement& cst,
-        Process::ProcessModel& proc,
-        const RecreateOnPlay::Context& ctx,
-        const Id<iscore::Component>& id,
-        QObject* parent) const
-{
-    return new ProcessComponent{cst, static_cast<ProcessModel&>(proc), ctx, id, parent};
-}
-
-const ProcessComponentFactory::ConcreteFactoryKey&
-ProcessComponentFactory::concreteFactoryKey() const
-{
-    static ConcreteFactoryKey k("76083e8d-135f-4565-bbb7-71bccd26e3c5");
-    return k;
-}
-
-bool ProcessComponentFactory::matches(
-        Process::ProcessModel& proc,
-        const RecreateOnPlay::DocumentPlugin&) const
-{
-    return dynamic_cast<ProcessModel*>(&proc);
-}
-
 
 }
 }

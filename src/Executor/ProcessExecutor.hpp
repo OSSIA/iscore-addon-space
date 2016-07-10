@@ -42,40 +42,20 @@ class ProcessExecutor final :
         std::shared_ptr<OSSIA::State> m_end;
 };
 
-class ProcessComponent final : public RecreateOnPlay::ProcessComponent
+class Component final :
+        public ::RecreateOnPlay::ProcessComponent_T<Space::ProcessModel>
 {
+        COMPONENT_METADATA("49e581e8-00cf-4133-b645-66661f04425b")
     public:
-        ProcessComponent(
-                RecreateOnPlay::ConstraintElement& parentConstraint,
+        Component(
+                ::RecreateOnPlay::ConstraintElement& parentConstraint,
                 ProcessModel& element,
-                const RecreateOnPlay::Context& ctx,
+                const ::RecreateOnPlay::Context& ctx,
                 const Id<iscore::Component>& id,
                 QObject* parent);
-
-    private:
-        const Key &key() const override;
 };
 
-
-class ProcessComponentFactory final :
-        public RecreateOnPlay::ProcessComponentFactory
-{
-    public:
-        virtual ~ProcessComponentFactory();
-
-        virtual RecreateOnPlay::ProcessComponent* make(
-                RecreateOnPlay::ConstraintElement& cst,
-                Process::ProcessModel& proc,
-                const RecreateOnPlay::Context& ctx,
-                const Id<iscore::Component>& id,
-                QObject* parent) const override;
-
-        const ConcreteFactoryKey& concreteFactoryKey() const override;
-
-        bool matches(
-                Process::ProcessModel& proc,
-                const RecreateOnPlay::DocumentPlugin&) const override;
-};
+EXECUTOR_PROCESS_COMPONENT_FACTORY(ComponentFactory, "71748ebb-93c1-4c54-9aff-23e14eec5454", Component, Space::ProcessModel)
 
 }
 }
