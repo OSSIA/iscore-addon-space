@@ -8,11 +8,11 @@
 namespace Space
 {
 
-AreaModel*GenericAreaFactory::makeModel(
+AreaModel*GenericAreaFactory::make(
         const QStringList& formula,
         const Space::Context& space,
         const Id<AreaModel>& id,
-        QObject* parent) const
+        QObject* parent)
 {
     return new GenericAreaModel{formula, space, id, parent};
 }
@@ -20,8 +20,7 @@ AreaModel*GenericAreaFactory::makeModel(
 AreaModel*GenericAreaFactory::load(
         const VisitorVariant& data,
         const Context& space,
-        QObject* parent) const
-
+        QObject* parent)
 {
     return deserialize_dyn(data, [&] (auto&& deserializer)
     { return new GenericAreaModel{deserializer, space, parent}; });

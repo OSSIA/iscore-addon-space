@@ -15,9 +15,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT ComputationComponentFactory :
             Ossia::LocalTree::DocumentPlugin,
             Space::LocalTree::ComputationComponentFactory>
 {
-        ISCORE_ABSTRACT_FACTORY_DECL(
-                Space::LocalTree::ComputationComponentFactory,
-                "7649bf56-5809-4b4c-9bfc-3d15a01ab90c")
+        ISCORE_ABSTRACT_FACTORY("7649bf56-5809-4b4c-9bfc-3d15a01ab90c")
     public:
         virtual ~ComputationComponentFactory();
 
@@ -56,7 +54,7 @@ class ComputationComponentFactory_T :
 class FactoryName final : \
         public Space::LocalTree::ComputationComponentFactory_T<Model> \
 { \
-        ISCORE_CONCRETE_FACTORY_DECL(Uuid)  \
+        ISCORE_CONCRETE_FACTORY(Uuid)  \
 };
 
 SPACE_LOCALTREE_COMPUTATION_COMPONENT_FACTORY(GenericComputationComponentFactory, "133fdabd-bec5-4359-aab6-df0177b6761b", GenericComputationComponent)

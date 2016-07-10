@@ -51,7 +51,7 @@ void AddArea::redo() const
     auto factory = context.components.factory<AreaFactoryList>().get(m_areaType);
     ISCORE_ASSERT(factory);
 
-    AreaModel* ar = factory->makeModel(m_areaFormula, proc.context(), m_createdAreaId, &proc);
+    AreaModel* ar = factory->make(m_areaFormula, proc.context(), m_createdAreaId, &proc);
 
     ar->setSpaceMapping(m_spaceMap);
     ar->setParameterMapping(m_symbolToAddressMap);

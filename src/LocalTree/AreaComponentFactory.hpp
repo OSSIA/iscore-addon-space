@@ -13,9 +13,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaComponentFactory :
             Ossia::LocalTree::DocumentPlugin,
             Space::LocalTree::AreaComponentFactory>
 {
-        ISCORE_ABSTRACT_FACTORY_DECL(
-                Space::LocalTree::AreaComponentFactory,
-                "b3fef66c-2d9e-4e5a-8023-d200bf122c90")
+        ISCORE_ABSTRACT_FACTORY("b3fef66c-2d9e-4e5a-8023-d200bf122c90")
     public:
         virtual ~AreaComponentFactory();
 
@@ -56,7 +54,7 @@ class AreaComponentFactory_T :
 class FactoryName final : \
         public Space::LocalTree::AreaComponentFactory_T<Model> \
 { \
-        ISCORE_CONCRETE_FACTORY_DECL(Uuid)  \
+        ISCORE_CONCRETE_FACTORY(Uuid)  \
 };
 
 

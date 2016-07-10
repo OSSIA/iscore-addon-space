@@ -7,16 +7,16 @@ namespace Space
 class GenericAreaFactory : public AreaMetadata_T<GenericArea, AreaFactory>
 {
     public:
-        AreaModel* makeModel(
+        AreaModel* make(
                 const QStringList& formula,
                 const Space::Context& space,
                 const Id<AreaModel>&,
-                QObject* parent) const override;
+                QObject* parent) override;
 
         AreaModel* load(
                         const VisitorVariant& data,
                         const Space::Context& space,
-                        QObject* parent) const override;
+                        QObject* parent) override;
 
         AreaPresenter* makePresenter(
                 QGraphicsItem* view,

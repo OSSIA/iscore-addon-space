@@ -2,10 +2,5 @@
 
 namespace Space
 {
-
-ComputationFactory::~ComputationFactory()
-{
-
-}
-
+ComputationFactory::~ComputationFactory() = default;
 }

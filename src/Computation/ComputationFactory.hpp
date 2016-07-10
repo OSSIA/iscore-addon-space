@@ -6,32 +6,23 @@
 #include <src/Area/Pointer/PointerAreaModel.hpp>
 #include <src/Area/Rectangle/Area.hpp>
 #include <src/Area/Generic/GenericAreaModel.hpp>
+#include <iscore/plugins/customfactory/ModelFactory.hpp>
 #include <QObject>
 
 namespace Space
 {
 class AreaModel;
 class ComputationModel;
-class ComputationFactory : public iscore::AbstractFactory<ComputationFactory>
+class ComputationFactory :
+   public iscore::AbstractFactory<ComputationFactory>,
+   public iscore::GenericModelFactory<
+        ComputationModel,
+        iscore::MakeArgs<const AreaModel&, const AreaModel&, const Space::Context&, const Id<ComputationModel>&, QObject*>,
+        iscore::LoadArgs<const VisitorVariant&, const Space::Context&, QObject*>>
 {
-            ISCORE_ABSTRACT_FACTORY_DECL(
-                    ComputationFactory,
-                    "60563b69-d8a2-40d4-93b8-284b142fbf4b")
-
+        ISCORE_ABSTRACT_FACTORY("60563b69-d8a2-40d4-93b8-284b142fbf4b")
     public:
         virtual ~ComputationFactory();
-        virtual QString prettyName() const = 0;
-        virtual ComputationModel* make(
-                const AreaModel& a1,
-                const AreaModel& a2,
-                const Space::Context& ctx,
-                const Id<ComputationModel>& comp,
-                QObject* parent) = 0;
-
-        virtual ComputationModel* load(
-                const VisitorVariant& data,
-                const Space::Context& space,
-                QObject* parent) = 0;
 };
 
 template<typename Computation_T>
@@ -245,7 +236,7 @@ class ComputationFactory_T : public ComputationFactory
 class FactoryName final : \
         public Space::ComputationFactory_T<Model> \
 { \
-        ISCORE_CONCRETE_FACTORY_DECL(Uuid)  \
+        ISCORE_CONCRETE_FACTORY(Uuid)  \
 };
 
 Q_DECLARE_METATYPE(UuidKey<Space::ComputationFactory>)
