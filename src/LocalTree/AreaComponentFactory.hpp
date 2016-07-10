@@ -1,6 +1,7 @@
 #pragma once
 #include <src/LocalTree/AreaComponent.hpp>
 #include <iscore/component/ComponentFactory.hpp>
+#include <src/LocalTree/GenericAreaComponent.hpp>
 
 namespace Space
 {
@@ -28,12 +29,48 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaComponentFactory :
 
 
 
-// TODO return Generic by default
+template<typename Area_T>
+class AreaComponentFactory_T :
+        public AreaComponentFactory
+{
+    public:
+        AreaComponent* make(
+                const Id<iscore::Component>& cmp,
+                OSSIA::Node& parent,
+                AreaModel& proc,
+                const Ossia::LocalTree::DocumentPlugin& doc,
+                QObject* paren_objt) const override
+        {
+            return new Area_T{cmp, parent, proc, doc, paren_objt};
+        }
+
+        bool matches(
+                AreaModel& p,
+                const Ossia::LocalTree::DocumentPlugin&) const override
+        {
+            return dynamic_cast<Area_T*>(&p);
+        }
+};
+
+#define SPACE_LOCALTREE_AREA_COMPONENT_FACTORY(FactoryName, Uuid, Model) \
+class FactoryName final : \
+        public Space::LocalTree::AreaComponentFactory_T<Model> \
+{ \
+        ISCORE_CONCRETE_FACTORY_DECL(Uuid)  \
+};
+
+
+SPACE_LOCALTREE_AREA_COMPONENT_FACTORY(
+        GenericAreaComponentFactory,
+        "85f1131b-6c5e-4a77-ab47-66fee3ae64af",
+        GenericAreaComponent)
+
 using AreaComponentFactoryList =
-    iscore::GenericComponentFactoryList<
+    iscore::DefaultedGenericComponentFactoryList<
             AreaModel,
             Ossia::LocalTree::DocumentPlugin,
-            Space::LocalTree::AreaComponentFactory>;
+            Space::LocalTree::AreaComponentFactory,
+            Space::LocalTree::GenericAreaComponentFactory>;
 
 }
 }

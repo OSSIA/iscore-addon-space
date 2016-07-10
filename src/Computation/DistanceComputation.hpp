@@ -4,7 +4,15 @@
 #include <src/Area/Pointer/PointerAreaModel.hpp>
 #include <src/Area/Generic/GenericAreaModel.hpp>
 #include <src/Area/Rectangle/Area.hpp>
+#include <src/Computation/ComputationFactory.hpp>
 #include <atomic>
+
+namespace Space
+{
+class DistanceComputation;
+}
+
+COMPUTATION_METADATA(, Space::DistanceComputation, "2437bda3-6c38-46b5-bfac-9661bfcd5bec", "DistanceComputation", "Distance")
 namespace Space
 {
 class MatrixDistanceComputer;
@@ -86,4 +94,5 @@ class DistanceComputation :
 
         std::atomic<double> m_currentResult{false};
 };
+COMPUTATION_FACTORY(DistanceComputationFactory, "2437bda3-6c38-46b5-bfac-9661bfcd5bec", DistanceComputation)
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <Editor/TimeProcess.h>
+#include <Editor/State.h>
 
 #include <OSSIA/Executor/ProcessElement.hpp>
 #include <OSSIA/Executor/ExecutorContext.hpp>

@@ -4,7 +4,14 @@
 #include <src/Area/Pointer/PointerAreaModel.hpp>
 #include <src/Area/Rectangle/Area.hpp>
 #include <src/Area/Generic/GenericAreaModel.hpp>
+#include <src/Computation/ComputationFactory.hpp>
 #include <atomic>
+namespace Space
+{
+class CollisionComputation;
+}
+
+COMPUTATION_METADATA(, Space::CollisionComputation, "3b48d241-c11b-479e-b188-82cef922a0d9", "CollisionComputation", "Collision")
 namespace Space
 {
 class MatrixCollisionComputer;
@@ -84,4 +91,7 @@ class CollisionComputation :
 
         std::atomic_bool m_currentResult{false};
 };
+
+COMPUTATION_FACTORY(CollisionComputationFactory, "3b48d241-c11b-479e-b188-82cef922a0d9", CollisionComputation)
+
 }

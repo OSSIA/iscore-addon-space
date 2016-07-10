@@ -37,7 +37,7 @@ void AddComputation::redo() const
     auto factory = context.components.factory<ComputationFactoryList>().get(m_type);
     ISCORE_ASSERT(factory);
 
-    ComputationModel* comp = factory->makeModel(
+    ComputationModel* comp = factory->make(
                              proc.areas.at(m_area1),
                              proc.areas.at(m_area2),
                              proc.context(),

@@ -199,10 +199,10 @@ struct IntType_k;
 
 Q_DECLARE_METATYPE(std::string)
 Q_DECLARE_METATYPE(Id<Space::AreaModel>)
+
+// TODO use me
 #define AREA_METADATA(Export, Model, Uuid, ObjectKey, PrettyName, AreaFormula, AreaSpaceMap, AreaParameterMap, IntType) \
-    OBJECTKEY_METADATA(Export, Model, ObjectKey) \
-    UUID_METADATA(Export, Process::ProcessFactory, Model, Uuid) \
-    TR_TEXT_METADATA(Export, Model, PrettyName_k, PrettyName) \
+    MODEL_METADATA(Export, Process::ProcessFactory, Model, Uuid, ObjectKey, PrettyName) \
     TYPED_METADATA(Export, Model, Formula_k, QStringList, AreaFormula) \
     TYPED_METADATA(Export, Model, Formula_k, Space::SpaceMap, AreaSpaceMap) \
     TYPED_METADATA(Export, Model, Formula_k, Space::ParameterMap, AreaParameterMap) \

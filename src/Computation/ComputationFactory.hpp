@@ -21,7 +21,7 @@ class ComputationFactory : public iscore::AbstractFactory<ComputationFactory>
     public:
         virtual ~ComputationFactory();
         virtual QString prettyName() const = 0;
-        virtual ComputationModel* makeModel(
+        virtual ComputationModel* make(
                 const AreaModel& a1,
                 const AreaModel& a2,
                 const Space::Context& ctx,
@@ -32,10 +32,7 @@ class ComputationFactory : public iscore::AbstractFactory<ComputationFactory>
                 const VisitorVariant& data,
                 const Space::Context& space,
                 QObject* parent) = 0;
-
 };
-
-
 
 template<typename Computation_T>
 auto make_computation(
@@ -212,6 +209,43 @@ void load_computation(
 
 }
 
+
+template<typename Model_T>
+class ComputationFactory_T : public ComputationFactory
+{
+    public:
+        QString prettyName() const override
+        { return Metadata<PrettyName_k, Model_T>::get(); }
+
+        UuidKey<Space::ComputationFactory> concreteFactoryKey() const override
+        { return Metadata<ConcreteFactoryKey_k, Model_T>::get(); }
+
+        Model_T* make(
+                const AreaModel& a1,
+                const AreaModel& a2,
+                const Space::Context& ctx,
+                const Id<ComputationModel>& comp,
+                QObject* parent) override
+        {
+            return make_computation<Model_T>(a1, a2, ctx, comp, parent);
+        }
+
+        Model_T* load(
+                const VisitorVariant& vis,
+                const Context& space,
+                QObject* parent) override
+        {
+            return deserialize_dyn(vis, [&] (auto&& deserializer)
+            { return new Model_T{deserializer, space, parent};} );
+        }
+};
+
 }
+#define COMPUTATION_FACTORY(FactoryName, Uuid, Model) \
+class FactoryName final : \
+        public Space::ComputationFactory_T<Model> \
+{ \
+        ISCORE_CONCRETE_FACTORY_DECL(Uuid)  \
+};
 
 Q_DECLARE_METATYPE(UuidKey<Space::ComputationFactory>)

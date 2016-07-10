@@ -9,17 +9,18 @@
 #include "Area/Generic/GenericAreaFactory.hpp"
 #include "Area/Rectangle/Factory.hpp"
 #include <src/SpaceProcess.hpp>
-#include <src/LocalTree/GenericAreaComponentFactory.hpp>
-#include <src/LocalTree/GenericComputationComponentFactory.hpp>
-#include <src/LocalTree/ProcessComponentFactory.hpp>
+#include <src/LocalTree/ProcessComponent.hpp>
+#include <src/LocalTree/AreaComponentFactory.hpp>
+#include <src/LocalTree/ComputationComponentFactory.hpp>
+#include <src/LocalTree/ProcessComponent.hpp>
 #include <src/Executor/ProcessExecutor.hpp>
 #include <iscore/plugins/customfactory/FactoryFamily.hpp>
 #include <iscore/plugins/customfactory/FactorySetup.hpp>
 #include <OSSIA/Executor/DocumentPlugin.hpp>
 #include <src/ApplicationPlugin.hpp>
 #include <src/Computation/ComputationFactoryList.hpp>
-#include <src/Computation/CollisionComputationFactory.hpp>
-#include <src/Computation/DistanceComputationFactory.hpp>
+#include <src/Computation/CollisionComputation.hpp>
+#include <src/Computation/DistanceComputation.hpp>
 
 iscore_plugin_space::iscore_plugin_space() :
     QObject {}

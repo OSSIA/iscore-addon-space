@@ -79,3 +79,6 @@ class ComputationModel :
 }
 
 Q_DECLARE_METATYPE(Id<Space::ComputationModel>)
+
+#define COMPUTATION_METADATA(Export, Model, Uuid, ObjectKey, PrettyName) \
+    MODEL_METADATA(Export, Space::ComputationFactory, Model, Uuid, ObjectKey, PrettyName)

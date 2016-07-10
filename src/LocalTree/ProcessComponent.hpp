@@ -53,5 +53,12 @@ class ProcessLocalTree final :
 
         hierarchy_t m_hm;
 };
+
+
+LOCALTREE_PROCESS_COMPONENT_FACTORY(
+        ProcessLocalTreeFactory,
+        "08313626-75a8-406e-86fe-b83985c26373",
+        ProcessLocalTree,
+        Space::ProcessModel)
 }
 }
