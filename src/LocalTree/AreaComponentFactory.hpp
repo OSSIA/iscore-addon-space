@@ -55,23 +55,17 @@ class AreaComponentFactory_T :
             return new AreaComponent_T{cmp, parent, static_cast<model_type&>(proc), doc, paren_objt};
         }
 
-        bool matches(
-                AreaModel& p,
-                const Ossia::LocalTree::DocumentPlugin&) const override;
+        bool matches(const AreaModel& p) const override;
 };
 
 template<typename AreaComponent_T>
-bool AreaComponentFactory_T<AreaComponent_T>::matches(
-        AreaModel& p,
-        const Ossia::LocalTree::DocumentPlugin&) const
+bool AreaComponentFactory_T<AreaComponent_T>::matches(const AreaModel& p) const
 {
-    return dynamic_cast<model_type*>(&p);
+    return dynamic_cast<const model_type*>(&p);
 }
 
 template<>
-inline bool AreaComponentFactory_T<GenericAreaComponent>::matches(
-        AreaModel& p,
-        const Ossia::LocalTree::DocumentPlugin&) const
+inline bool AreaComponentFactory_T<GenericAreaComponent>::matches(const AreaModel& p) const
 {
     return false; // We want it to be the fall-back default case
 }

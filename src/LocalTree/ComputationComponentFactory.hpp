@@ -55,23 +55,19 @@ class ComputationComponentFactory_T :
             return new ComputationComponent_T{cmp, parent, proc, doc, paren_objt};
         }
 
-        bool matches(
-                ComputationModel& p,
-                const Ossia::LocalTree::DocumentPlugin&) const override;
+        bool matches(const ComputationModel& p) const override;
 };
 
 template<typename ComputationComponent_T>
 bool ComputationComponentFactory_T<ComputationComponent_T>::matches(
-        ComputationModel& p,
-        const Ossia::LocalTree::DocumentPlugin&) const
+        const ComputationModel& p) const
 {
     return dynamic_cast<ComputationComponent_T*>(&p);
 }
 
 template<>
 inline bool ComputationComponentFactory_T<GenericComputationComponent>::matches(
-        ComputationModel& p,
-        const Ossia::LocalTree::DocumentPlugin&) const
+        const ComputationModel& p) const
 {
     return false; // We want it to be the fall-back default case
 }

@@ -87,7 +87,7 @@ class SpaceProcessComponentHierarchyManager : public Nano::Observer
         void add(elt_t& element)
         {
             using map_t = MatchingComponent<elt_t, true>;
-            auto& factory = (this->*map_t::factory_container)->factory(element, m_system);
+            auto& factory = (this->*map_t::factory_container)->factory(element);
             auto comp = m_component.template make<typename map_t::type>(
                         getStrongId(element.components),
                         factory,
