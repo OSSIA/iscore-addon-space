@@ -143,7 +143,7 @@ State::Value DistanceComputation::result() const
 
 UuidKey<ComputationFactory> DistanceComputation::concreteFactoryKey() const
 {
-    return "2437bda3-6c38-46b5-bfac-9661bfcd5bec";
+    return_uuid("2437bda3-6c38-46b5-bfac-9661bfcd5bec");
 }
 
 void DistanceComputation::loadAreas(const ProcessModel& p)

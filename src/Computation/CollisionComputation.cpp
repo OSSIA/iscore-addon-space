@@ -125,7 +125,7 @@ State::Value CollisionComputation::result() const
 
 UuidKey<ComputationFactory> CollisionComputation::concreteFactoryKey() const
 {
-    return "3b48d241-c11b-479e-b188-82cef922a0d9";
+    return_uuid("3b48d241-c11b-479e-b188-82cef922a0d9");
 }
 
 void CollisionComputation::loadAreas(const ProcessModel& p)
