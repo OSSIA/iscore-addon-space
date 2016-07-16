@@ -37,6 +37,7 @@ class SpaceModel : public IdentifiedObject<SpaceModel>
             vis.writeTo(*this);
         }
 
+        ~SpaceModel();
         Bounds bounds() const;
         void addDimension(DimensionModel* dim);
         void removeDimension(const Id<DimensionModel> &id);

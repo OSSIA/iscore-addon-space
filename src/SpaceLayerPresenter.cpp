@@ -60,7 +60,6 @@ LayerPresenter::LayerPresenter(
 
 LayerPresenter::~LayerPresenter()
 {
-    deleteGraphicsItem(m_view);
 }
 
 void LayerPresenter::setWidth(qreal width)

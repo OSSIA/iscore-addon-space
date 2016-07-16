@@ -36,7 +36,6 @@ AreaPresenter::AreaPresenter(
 
 AreaPresenter::~AreaPresenter()
 {
-    deleteGraphicsItem(m_view);
 }
 
 const Id<AreaModel>& AreaPresenter::id() const

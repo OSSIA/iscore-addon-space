@@ -70,6 +70,7 @@ class ProcessModel : public Process::ProcessModel
         const Space::Context& context() const
         { return m_context; }
 
+        // TODO delete components before !!!
         NotifyingMap<AreaModel> areas;
         NotifyingMap<ComputationModel> computations;
 

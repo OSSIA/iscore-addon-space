@@ -5,6 +5,7 @@
 #include <iscore/command/Dispatchers/SingleOngoingCommandDispatcher.hpp>
 #include <src/Commands/UpdateTransform.hpp>
 #include <src/EditionSettings.hpp>
+#include <iscore/widgets/GraphicsItem.hpp>
 #include <QGraphicsItem>
 #include <src/Bounds.hpp>
 
@@ -49,7 +50,7 @@ class AreaPresenter : public NamedObject
         Bounds m_curBounds;
 
         const AreaModel& m_model;
-        AreaView* m_view{};
+        graphics_item_ptr<AreaView> m_view;
 
         SingleOngoingCommandDispatcher<UpdateTransform> m_dispatcher;
 };

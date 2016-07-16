@@ -29,6 +29,11 @@ SpaceModel::SpaceModel(const SpaceModel& other, QObject* parent):
     emit spaceChanged();
 }
 
+SpaceModel::~SpaceModel()
+{
+
+}
+
 Bounds SpaceModel::bounds() const
 {
     const auto& x = dimension("x");

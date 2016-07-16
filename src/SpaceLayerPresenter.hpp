@@ -2,6 +2,7 @@
 #include <Process/LayerPresenter.hpp>
 #include <Process/Focus/FocusDispatcher.hpp>
 #include <iscore/tools/IdentifiedObjectMap.hpp>
+#include <iscore/widgets/GraphicsItem.hpp>
 
 #include "nano_observer.hpp"
 #include "Area/AreaModel.hpp"
@@ -70,7 +71,7 @@ class LayerPresenter :
         void on_areaRemoved(const AreaModel& a);
 
         const Process::LayerModel& m_model;
-        LayerView* m_view;
+        graphics_item_ptr<LayerView> m_view;
 
         QMainWindow* m_spaceWindowView{};
         IdContainer<AreaPresenter, AreaModel> m_areas;
