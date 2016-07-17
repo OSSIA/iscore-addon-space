@@ -15,7 +15,7 @@ class AreaModel;
 class GenericAreaView;
 class AreaView;
 using TransformData = std::tuple<QPointF, QSizeF, qreal>;
-class AreaPresenter : public NamedObject
+class AreaPresenter : public QObject
 {
     public:
         using model_type = AreaModel;

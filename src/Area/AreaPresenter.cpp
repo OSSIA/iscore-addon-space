@@ -15,7 +15,7 @@ AreaPresenter::AreaPresenter(
         AreaView* view,
         const AreaModel& model,
         QObject *parent):
-    NamedObject{"AreaPresenter", parent},
+    QObject{parent},
     m_model{model},
     m_view{view},
     m_dispatcher{model.context().doc.commandStack}
