@@ -9,7 +9,6 @@
 #include <src/ApplicationPlugin.hpp>
 #include <src/Area/SingletonAreaFactoryList.hpp>
 #include <src/Computation/ComputationFactoryList.hpp>
-#include <iscore/plugins/documentdelegate/plugin/ElementPluginModelList.hpp>
 #include <iscore/serialization/VisitorCommon.hpp>
 #include <src/Space/SpaceModel.hpp>
 
