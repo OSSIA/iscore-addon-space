@@ -34,6 +34,8 @@ class ProcessModel : public Process::ProcessModel
         Q_OBJECT
         ISCORE_SERIALIZE_FRIENDS(Space::ProcessModel, DataStream)
         ISCORE_SERIALIZE_FRIENDS(Space::ProcessModel, JSONObject)
+        MODEL_METADATA_IMPL(Space::ProcessModel)
+
 
         friend
         Space::Context makeContext(const iscore::DocumentContext& doc, Space::ProcessModel& sp);
@@ -47,7 +49,6 @@ class ProcessModel : public Process::ProcessModel
 
         ProcessModel(
                 const ProcessModel& other,
-                const iscore::DocumentContext& doc,
                 const Id<Process::ProcessModel> &id,
                 QObject *parent);
 
@@ -78,11 +79,6 @@ class ProcessModel : public Process::ProcessModel
     private:
         SpaceModel& space()
         { return *m_space; }
-        ProcessModel *clone(const Id<Process::ProcessModel> &newId, QObject *newParent) const override;
-
-        UuidKey<Process::ProcessFactory> concreteFactoryKey() const override;
-
-        void serialize_impl(const VisitorVariant &vis) const override;
 
         SpaceModel* m_space{};
         Space::Context m_context;

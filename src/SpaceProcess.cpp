@@ -14,12 +14,6 @@
 
 namespace Space
 {
-
-void ProcessModel::serialize_impl(const VisitorVariant& vis) const
-{
-    serialize_dyn(vis, *this);
-}
-
 Context makeContext(const iscore::DocumentContext &doc, ProcessModel &sp)
 {
     return Context{doc, sp.space(), sp,
@@ -66,14 +60,13 @@ ProcessModel::ProcessModel(
 
 ProcessModel::ProcessModel(
         const ProcessModel& source,
-        const iscore::DocumentContext& doc,
         const Id<Process::ProcessModel> &id,
         QObject *parent):
     Process::ProcessModel{source.duration(), id, Metadata<ObjectKey_k, ProcessModel>::get(), parent},
     m_space{new SpaceModel{
             *source.m_space,
             this}},
-    m_context{makeContext(doc, *this)}
+    m_context{makeContext(source.context().doc, *this)} // TODO this will break if for some reason we clone in another document
 {
     metadata.setName(QString("Space.%1").arg(*this->id().val()));
 
@@ -93,17 +86,4 @@ ProcessModel::ProcessModel(
     });
 }
 
-
-ProcessModel* ProcessModel::clone(
-        const Id<Process::ProcessModel> &newId,
-        QObject *newParent) const
-{
-    auto& doc = iscore::IDocument::documentContext(*newParent);
-    return new ProcessModel{*this,  doc, newId, newParent};
-}
-
-UuidKey<Process::ProcessFactory>ProcessModel::concreteFactoryKey() const
-{
-    return Metadata<ConcreteFactoryKey_k, ProcessModel>::get();
-}
 }
