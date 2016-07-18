@@ -14,7 +14,7 @@ Space::ProcessModel* Process::GenericProcessFactory<
     Space::ProcessModel,
     Space::LayerModel,
     Space::LayerPresenter,
-    Space::LayerView>::makeModel(
+    Space::LayerView>::make(
         const TimeValue& duration,
         const Id<Process::ProcessModel>& id,
         QObject* parent)
