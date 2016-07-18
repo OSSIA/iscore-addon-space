@@ -45,9 +45,7 @@ set(SRCS
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/ComputationModel.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/ComputationFactory.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/DistanceComputation.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/DistanceComputationFactory.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/CollisionComputation.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/CollisionComputationFactory.cpp"
 
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Space/Dimension/DimensionModel.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Space/Viewport/ViewportModel.cpp"
@@ -84,15 +82,12 @@ set(SRCS
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Executor/ProcessExecutor.cpp"
 
 "${CMAKE_CURRENT_SOURCE_DIR}/src/LocalTree/ProcessComponent.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/LocalTree/ProcessComponentFactory.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/LocalTree/AreaComponent.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/LocalTree/ComputationComponent.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/LocalTree/AreaComponentFactory.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/LocalTree/ComputationComponentFactory.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/LocalTree/GenericAreaComponent.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/LocalTree/GenericComputationComponent.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/LocalTree/GenericAreaComponentFactory.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/LocalTree/GenericComputationComponentFactory.cpp"
 
 "${CMAKE_CURRENT_SOURCE_DIR}/src/iscore_plugin_space.cpp"
 )
