@@ -27,7 +27,7 @@ GenericAreaComponent::GenericAreaComponent(
         auto& node = *node_it;
         auto addr = node->getAddress();
 
-        auto callback_it = addr->addCallback([=] (const OSSIA::SafeValue& v)
+        auto callback_it = addr->addCallback([=] (const OSSIA::Value& v)
         {
           auto val = State::convert::value<double>(Ossia::convert::ToValue(v));
           m_area.updateCurrentMapping(param.first, val);
