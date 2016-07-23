@@ -78,12 +78,12 @@ ProcessExecutor::~ProcessExecutor()
     }
 }
 
-std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state()
+OSSIA::StateElement ProcessExecutor::state()
 {
     return state(parent->getPosition());
 }
 
-std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state(double t)
+OSSIA::StateElement ProcessExecutor::state(double t)
 {
     using namespace GiNaC;
 
@@ -134,7 +134,7 @@ std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state(double t)
     }
 
 
-    auto state = OSSIA::State::create();
+    OSSIA::State state;
     // State of each area
     // Shall be done in the "tree" component.
     /*
@@ -156,7 +156,7 @@ std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state(double t)
         State::Message mess{computation.address(), computation.result()};
         auto ossia_mess = iscore::convert::message(mess, m_devices);
         if(ossia_mess)
-            state->stateElements().push_back(ossia_mess);
+            state.children.push_back(std::move(*ossia_mess));
         /*
         // We look for its tree component
         auto compo_it = find_if(
@@ -186,7 +186,7 @@ std::shared_ptr<OSSIA::StateElement> ProcessExecutor::state(double t)
     return state;
 }
 
-std::shared_ptr<OSSIA::StateElement> ProcessExecutor::offset(OSSIA::TimeValue off)
+OSSIA::StateElement ProcessExecutor::offset(OSSIA::TimeValue off)
 {
     return state(off / parent->getDurationNominal());
 }
