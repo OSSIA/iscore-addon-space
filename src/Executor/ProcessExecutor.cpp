@@ -154,9 +154,8 @@ OSSIA::StateElement ProcessExecutor::state(double t)
     for(const ComputationModel& computation : m_process.computations)
     {
         State::Message mess{computation.address(), computation.result()};
-        auto ossia_mess = iscore::convert::message(mess, m_devices);
-        if(ossia_mess)
-            state.children.push_back(std::move(*ossia_mess));
+
+        state.add(iscore::convert::message(mess, m_devices));
         /*
         // We look for its tree component
         auto compo_it = find_if(
