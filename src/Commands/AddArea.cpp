@@ -19,7 +19,6 @@
 
 #include <src/Area/Circle/CircleAreaModel.hpp>
 #include <src/Area/Pointer/PointerAreaModel.hpp>
-#include <iscore/tools/std/StdlibWrapper.hpp>
 
 namespace Space
 {

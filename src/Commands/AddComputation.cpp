@@ -4,7 +4,6 @@
 #include <src/Computation/ComputationFactoryList.hpp>
 #include <iscore/tools/SettableIdentifierGeneration.hpp>
 #include <iscore/tools/ModelPathSerialization.hpp>
-#include <iscore/tools/std/StdlibWrapper.hpp>
 
 namespace Space
 {
