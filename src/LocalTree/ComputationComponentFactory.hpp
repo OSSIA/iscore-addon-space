@@ -21,7 +21,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT ComputationComponentFactory :
 
         virtual ComputationComponent* make(
                 const Id<iscore::Component>&,
-                OSSIA::Node& parent,
+                ossia::net::node_base& parent,
                 ComputationModel& proc,
                 const Ossia::LocalTree::DocumentPlugin& doc,
                 QObject* paren_objt) const = 0;
@@ -47,7 +47,7 @@ class ComputationComponentFactory_T :
 
         ComputationComponent* make(
                 const Id<iscore::Component>& cmp,
-                OSSIA::Node& parent,
+                ossia::net::node_base& parent,
                 ComputationModel& proc,
                 const Ossia::LocalTree::DocumentPlugin& doc,
                 QObject* paren_objt) const override

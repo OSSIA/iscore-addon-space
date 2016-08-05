@@ -7,7 +7,7 @@ namespace LocalTree
 
 GenericAreaComponent::GenericAreaComponent(
         const Id<iscore::Component>& cmp,
-        OSSIA::Node& parent_node,
+        ossia::net::node_base& parent_node,
         AreaModel& area,
         const Ossia::LocalTree::DocumentPlugin& doc,
         QObject* paren_objt):
@@ -27,7 +27,7 @@ GenericAreaComponent::GenericAreaComponent(
         auto& node = *node_it;
         auto addr = node->getAddress();
 
-        auto callback_it = addr->addCallback([=] (const OSSIA::Value& v)
+        auto callback_it = addr->addCallback([=] (const ossia::value& v)
         {
           auto val = State::convert::value<double>(Ossia::convert::ToValue(v));
           m_area.updateCurrentMapping(param.first, val);

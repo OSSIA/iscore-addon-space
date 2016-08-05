@@ -8,7 +8,7 @@ namespace LocalTree
 
 GenericComputationComponent::GenericComputationComponent(
         const Id<iscore::Component>& cmp,
-        OSSIA::Node& parent_node,
+        ossia::net::node_base& parent_node,
         ComputationModel& computation,
         const Ossia::LocalTree::DocumentPlugin& doc,
         QObject* paren_objt):

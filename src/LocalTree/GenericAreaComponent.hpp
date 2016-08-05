@@ -13,7 +13,7 @@ class GenericAreaComponent final : public AreaComponent
             using model_type = AreaModel;
         GenericAreaComponent(
                 const Id<iscore::Component>& cmp,
-                OSSIA::Node& parent_node,
+                ossia::net::node_base& parent_node,
                 AreaModel& proc,
                 const Ossia::LocalTree::DocumentPlugin& doc,
                 QObject* paren_objt);

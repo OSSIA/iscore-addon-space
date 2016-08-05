@@ -13,7 +13,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT ComputationComponent : public iscore::Component
 {
     public:
         ComputationComponent(
-                OSSIA::Node& node,
+                ossia::net::node_base& node,
                 ComputationModel& Computation,
                 const Id<iscore::Component>& id,
                 const QString& name,
@@ -21,18 +21,15 @@ class ISCORE_PLUGIN_SPACE_EXPORT ComputationComponent : public iscore::Component
 
         virtual ~ComputationComponent();
 
-        const std::shared_ptr<OSSIA::Node>& node() const;
-        const std::shared_ptr<OSSIA::Node>& valueNode() const
-        { return m_valueNode; }
+        ossia::net::node_base& node() const;
 
     protected:
-        OSSIA::Node& thisNode() const;
+        ossia::net::node_base& thisNode() const;
 
     private:
         MetadataNamePropertyWrapper m_thisNode;
 
     protected:
-        std::shared_ptr<OSSIA::Node> m_valueNode;
         std::vector<std::unique_ptr<Ossia::LocalTree::BaseProperty>> m_properties;
 };
 

@@ -28,7 +28,7 @@ class ProcessLocalTree final :
      public:
         ProcessLocalTree(
                 const Id<iscore::Component>& id,
-                OSSIA::Node& parent,
+                ossia::net::node_base& parent,
                 Space::ProcessModel& process,
                 Ossia::LocalTree::DocumentPlugin& doc,
                 QObject* parent_obj);
@@ -46,8 +46,8 @@ class ProcessLocalTree final :
                 const ComputationModel& elt,
                 const ComputationComponent& comp);
 
-        std::shared_ptr<OSSIA::Node> m_areas;
-        std::shared_ptr<OSSIA::Node> m_computations;
+        std::shared_ptr<ossia::net::node_base> m_areas;
+        std::shared_ptr<ossia::net::node_base> m_computations;
 
         std::vector<std::unique_ptr<Ossia::LocalTree::BaseProperty>> m_properties;
 

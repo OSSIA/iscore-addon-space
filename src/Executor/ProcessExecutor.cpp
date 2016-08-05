@@ -5,8 +5,8 @@
 #include <src/LocalTree/AreaComponent.hpp>
 #include <src/LocalTree/ComputationComponent.hpp>
 #include <OSSIA/Executor/DocumentPlugin.hpp>
-#include <Editor/TimeConstraint.h>
-#include <Editor/Message.h>
+#include <ossia/editor/scenario/time_constraint.hpp>
+#include <ossia/editor/state/state_element.hpp>
 #include <OSSIA/iscore2OSSIA.hpp>
 namespace Space
 {
@@ -78,12 +78,12 @@ ProcessExecutor::~ProcessExecutor()
     }
 }
 
-OSSIA::StateElement ProcessExecutor::state()
+ossia::state_element ProcessExecutor::state()
 {
     return state(parent->getPosition());
 }
 
-OSSIA::StateElement ProcessExecutor::state(double t)
+ossia::state_element ProcessExecutor::state(double t)
 {
     using namespace GiNaC;
 
@@ -134,7 +134,7 @@ OSSIA::StateElement ProcessExecutor::state(double t)
     }
 
 
-    OSSIA::State state;
+    ossia::state state;
     // State of each area
     // Shall be done in the "tree" component.
     /*
@@ -185,7 +185,7 @@ OSSIA::StateElement ProcessExecutor::state(double t)
     return state;
 }
 
-OSSIA::StateElement ProcessExecutor::offset(OSSIA::TimeValue off)
+ossia::state_element ProcessExecutor::offset(ossia::time_value off)
 {
     return state(off / parent->getDurationNominal());
 }
@@ -200,7 +200,7 @@ Component::Component(
         const ::RecreateOnPlay::Context& ctx,
         const Id<iscore::Component>& id,
         QObject* parent):
-    ::RecreateOnPlay::ProcessComponent_T<Space::ProcessModel>{parentConstraint, element, ctx, id, "SpaceComponent", parent}
+    ::RecreateOnPlay::ProcessComponent_T<Space::ProcessModel, Space::Executor::ProcessExecutor>{parentConstraint, element, ctx, id, "SpaceComponent", parent}
 {
     m_ossia_process = std::make_shared<ProcessExecutor>(element, ctx.devices.list());
 }

@@ -153,7 +153,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaComponent : public iscore::Component
 {
     public:
         AreaComponent(
-                OSSIA::Node& node,
+                ossia::net::node_base& node,
                 AreaModel& area,
                 const Id<iscore::Component>& id,
                 const QString& name,
@@ -161,10 +161,10 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaComponent : public iscore::Component
 
         virtual ~AreaComponent();
 
-        const std::shared_ptr<OSSIA::Node>& node() const;
+        const std::shared_ptr<ossia::net::node_base>& node() const;
 
     protected:
-        OSSIA::Node& thisNode() const;
+        ossia::net::node_base& thisNode() const;
     private:
         MetadataNamePropertyWrapper m_thisNode;
 

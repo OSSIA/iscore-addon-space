@@ -19,7 +19,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaComponentFactory :
 
         virtual AreaComponent* make(
                 const Id<iscore::Component>&,
-                OSSIA::Node& parent,
+                ossia::net::node_base& parent,
                 AreaModel& proc,
                 const Ossia::LocalTree::DocumentPlugin& doc,
                 QObject* paren_objt) const = 0;
@@ -47,7 +47,7 @@ class AreaComponentFactory_T :
 
         AreaComponent_T* make(
                 const Id<iscore::Component>& cmp,
-                OSSIA::Node& parent,
+                ossia::net::node_base& parent,
                 AreaModel& proc,
                 const Ossia::LocalTree::DocumentPlugin& doc,
                 QObject* paren_objt) const override

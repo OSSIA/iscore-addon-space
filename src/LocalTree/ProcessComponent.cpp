@@ -7,7 +7,7 @@ namespace LocalTree
 
 ProcessLocalTree::ProcessLocalTree(
         const Id<iscore::Component>& id,
-        OSSIA::Node& parent,
+        ossia::net::node_base& parent,
         ProcessModel& process,
         Ossia::LocalTree::DocumentPlugin& doc,
         QObject* parent_obj):

@@ -13,7 +13,7 @@ class GenericComputationComponent final : public ComputationComponent
     public:
         GenericComputationComponent(
                 const Id<iscore::Component>& cmp,
-                OSSIA::Node& parent_node,
+                ossia::net::node_base& parent_node,
                 ComputationModel& proc,
                 const Ossia::LocalTree::DocumentPlugin& doc,
                 QObject* paren_objt);

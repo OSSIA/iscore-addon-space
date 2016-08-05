@@ -6,7 +6,7 @@ namespace LocalTree
 {
 
 ComputationComponent::ComputationComponent(
-        OSSIA::Node& node,
+        ossia::net::node_base& node,
         ComputationModel& computation,
         const Id<iscore::Component>& id,
         const QString& name,
@@ -21,11 +21,11 @@ ComputationComponent::~ComputationComponent()
 
 }
 
-const std::shared_ptr<OSSIA::Node>& ComputationComponent::node() const
+ossia::net::node_base& ComputationComponent::node() const
 { return m_thisNode.node; }
 
-OSSIA::Node& ComputationComponent::thisNode() const
-{ return *node(); }
+ossia::net::node_base& ComputationComponent::thisNode() const
+{ return node(); }
 
 }
 }

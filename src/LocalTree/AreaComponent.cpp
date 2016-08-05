@@ -6,7 +6,7 @@ namespace LocalTree
 {
 
 AreaComponent::AreaComponent(
-        OSSIA::Node& node,
+        ossia::net::node_base& node,
         AreaModel& area,
         const Id<iscore::Component>& id,
         const QString& name,
@@ -22,10 +22,10 @@ AreaComponent::~AreaComponent()
 
 }
 
-const std::shared_ptr<OSSIA::Node>& AreaComponent::node() const
+const std::shared_ptr<ossia::net::node_base>& AreaComponent::node() const
 { return m_thisNode.node; }
 
-OSSIA::Node& AreaComponent::thisNode() const
+ossia::net::node_base& AreaComponent::thisNode() const
 { return *node(); }
 
 }
