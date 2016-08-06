@@ -161,7 +161,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaComponent : public iscore::Component
 
         virtual ~AreaComponent();
 
-        const std::shared_ptr<ossia::net::node_base>& node() const;
+        ossia::net::node_base& node() const;
 
     protected:
         ossia::net::node_base& thisNode() const;

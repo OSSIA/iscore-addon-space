@@ -22,11 +22,12 @@ AreaComponent::~AreaComponent()
 
 }
 
-const std::shared_ptr<ossia::net::node_base>& AreaComponent::node() const
+ossia::net::node_base& AreaComponent::node() const
 { return m_thisNode.node; }
 
+// TODO removeme
 ossia::net::node_base& AreaComponent::thisNode() const
-{ return *node(); }
+{ return node(); }
 
 }
 

@@ -13,21 +13,17 @@ GenericAreaComponent::GenericAreaComponent(
         QObject* paren_objt):
     AreaComponent{parent_node, area, cmp, "GenericAreaComponent", paren_objt}
 {
-    Ossia::LocalTree::make_metadata_node(area.metadata, *node(), m_properties, this);
+    Ossia::LocalTree::make_metadata_node(area.metadata, node(), m_properties, this);
 
     using namespace GiNaC;
     for(const auto& param : area.currentMapping())
     {
         constexpr auto t = Ossia::convert::MatchingType<double>::val;
-        auto node_it = thisNode().emplace(
-                           thisNode().children().end(),
-                           param.first.toStdString(),
-                           t,
-                           OSSIA::AccessMode::BI);
-        auto& node = *node_it;
-        auto addr = node->getAddress();
+        auto node = thisNode().createChild(param.first.toStdString());
+        auto addr = node->createAddress(t);
+        addr->setAccessMode(ossia::access_mode::BI);
 
-        auto callback_it = addr->addCallback([=] (const ossia::value& v)
+        auto callback_it = addr->add_callback([=] (const ossia::value& v)
         {
           auto val = State::convert::value<double>(Ossia::convert::ToValue(v));
           m_area.updateCurrentMapping(param.first, val);
@@ -49,10 +45,10 @@ GenericAreaComponent::GenericAreaComponent(
                      this, [=] (QString sym, double val) {
         auto newVal = State::Value::fromValue(val);
         auto& addr = m_ginacProperties.at(sym)->addr;
-        auto ossia_val = addr->cloneValue();
+        auto ossia_val = addr.cloneValue();
         if(newVal != Ossia::convert::ToValue(ossia_val))
         {
-            addr->pushValue(iscore::convert::toOSSIAValue(newVal));
+            addr.pushValue(iscore::convert::toOSSIAValue(newVal));
         }
     },
     Qt::QueuedConnection);
