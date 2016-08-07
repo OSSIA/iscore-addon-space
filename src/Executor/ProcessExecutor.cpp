@@ -202,7 +202,7 @@ Component::Component(
         QObject* parent):
     ::RecreateOnPlay::ProcessComponent_T<Space::ProcessModel, Space::Executor::ProcessExecutor>{parentConstraint, element, ctx, id, "SpaceComponent", parent}
 {
-    m_ossia_process = std::make_shared<ProcessExecutor>(element, ctx.devices.list());
+    m_ossia_process = new ProcessExecutor(element, ctx.devices.list());
 }
 
 }

@@ -46,8 +46,8 @@ class ProcessLocalTree final :
                 const ComputationModel& elt,
                 const ComputationComponent& comp);
 
-        std::shared_ptr<ossia::net::node_base> m_areas;
-        std::shared_ptr<ossia::net::node_base> m_computations;
+        ossia::net::node_base& m_areas;
+        ossia::net::node_base& m_computations;
 
         std::vector<std::unique_ptr<Ossia::LocalTree::BaseProperty>> m_properties;
 

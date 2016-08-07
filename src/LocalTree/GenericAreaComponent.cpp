@@ -29,7 +29,7 @@ GenericAreaComponent::GenericAreaComponent(
           m_area.updateCurrentMapping(param.first, val);
         });
 
-        auto wrap = std::make_unique<Ossia::LocalTree::BaseCallbackWrapper>(node, addr);
+        auto wrap = std::make_unique<Ossia::LocalTree::BaseCallbackWrapper>(*node, *addr);
         wrap->callbackIt = callback_it;
         m_ginacProperties.insert(std::make_pair(param.first, std::move(wrap)));
 
