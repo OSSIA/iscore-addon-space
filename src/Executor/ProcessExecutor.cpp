@@ -4,10 +4,10 @@
 #include <Explorer/DocumentPlugin/DeviceDocumentPlugin.hpp>
 #include <src/LocalTree/AreaComponent.hpp>
 #include <src/LocalTree/ComputationComponent.hpp>
-#include <OSSIA/Executor/DocumentPlugin.hpp>
+#include <Engine/Executor/DocumentPlugin.hpp>
 #include <ossia/editor/scenario/time_constraint.hpp>
 #include <ossia/editor/state/state_element.hpp>
-#include <OSSIA/iscore2OSSIA.hpp>
+#include <Engine/iscore2OSSIA.hpp>
 namespace Space
 {
 namespace Executor
@@ -155,7 +155,7 @@ ossia::state_element ProcessExecutor::state(double t)
     {
         State::Message mess{computation.address(), computation.result()};
 
-        state.add(iscore::convert::message(mess, m_devices));
+        state.add(Engine::iscore_to_ossia::message(mess, m_devices));
         /*
         // We look for its tree component
         auto compo_it = find_if(
@@ -195,12 +195,12 @@ ossia::state_element ProcessExecutor::offset(ossia::time_value off)
 
 
 Component::Component(
-        ::RecreateOnPlay::ConstraintElement& parentConstraint,
+        ::Engine::Execution::ConstraintElement& parentConstraint,
         Space::ProcessModel& element,
-        const ::RecreateOnPlay::Context& ctx,
+        const ::Engine::Execution::Context& ctx,
         const Id<iscore::Component>& id,
         QObject* parent):
-    ::RecreateOnPlay::ProcessComponent_T<Space::ProcessModel, Space::Executor::ProcessExecutor>{parentConstraint, element, ctx, id, "SpaceComponent", parent}
+    ::Engine::Execution::ProcessComponent_T<Space::ProcessModel, Space::Executor::ProcessExecutor>{parentConstraint, element, ctx, id, "SpaceComponent", parent}
 {
     m_ossia_process = new ProcessExecutor(element, ctx.devices.list());
 }

@@ -7,8 +7,8 @@
 #include <src/Space/SpaceModel.hpp>
 
 #include <Process/ProcessMetadata.hpp>
-#include <OSSIA/LocalTree/Scenario/ProcessComponent.hpp>
-#include <OSSIA/LocalTree/Scenario/MetadataParameters.hpp>
+#include <Engine/LocalTree/Scenario/ProcessComponent.hpp>
+#include <Engine/LocalTree/Scenario/MetadataParameters.hpp>
 #include <iscore_plugin_space_export.h>
 
 namespace Space

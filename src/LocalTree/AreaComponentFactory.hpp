@@ -10,7 +10,7 @@ namespace LocalTree
 class ISCORE_PLUGIN_SPACE_EXPORT AreaComponentFactory :
         public iscore::GenericComponentFactory<
         AreaModel,
-            Ossia::LocalTree::DocumentPlugin,
+            Engine::LocalTree::DocumentPlugin,
             Space::LocalTree::AreaComponentFactory>
 {
         ISCORE_ABSTRACT_FACTORY("b3fef66c-2d9e-4e5a-8023-d200bf122c90")
@@ -21,7 +21,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaComponentFactory :
                 const Id<iscore::Component>&,
                 ossia::net::node_base& parent,
                 AreaModel& proc,
-                const Ossia::LocalTree::DocumentPlugin& doc,
+                const Engine::LocalTree::DocumentPlugin& doc,
                 QObject* paren_objt) const = 0;
 };
 
@@ -49,7 +49,7 @@ class AreaComponentFactory_T :
                 const Id<iscore::Component>& cmp,
                 ossia::net::node_base& parent,
                 AreaModel& proc,
-                const Ossia::LocalTree::DocumentPlugin& doc,
+                const Engine::LocalTree::DocumentPlugin& doc,
                 QObject* paren_objt) const override
         {
             return new AreaComponent_T{cmp, parent, static_cast<model_type&>(proc), doc, paren_objt};
@@ -75,7 +75,7 @@ using GenericAreaComponentFactory = AreaComponentFactory_T<GenericAreaComponent>
 using AreaComponentFactoryList =
     iscore::DefaultedGenericComponentFactoryList<
             AreaModel,
-            Ossia::LocalTree::DocumentPlugin,
+            Engine::LocalTree::DocumentPlugin,
             Space::LocalTree::AreaComponentFactory,
             Space::LocalTree::GenericAreaComponentFactory>;
 

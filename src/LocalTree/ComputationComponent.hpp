@@ -1,5 +1,5 @@
 #pragma once
-#include <OSSIA/LocalTree/NameProperty.hpp>
+#include <Engine/LocalTree/NameProperty.hpp>
 #include <src/Computation/ComputationModel.hpp>
 
 #include <iscore/tools/Metadata.hpp>
@@ -30,7 +30,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT ComputationComponent : public iscore::Component
         MetadataNamePropertyWrapper m_thisNode;
 
     protected:
-        std::vector<std::unique_ptr<Ossia::LocalTree::BaseProperty>> m_properties;
+        std::vector<std::unique_ptr<Engine::LocalTree::BaseProperty>> m_properties;
 };
 
 }

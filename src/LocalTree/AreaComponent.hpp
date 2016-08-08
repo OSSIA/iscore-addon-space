@@ -169,8 +169,8 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaComponent : public iscore::Component
         MetadataNamePropertyWrapper m_thisNode;
 
     protected:
-        std::map<QString, std::unique_ptr<Ossia::LocalTree::BaseCallbackWrapper>> m_ginacProperties;
-        std::vector<std::unique_ptr<Ossia::LocalTree::BaseProperty>> m_properties;
+        std::map<QString, std::unique_ptr<Engine::LocalTree::BaseCallbackWrapper>> m_ginacProperties;
+        std::vector<std::unique_ptr<Engine::LocalTree::BaseProperty>> m_properties;
 
         AreaModel& m_area;
 

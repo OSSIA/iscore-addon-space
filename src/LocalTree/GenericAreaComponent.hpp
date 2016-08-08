@@ -15,7 +15,7 @@ class GenericAreaComponent final : public AreaComponent
                 const Id<iscore::Component>& cmp,
                 ossia::net::node_base& parent_node,
                 AreaModel& proc,
-                const Ossia::LocalTree::DocumentPlugin& doc,
+                const Engine::LocalTree::DocumentPlugin& doc,
                 QObject* paren_objt);
 };
 }

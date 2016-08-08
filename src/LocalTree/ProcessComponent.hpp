@@ -2,7 +2,7 @@
 #include <src/LocalTree/AreaComponentFactory.hpp>
 #include <src/LocalTree/ComputationComponentFactory.hpp>
 
-#include <OSSIA/LocalTree/Scenario/ProcessComponent.hpp>
+#include <Engine/LocalTree/Scenario/ProcessComponent.hpp>
 
 #include <iscore_plugin_space_export.h>
 
@@ -11,7 +11,7 @@ namespace Space
 namespace LocalTree
 {
 class ProcessLocalTree final :
-        public Ossia::LocalTree::ProcessComponent_T<Space::ProcessModel>
+        public Engine::LocalTree::ProcessComponent_T<Space::ProcessModel>
 {
         COMPONENT_METADATA("08313626-75a8-406e-86fe-b83985c26373")
 
@@ -22,7 +22,7 @@ class ProcessLocalTree final :
                ComputationComponent,
                AreaComponentFactoryList,
                ComputationComponentFactoryList,
-              Ossia::LocalTree::DocumentPlugin
+              Engine::LocalTree::DocumentPlugin
         >;
 
      public:
@@ -30,7 +30,7 @@ class ProcessLocalTree final :
                 const Id<iscore::Component>& id,
                 ossia::net::node_base& parent,
                 Space::ProcessModel& process,
-                Ossia::LocalTree::DocumentPlugin& doc,
+                Engine::LocalTree::DocumentPlugin& doc,
                 QObject* parent_obj);
 
         template<typename Component_T, typename Element_T, typename Factory_T>
@@ -49,11 +49,11 @@ class ProcessLocalTree final :
         ossia::net::node_base& m_areas;
         ossia::net::node_base& m_computations;
 
-        std::vector<std::unique_ptr<Ossia::LocalTree::BaseProperty>> m_properties;
+        std::vector<std::unique_ptr<Engine::LocalTree::BaseProperty>> m_properties;
 
         hierarchy_t m_hm;
 };
 
-using ProcessLocalTreeFactory = Ossia::LocalTree::ProcessComponentFactory_T<ProcessLocalTree>;
+using ProcessLocalTreeFactory = Engine::LocalTree::ProcessComponentFactory_T<ProcessLocalTree>;
 }
 }

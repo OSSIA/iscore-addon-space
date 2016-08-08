@@ -9,14 +9,14 @@ ProcessLocalTree::ProcessLocalTree(
         const Id<iscore::Component>& id,
         ossia::net::node_base& parent,
         ProcessModel& process,
-        Ossia::LocalTree::DocumentPlugin& doc,
+        Engine::LocalTree::DocumentPlugin& doc,
         QObject* parent_obj):
-    Ossia::LocalTree::ProcessComponent_T<Space::ProcessModel>{parent, process, doc, id, "SpaceComponent", parent_obj},
+    Engine::LocalTree::ProcessComponent_T<Space::ProcessModel>{parent, process, doc, id, "SpaceComponent", parent_obj},
     m_areas{*node().createChild("areas")},
     m_computations{*node().createChild("computations")},
     m_hm{*this, process, doc, this}
 {
-    Ossia::LocalTree::make_metadata_node(process.metadata, node(), m_properties, this);
+    Engine::LocalTree::make_metadata_node(process.metadata, node(), m_properties, this);
 }
 
 template<>

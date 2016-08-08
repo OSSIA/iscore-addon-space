@@ -1,6 +1,6 @@
 #pragma once
 #include <src/LocalTree/ComputationComponent.hpp>
-#include <OSSIA/LocalTree/LocalTreeDocumentPlugin.hpp>
+#include <Engine/LocalTree/LocalTreeDocumentPlugin.hpp>
 namespace Space
 {
 namespace LocalTree
@@ -15,7 +15,7 @@ class GenericComputationComponent final : public ComputationComponent
                 const Id<iscore::Component>& cmp,
                 ossia::net::node_base& parent_node,
                 ComputationModel& proc,
-                const Ossia::LocalTree::DocumentPlugin& doc,
+                const Engine::LocalTree::DocumentPlugin& doc,
                 QObject* paren_objt);
 };
 

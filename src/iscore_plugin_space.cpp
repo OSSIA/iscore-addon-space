@@ -16,7 +16,7 @@
 #include <src/Executor/ProcessExecutor.hpp>
 #include <iscore/plugins/customfactory/FactoryFamily.hpp>
 #include <iscore/plugins/customfactory/FactorySetup.hpp>
-#include <OSSIA/Executor/DocumentPlugin.hpp>
+#include <Engine/Executor/DocumentPlugin.hpp>
 #include <src/ApplicationPlugin.hpp>
 #include <src/Computation/ComputationFactoryList.hpp>
 #include <src/Computation/CollisionComputation.hpp>
@@ -64,9 +64,9 @@ std::vector<std::unique_ptr<iscore::FactoryInterfaceBase>> iscore_plugin_space::
         FW<Space::ComputationFactory,
             Space::CollisionComputationFactory,
             Space::DistanceComputationFactory>,
-        FW<Ossia::LocalTree::ProcessComponentFactory,
+        FW<Engine::LocalTree::ProcessComponentFactory,
             Space::LocalTree::ProcessLocalTreeFactory>,
-        FW<RecreateOnPlay::ProcessComponentFactory,
+        FW<Engine::Execution::ProcessComponentFactory,
             Space::Executor::ComponentFactory>,
         FW<Space::LocalTree::AreaComponentFactory,
             Space::LocalTree::GenericAreaComponentFactory // Shall be last in the vector so must be first here, because of the recursion order of C++ templates in instantiate_factories

@@ -1,5 +1,5 @@
 #include "GenericComputationComponent.hpp"
-#include <OSSIA/LocalTree/Scenario/MetadataParameters.hpp>
+#include <Engine/LocalTree/Scenario/MetadataParameters.hpp>
 
 namespace Space
 {
@@ -10,7 +10,7 @@ GenericComputationComponent::GenericComputationComponent(
         const Id<iscore::Component>& cmp,
         ossia::net::node_base& parent_node,
         ComputationModel& computation,
-        const Ossia::LocalTree::DocumentPlugin& doc,
+        const Engine::LocalTree::DocumentPlugin& doc,
         QObject* paren_objt):
     ComputationComponent{parent_node, computation, cmp, "GenericComputationComponent", paren_objt}
 {
@@ -28,7 +28,7 @@ GenericComputationComponent::GenericComputationComponent(
 
     m_valueNode = *node_it;
     auto addr = m_valueNode->getAddress();
-    addr->setValue(iscore::convert::toOSSIAValue(
+    addr->setValue(Engine::iscore_to_ossia::toOSSIAValue(
                        State::Value::fromValue(computation.computation()())));
                        */
 

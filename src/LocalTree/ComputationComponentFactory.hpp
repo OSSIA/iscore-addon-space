@@ -1,6 +1,6 @@
 #pragma once
 #include <src/LocalTree/ComputationComponent.hpp>
-#include <OSSIA/LocalTree/LocalTreeDocumentPlugin.hpp>
+#include <Engine/LocalTree/LocalTreeDocumentPlugin.hpp>
 #include <iscore/component/ComponentFactory.hpp>
 #include <src/LocalTree/GenericComputationComponent.hpp>
 
@@ -12,7 +12,7 @@ namespace LocalTree
 class ISCORE_PLUGIN_SPACE_EXPORT ComputationComponentFactory :
         public iscore::GenericComponentFactory<
             ComputationModel,
-            Ossia::LocalTree::DocumentPlugin,
+            Engine::LocalTree::DocumentPlugin,
             Space::LocalTree::ComputationComponentFactory>
 {
         ISCORE_ABSTRACT_FACTORY("7649bf56-5809-4b4c-9bfc-3d15a01ab90c")
@@ -23,7 +23,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT ComputationComponentFactory :
                 const Id<iscore::Component>&,
                 ossia::net::node_base& parent,
                 ComputationModel& proc,
-                const Ossia::LocalTree::DocumentPlugin& doc,
+                const Engine::LocalTree::DocumentPlugin& doc,
                 QObject* paren_objt) const = 0;
 };
 
@@ -49,7 +49,7 @@ class ComputationComponentFactory_T :
                 const Id<iscore::Component>& cmp,
                 ossia::net::node_base& parent,
                 ComputationModel& proc,
-                const Ossia::LocalTree::DocumentPlugin& doc,
+                const Engine::LocalTree::DocumentPlugin& doc,
                 QObject* paren_objt) const override
         {
             return new ComputationComponent_T{cmp, parent, proc, doc, paren_objt};
@@ -78,7 +78,7 @@ using GenericComputationComponentFactory = ComputationComponentFactory_T<Generic
 using ComputationComponentFactoryList =
     iscore::DefaultedGenericComponentFactoryList<
             ComputationModel,
-            Ossia::LocalTree::DocumentPlugin,
+            Engine::LocalTree::DocumentPlugin,
             Space::LocalTree::ComputationComponentFactory,
             Space::LocalTree::GenericComputationComponentFactory>;
 }
