@@ -4,24 +4,24 @@
 namespace Space
 {
 class ProcessModel;
-class LayerModel : public Process::LayerModel
+class Layer : public Process::LayerModel
 {
         Q_OBJECT
     public:
         using model_type = Space::ProcessModel;
-        LayerModel(
+        Layer(
                 Space::ProcessModel&,
                 const Id<Process::LayerModel>&,
                 QObject* parent);
 
-        LayerModel(
-                const Space::LayerModel&,
+        Layer(
+                const Space::Layer&,
                 Space::ProcessModel&,
                 const Id<Process::LayerModel>&,
                 QObject* parent);
 
         template<typename Impl>
-        explicit LayerModel(
+        explicit Layer(
                 Deserializer<Impl>& vis,
                 Process::ProcessModel& model,
                 QObject* parent) :
@@ -30,7 +30,6 @@ class LayerModel : public Process::LayerModel
             vis.writeTo(*this);
         }
 
-        void serialize(const VisitorVariant &) const override;
-        Process::LayerModelPanelProxy *make_panelProxy(QObject *parent) const override;
+        void serialize_impl(const VisitorVariant &) const override;
 };
 }

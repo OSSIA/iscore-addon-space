@@ -25,7 +25,7 @@ PROCESS_METADATA(
 namespace Space
 {
 class SpaceModel;
-class LayerModel;
+class Layer;
 class ProcessModel;
 namespace Executor { class ProcessExecutor; }
 

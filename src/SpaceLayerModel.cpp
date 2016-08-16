@@ -3,30 +3,30 @@
 
 #include "SpaceProcessPanelProxy.hpp"
 template<>
-void Visitor<Reader<DataStream>>::readFrom_impl(const Space::LayerModel& lm)
+void Visitor<Reader<DataStream>>::readFrom_impl(const Space::Layer& lm)
 {
 }
 
 template<>
-void Visitor<Writer<DataStream>>::writeTo(Space::LayerModel& lm)
+void Visitor<Writer<DataStream>>::writeTo(Space::Layer& lm)
 {
 }
 
 
 
 template<>
-void Visitor<Reader<JSONObject>>::readFrom_impl(const Space::LayerModel& lm)
+void Visitor<Reader<JSONObject>>::readFrom_impl(const Space::Layer& lm)
 {
 }
 
 template<>
-void Visitor<Writer<JSONObject>>::writeTo(Space::LayerModel& lm)
+void Visitor<Writer<JSONObject>>::writeTo(Space::Layer& lm)
 {
 }
 
 namespace Space
 {
-LayerModel::LayerModel(
+Layer::Layer(
         Space::ProcessModel & proc,
         const Id<Process::LayerModel> & id,
         QObject *parent):
@@ -35,8 +35,8 @@ LayerModel::LayerModel(
 
 }
 
-LayerModel::LayerModel(
-        const Space::LayerModel&,
+Layer::Layer(
+        const Space::Layer&,
         Space::ProcessModel & proc,
         const Id<Process::LayerModel> & id,
         QObject *parent):
@@ -45,15 +45,9 @@ LayerModel::LayerModel(
 
 }
 
-void LayerModel::serialize(const VisitorVariant & v) const
+void Layer::serialize_impl(const VisitorVariant & v) const
 {
     serialize_dyn(v, *this);
-}
-
-Process::LayerModelPanelProxy *LayerModel::make_panelProxy(QObject *parent) const
-{
-    ISCORE_TODO;
-    return nullptr;
 }
 
 }

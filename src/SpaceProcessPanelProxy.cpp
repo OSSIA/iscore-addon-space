@@ -5,7 +5,7 @@
 namespace Space
 {
 ProcessPanelProxy::ProcessPanelProxy(
-        ProcessProxyLayerModel* vm,
+        ProcessProxyLayer* vm,
         QObject *parent):
     LayerModelPanelProxy{parent},
     m_layerImpl{vm},

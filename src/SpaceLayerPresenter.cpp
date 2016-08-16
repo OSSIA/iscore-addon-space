@@ -27,7 +27,7 @@ LayerPresenter::LayerPresenter(
         const Process::ProcessPresenterContext& ctx,
         QObject* parent):
     Process::LayerPresenter{ctx, parent},
-    m_model{static_cast<const Space::LayerModel&>(model)},
+    m_model{static_cast<const Space::Layer&>(model)},
     m_view{static_cast<LayerView*>(view)},
     m_spaceItem{new EmptySpaceItem{m_view}}
 {

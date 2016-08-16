@@ -5,16 +5,16 @@ namespace Process { class LayerModel; }
 namespace Space
 {
 class ProcessPanelProxy;
-class ProcessProxyLayerModel : public Process::LayerModel
+class ProcessProxyLayer : public Process::LayerModel
 {
         Q_OBJECT
     public:
-        ProcessProxyLayerModel(
+        ProcessProxyLayer(
                 const Id<Process::LayerModel>&,
                 const Process::LayerModel& model,
                 QObject* parent);
 
-        void serialize(const VisitorVariant &) const override;
+        void serialize_impl(const VisitorVariant &) const override;
         Process::LayerModelPanelProxy* make_panelProxy(QObject *parent) const override;
 
     private:

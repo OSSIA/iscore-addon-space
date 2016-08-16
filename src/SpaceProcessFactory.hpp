@@ -12,7 +12,7 @@ namespace Process
 template<>
 Space::ProcessModel* Process::GenericProcessFactory<
     Space::ProcessModel,
-    Space::LayerModel,
+    Space::Layer,
     Space::LayerPresenter,
     Space::LayerView>::make(
         const TimeValue& duration,
@@ -26,7 +26,7 @@ Space::ProcessModel* Process::GenericProcessFactory<
 template<>
 Space::ProcessModel* Process::GenericProcessFactory<
     Space::ProcessModel,
-    Space::LayerModel,
+    Space::Layer,
     Space::LayerPresenter,
     Space::LayerView>::load(
         const VisitorVariant& vis,
@@ -45,7 +45,7 @@ namespace Space
 
 using ProcessFactory = Process::GenericProcessFactory<
     Space::ProcessModel,
-    Space::LayerModel,
+    Space::Layer,
     Space::LayerPresenter,
     Space::LayerView>;
 }

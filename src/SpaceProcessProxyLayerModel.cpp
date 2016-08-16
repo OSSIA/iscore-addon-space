@@ -5,7 +5,7 @@
 namespace Space
 {
 
-ProcessProxyLayerModel::ProcessProxyLayerModel(
+ProcessProxyLayer::ProcessProxyLayer(
         const Id<LayerModel>& id,
         const LayerModel &model,
         QObject *parent):
@@ -16,14 +16,14 @@ ProcessProxyLayerModel::ProcessProxyLayerModel(
 }
 
 
-void ProcessProxyLayerModel::serialize(const VisitorVariant &) const
+void ProcessProxyLayer::serialize_impl(const VisitorVariant &) const
 {
     ISCORE_TODO;
 }
 
-Process::LayerModelPanelProxy* ProcessProxyLayerModel::make_panelProxy(QObject *parent) const
+Process::LayerModelPanelProxy* ProcessProxyLayer::make_panelProxy(QObject *parent) const
 {
-    auto lm = new ProcessProxyLayerModel(Id<Process::LayerModel>(), *this, nullptr);
+    auto lm = new ProcessProxyLayer(Id<Process::LayerModel>(), *this, nullptr);
     return new ProcessPanelProxy{lm, parent};
 }
 
