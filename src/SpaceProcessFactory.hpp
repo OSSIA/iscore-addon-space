@@ -6,6 +6,7 @@
 #include <src/SpaceLayerPresenter.hpp>
 #include <src/SpaceLayerView.hpp>
 #include <iscore/document/DocumentInterface.hpp>
+#include <Process/LayerModelPanelProxy.hpp>
 
 namespace Process
 {
@@ -14,7 +15,8 @@ Space::ProcessModel* Process::GenericProcessFactory<
     Space::ProcessModel,
     Space::Layer,
     Space::LayerPresenter,
-    Space::LayerView>::make(
+    Space::LayerView,
+    Process::GraphicsViewLayerModelPanelProxy>::make(
         const TimeValue& duration,
         const Id<Process::ProcessModel>& id,
         QObject* parent)
@@ -28,7 +30,8 @@ Space::ProcessModel* Process::GenericProcessFactory<
     Space::ProcessModel,
     Space::Layer,
     Space::LayerPresenter,
-    Space::LayerView>::load(
+    Space::LayerView,
+    Process::GraphicsViewLayerModelPanelProxy>::load(
         const VisitorVariant& vis,
         QObject* parent)
 {
@@ -42,10 +45,10 @@ Space::ProcessModel* Process::GenericProcessFactory<
 }
 namespace Space
 {
-
 using ProcessFactory = Process::GenericProcessFactory<
     Space::ProcessModel,
     Space::Layer,
     Space::LayerPresenter,
-    Space::LayerView>;
+    Space::LayerView,
+    Process::GraphicsViewLayerModelPanelProxy>;
 }

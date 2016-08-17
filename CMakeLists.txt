@@ -34,13 +34,8 @@ set(SRCS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/ProcessSerialization.cpp"
 
 "${CMAKE_CURRENT_SOURCE_DIR}/src/SpaceProcess.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/SpaceLayerModel.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/SpaceLayerPresenter.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/SpaceLayerView.cpp"
-
-"${CMAKE_CURRENT_SOURCE_DIR}/src/SpaceProcessPanelProxy.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/SpaceProcessProxyLayerModel.cpp"
-
 
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/ComputationModel.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/Computation/ComputationFactory.cpp"
