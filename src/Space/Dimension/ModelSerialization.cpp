@@ -24,7 +24,7 @@ void Visitor<Reader<JSONObject>>::readFrom(
         const Space::DimensionModel& dim)
 {
     readFrom(static_cast<const IdentifiedObject<Space::DimensionModel>&>(dim));
-    m_obj[iscore::StringConstant().Name] = dim.name();
+    m_obj[strings.Name] = dim.name();
     m_obj["Value"] = toJsonValue(dim.value());
     m_obj["Min"] = dim.min();
     m_obj["Max"] = dim.max();
@@ -34,7 +34,7 @@ template<>
 void Visitor<Writer<JSONObject>>::writeTo(
         Space::DimensionModel& dim)
 {
-    dim.m_name = m_obj[iscore::StringConstant().Name].toString();
+    dim.m_name = m_obj[strings.Name].toString();
     dim.m_val = fromJsonValue<optional<double>>(m_obj["Value"]);
     dim.m_min = m_obj["Min"].toDouble();
     dim.m_max = m_obj["Max"].toDouble();

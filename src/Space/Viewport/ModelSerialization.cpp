@@ -36,7 +36,7 @@ void Visitor<Reader<JSONObject>>::readFrom(
         const Space::ViewportModel& vp)
 {
     readFrom(static_cast<const IdentifiedObject<Space::ViewportModel>&>(vp));
-    m_obj[iscore::StringConstant().Name] = vp.name();
+    m_obj[strings.Name] = vp.name();
     m_obj["Transform"] = toJsonValue(vp.m_transform);
     m_obj["xDim"] = toJsonValue(vp.xDim());
     m_obj["yDim"] = toJsonValue(vp.yDim());
@@ -48,7 +48,7 @@ template<>
 void Visitor<Writer<JSONObject>>::writeTo(
         Space::ViewportModel& vp)
 {
-    vp.m_name = m_obj[iscore::StringConstant().Name].toString();
+    vp.m_name = m_obj[strings.Name].toString();
     vp.m_transform = fromJsonValue<QTransform>(m_obj["Transform"]);
     vp.m_xDim = fromJsonValue<Id<Space::DimensionModel>>(m_obj["xDim"]);
     vp.m_xDim = fromJsonValue<Id<Space::DimensionModel>>(m_obj["yDim"]);
