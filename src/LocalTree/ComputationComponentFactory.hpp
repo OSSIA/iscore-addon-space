@@ -15,7 +15,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT ComputationComponentFactory :
             Engine::LocalTree::DocumentPlugin,
             Space::LocalTree::ComputationComponentFactory>
 {
-        ISCORE_ABSTRACT_FACTORY("7649bf56-5809-4b4c-9bfc-3d15a01ab90c")
+        ISCORE_ABSTRACT_COMPONENT_FACTORY(ComputationComponent)
     public:
         virtual ~ComputationComponentFactory();
 

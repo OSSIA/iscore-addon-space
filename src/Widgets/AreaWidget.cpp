@@ -171,7 +171,7 @@ void AreaWidget::on_formulaChanged()
     }
 
 
-    auto& dev_expl = m_space.context().devices.explorer;
+    auto& dev_expl = m_space.context().devices.explorer();
     auto area = parser.result();
     for(int i = 0; i < m_spaceMappingLayout->rowCount(); i++)
     {

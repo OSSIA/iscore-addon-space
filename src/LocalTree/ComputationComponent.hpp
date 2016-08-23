@@ -11,6 +11,7 @@ namespace LocalTree
 {
 class ISCORE_PLUGIN_SPACE_EXPORT ComputationComponent : public iscore::Component
 {
+        ABSTRACT_COMPONENT_METADATA(ComputationComponent, "7649bf56-5809-4b4c-9bfc-3d15a01ab90c")
     public:
         ComputationComponent(
                 ossia::net::node_base& node,

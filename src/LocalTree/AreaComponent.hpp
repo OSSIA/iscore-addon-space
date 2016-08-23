@@ -151,6 +151,7 @@ class SpaceProcessComponentHierarchyManager : public Nano::Observer
 
 class ISCORE_PLUGIN_SPACE_EXPORT AreaComponent : public iscore::Component
 {
+        ABSTRACT_COMPONENT_METADATA(AreaComponent, "b3fef66c-2d9e-4e5a-8023-d200bf122c90")
     public:
         AreaComponent(
                 ossia::net::node_base& node,

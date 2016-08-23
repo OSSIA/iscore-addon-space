@@ -13,7 +13,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaComponentFactory :
             Engine::LocalTree::DocumentPlugin,
             Space::LocalTree::AreaComponentFactory>
 {
-        ISCORE_ABSTRACT_FACTORY("b3fef66c-2d9e-4e5a-8023-d200bf122c90")
+        ISCORE_ABSTRACT_COMPONENT_FACTORY(AreaComponent)
     public:
         virtual ~AreaComponentFactory();
 
