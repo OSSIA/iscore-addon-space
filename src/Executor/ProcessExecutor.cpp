@@ -35,10 +35,9 @@ ProcessExecutor::ProcessExecutor(
                 else
                 {
                     // We enable listening
-                    auto dev_it = m_devices.find(addr.device);
-                    if(dev_it != m_devices.devices().end())
+                    if(auto dev_p = m_devices.findDevice(addr.device))
                     {
-                        (*dev_it)->setListening(addr, true);
+                        dev_p->setListening(addr, true);
                     }
                 }
             }
@@ -67,10 +66,9 @@ ProcessExecutor::~ProcessExecutor()
                 else
                 {
                     // We disable listening
-                    auto dev_it = m_devices.find(addr.device);
-                    if(dev_it != m_devices.devices().end())
+                    if(auto dev_p = m_devices.findDevice(addr.device))
                     {
-                        (*dev_it)->setListening(addr, false);
+                        dev_p->setListening(addr, false);
                     }
                 }
             }
@@ -116,10 +114,9 @@ ossia::state_element ProcessExecutor::state(double t)
                 else
                 {
                     // We fetch it from the device tree
-                    auto dev_it = m_devices.find(addr.device);
-                    if(dev_it != m_devices.devices().end())
+                    if(auto dev_p = m_devices.findDevice(addr.device))
                     {
-                        auto val = (*dev_it)->refresh(addr);
+                        auto val = dev_p->refresh(addr);
                         if(val)
                         {
                            it_pair.first->second = State::convert::value<double>(*val);
