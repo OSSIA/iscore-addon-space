@@ -65,7 +65,7 @@ class SpaceProcessComponentHierarchyManager : public Nano::Observer
         void cleanup(const Pair_T& pair)
         {
             m_component.removing(pair.element, pair.component);
-            pair.element.components.remove(pair.component);
+            pair.element.components().remove(pair.component);
         }
 
         template<typename elt_t>
@@ -89,12 +89,12 @@ class SpaceProcessComponentHierarchyManager : public Nano::Observer
             using map_t = MatchingComponent<elt_t, true>;
             auto& factory = (this->*map_t::factory_container)->factory(element);
             auto comp = m_component.template make<typename map_t::type>(
-                        getStrongId(element.components),
+                        getStrongId(element.components()),
                         factory,
                         element);
             if(comp)
             {
-                element.components.add(comp);
+                element.components().add(comp);
                 (this->*map_t::local_container).emplace_back(typename map_t::pair_type{element, *comp});
             }
         }

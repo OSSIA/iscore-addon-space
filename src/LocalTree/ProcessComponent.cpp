@@ -16,7 +16,7 @@ ProcessLocalTree::ProcessLocalTree(
     m_computations{*node().createChild("computations")},
     m_hm{*this, process, doc, this}
 {
-    Engine::LocalTree::make_metadata_node(process.metadata, node(), m_properties, this);
+    Engine::LocalTree::make_metadata_node(process.metadata(), node(), m_properties, this);
 }
 
 template<>

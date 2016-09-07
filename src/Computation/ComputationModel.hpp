@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Process/ModelMetadata.hpp>
+#include <iscore/model/Entity.hpp>
 #include <iscore/tools/IdentifiedObject.hpp>
 #include <iscore/component/Component.hpp>
 #include <State/Message.hpp>
@@ -14,15 +14,13 @@ class SpaceModel;
 class ComputationFactory;
 // Maps addresses / values to the parameter of an Computation
 class ComputationModel :
-        public IdentifiedObject<ComputationModel>,
+        public iscore::Entity<ComputationModel>,
         public iscore::SerializableInterface<ComputationFactory>
 {
         Q_OBJECT
         ISCORE_SERIALIZE_FRIENDS(Space::ComputationModel, DataStream)
         ISCORE_SERIALIZE_FRIENDS(Space::ComputationModel, JSONObject)
     public:
-        ModelMetadata metadata;
-        iscore::Components components;
         ComputationModel(
                 const Id<AreaModel>& a1,
                 const Id<AreaModel>& a2,
@@ -40,7 +38,7 @@ class ComputationModel :
         ComputationModel(Deserializer<Impl>& vis,
                   const SpaceModel& space,
                   QObject* parent) :
-            IdentifiedObject<ComputationModel>{vis, parent},
+            Entity{vis, parent},
             m_space{space}
         {
             vis.writeTo(*this);

@@ -8,12 +8,12 @@ ComputationModel::ComputationModel(
         const SpaceModel& space,
         const Id<ComputationModel>& id,
         QObject* parent):
-    IdentifiedObject{id, staticMetaObject.className(), parent},
+    Entity{id, staticMetaObject.className(), parent},
     m_space{space},
     m_a1{a1},
     m_a2{a2}
 {
-    metadata.setName(QString("Computation.%1").arg(*this->id().val()));
+    metadata().setName(QString("Computation.%1").arg(*this->id().val()));
 }
 
 ComputationModel::ComputationModel(
@@ -21,7 +21,7 @@ ComputationModel::ComputationModel(
         const SpaceModel& space,
         const Id<ComputationModel>& id,
         QObject* parent):
-    IdentifiedObject{id, staticMetaObject.className(), parent},
+    Entity{source, id, staticMetaObject.className(), parent},
     m_space{space},
     m_addr{source.m_addr},
     m_a1{Id<AreaModel>{source.m_a1.val()}},

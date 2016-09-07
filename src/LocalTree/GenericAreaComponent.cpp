@@ -13,7 +13,7 @@ GenericAreaComponent::GenericAreaComponent(
         QObject* paren_objt):
     AreaComponent{parent_node, area, cmp, "GenericAreaComponent", paren_objt}
 {
-    Engine::LocalTree::make_metadata_node(area.metadata, node(), m_properties, this);
+    Engine::LocalTree::make_metadata_node(area.metadata(), node(), m_properties, this);
 
     using namespace GiNaC;
     for(const auto& param : area.currentMapping())

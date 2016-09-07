@@ -14,11 +14,11 @@ AreaModel::AreaModel(
         const Space::Context& space,
         const Id<AreaModel> & id,
         QObject *parent):
-    IdentifiedObject{id, staticMetaObject.className(), parent},
+    Entity{id, staticMetaObject.className(), parent},
     m_context{space},
     m_formula{form}
 {
-    metadata.setName(QString("Area.%1").arg(*this->id().val()));
+    metadata().setName(QString("Area.%1").arg(*this->id().val()));
 }
 
 AreaModel::AreaModel(
@@ -26,7 +26,7 @@ AreaModel::AreaModel(
         const Context& space,
         const Id<AreaModel>& id,
         QObject* parent):
-    IdentifiedObject{id, staticMetaObject.className(), parent},
+    Entity{source, id, staticMetaObject.className(), parent},
     m_translate{source.m_translate},
     m_scale{source.m_scale},
     m_rotate{source.m_rotate},
@@ -38,7 +38,7 @@ AreaModel::AreaModel(
     m_parameterMap{source.m_parameterMap},
     m_currentParameterMap{source.m_currentParameterMap}
 {
-    metadata.setName(QString("Area.%1").arg(*this->id().val()));
+    metadata().setName(QString("Area.%1").arg(*this->id().val()));
 }
 
 

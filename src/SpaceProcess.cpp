@@ -32,7 +32,7 @@ ProcessModel::ProcessModel(
             this}},
     m_context{makeContext(doc, *this)}
 {
-    metadata.setName(QString("Space.%1").arg(*this->id().val()));
+    metadata().setName(QString("Space.%1").arg(*this->id().val()));
     using namespace GiNaC;
     using namespace spacelib;
 
@@ -68,7 +68,7 @@ ProcessModel::ProcessModel(
             this}},
     m_context{makeContext(source.context().doc, *this)} // TODO this will break if for some reason we clone in another document
 {
-    metadata.setName(QString("Space.%1").arg(*this->id().val()));
+    metadata().setName(QString("Space.%1").arg(*this->id().val()));
 
     for(auto& area : source.areas)
     {

@@ -12,7 +12,7 @@ ComputationComponent::ComputationComponent(
         const QString& name,
         QObject* parent):
     Component{id, name, parent},
-    m_thisNode{node, computation.metadata, this}
+    m_thisNode{node, computation.metadata(), this}
 {
 }
 

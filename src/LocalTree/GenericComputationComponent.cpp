@@ -16,13 +16,13 @@ GenericComputationComponent::GenericComputationComponent(
 {
     ISCORE_TODO;
     /*
-    Ossia::LocalTree::make_metadata_node(computation.metadata, *node(), m_properties, this);
+    Ossia::LocalTree::make_metadata_node(computation.metadata(), *node(), m_properties, this);
 
     using namespace GiNaC;
     constexpr auto t = Ossia::convert::MatchingType<double>::val;
     auto node_it = thisNode().emplace(
                        thisNode().children().end(),
-                       computation.metadata.name().toStdString(),
+                       computation.metadata().name().toStdString(),
                        t,
                        OSSIA::AccessMode::GET);
 

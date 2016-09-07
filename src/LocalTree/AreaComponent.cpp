@@ -12,7 +12,7 @@ AreaComponent::AreaComponent(
         const QString& name,
         QObject* parent):
     Component{id, name, parent},
-    m_thisNode{node, area.metadata, this},
+    m_thisNode{node, area.metadata(), this},
     m_area{area}
 {
 }

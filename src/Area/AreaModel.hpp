@@ -1,9 +1,9 @@
 #pragma once
-#include <iscore/tools/IdentifiedObject.hpp>
+#include <iscore/model/Entity.hpp>
 #include <Device/Address/AddressSettings.hpp>
 #include <src/Area/AreaFactory.hpp>
 #include <src/SpaceContext.hpp>
-#include <Process/ModelMetadata.hpp>
+#include <iscore/model/ModelMetadata.hpp>
 #include <iscore/component/Component.hpp>
 #include <src/Area/ValMap.hpp>
 #include <src/Area/AreaMetadata.hpp>
@@ -19,16 +19,13 @@ class SpaceModel;
 // Maps addresses / values to the parameter of an area
 class AreaPresenter;
 class ISCORE_PLUGIN_SPACE_EXPORT AreaModel :
-        public IdentifiedObject<AreaModel>,
+        public iscore::Entity<AreaModel>,
         public iscore::SerializableInterface<AreaFactory>
 {
         Q_OBJECT
         ISCORE_SERIALIZE_FRIENDS(Space::AreaModel, DataStream)
         ISCORE_SERIALIZE_FRIENDS(Space::AreaModel, JSONObject)
     public:
-        ModelMetadata metadata;
-        iscore::Components components;
-
         // The value is used as default value if the address is invalid.
         virtual QString prettyName() const = 0;
         virtual int type() const = 0;
@@ -49,7 +46,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaModel :
         AreaModel(Deserializer<Impl>& vis,
                   const Space::Context& space,
                   QObject* parent) :
-            IdentifiedObject<AreaModel>{vis, parent},
+            Entity{vis, parent},
             m_context{space}
         {
             vis.writeTo(*this);
