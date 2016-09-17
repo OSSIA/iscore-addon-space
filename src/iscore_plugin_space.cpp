@@ -53,8 +53,10 @@ std::vector<std::unique_ptr<iscore::FactoryInterfaceBase>> iscore_plugin_space::
     return instantiate_factories<
             iscore::ApplicationContext,
     TL<
-        FW<Process::ProcessFactory,
+        FW<Process::ProcessModelFactory,
             Space::ProcessFactory>,
+        FW<Process::LayerFactory,
+            Space::LayerFactory>,
         FW<Space::AreaFactory,
             Space::GenericAreaFactory,
             Space::CircleAreaFactory,

@@ -89,5 +89,5 @@ void Visitor<Writer<JSONObject>>::writeTo(
     }
 
     proc.m_precision = m_obj["Precision"].toInt();
-    proc.m_defaultViewport = fromJsonValue<Id<Space::ViewportModel>>(m_obj["DefaultViewport"]);
+    proc.m_defaultViewport = fromJsonValue<OptionalId<Space::ViewportModel>>(m_obj["DefaultViewport"]);
 }

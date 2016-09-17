@@ -13,7 +13,7 @@ ComputationModel::ComputationModel(
     m_a1{a1},
     m_a2{a2}
 {
-    metadata().setName(QString("Computation.%1").arg(*this->id().val()));
+    metadata().setName(QString("Computation.%1").arg(this->id().val()));
 }
 
 ComputationModel::ComputationModel(

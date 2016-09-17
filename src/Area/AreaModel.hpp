@@ -196,6 +196,7 @@ struct IntType_k;
 
 Q_DECLARE_METATYPE(std::string)
 Q_DECLARE_METATYPE(Id<Space::AreaModel>)
+Q_DECLARE_METATYPE(OptionalId<Space::AreaModel>)
 
 // TODO use me
 #define AREA_METADATA(Export, Model, Uuid, ObjectKey, PrettyName, AreaFormula, AreaSpaceMap, AreaParameterMap, IntType) \

@@ -37,14 +37,14 @@ ViewportEditWidget::ViewportEditWidget(const SpaceModel& sp, const ViewportModel
     m_dimX = new QComboBox;
     for(const auto& dim : sp.dimensions())
     {
-        m_dimX->addItem(dim.name(), QString::number(*dim.id().val()));
+        m_dimX->addItem(dim.name(), QString::number(dim.id().val()));
     }
     lay->addRow("Dimension (x)", m_dimX);
 
     m_dimY = new QComboBox;
     for(const auto& dim : sp.dimensions())
     {
-        m_dimY->addItem(dim.name(), QString::number(*dim.id().val()));
+        m_dimY->addItem(dim.name(), QString::number(dim.id().val()));
     }
     lay->addRow("Dimension (y)", m_dimY);
 

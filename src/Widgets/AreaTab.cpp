@@ -52,9 +52,10 @@ void AreaTab::updateDisplayedArea(int i)
     if(!itm)
         return;
 
-    auto id = itm->data(Qt::UserRole).value<Id<AreaModel>>();
-    if(!id)
+    auto data = itm->data(Qt::UserRole);
+    if(!data.canConvert<Id<AreaModel>>())
         return;
+    auto id = data.value<Id<AreaModel>>();
     m_areaWidget->setActiveArea(&m_space.areas.at(id));
 }
 

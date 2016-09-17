@@ -11,12 +11,8 @@
 namespace Process
 {
 template<>
-Space::ProcessModel* Process::GenericProcessFactory<
-    Space::ProcessModel,
-    Space::Layer,
-    Space::LayerPresenter,
-    Space::LayerView,
-    Process::GraphicsViewLayerModelPanelProxy>::make(
+Space::ProcessModel* Process::GenericProcessModelFactory<
+    Space::ProcessModel>::make(
         const TimeValue& duration,
         const Id<Process::ProcessModel>& id,
         QObject* parent)
@@ -26,12 +22,8 @@ Space::ProcessModel* Process::GenericProcessFactory<
 }
 
 template<>
-Space::ProcessModel* Process::GenericProcessFactory<
-    Space::ProcessModel,
-    Space::Layer,
-    Space::LayerPresenter,
-    Space::LayerView,
-    Process::GraphicsViewLayerModelPanelProxy>::load(
+Space::ProcessModel* Process::GenericProcessModelFactory<
+    Space::ProcessModel>::load(
         const VisitorVariant& vis,
         QObject* parent)
 {
@@ -45,10 +37,12 @@ Space::ProcessModel* Process::GenericProcessFactory<
 }
 namespace Space
 {
-using ProcessFactory = Process::GenericProcessFactory<
-    Space::ProcessModel,
-    Space::Layer,
-    Space::LayerPresenter,
-    Space::LayerView,
-    Process::GraphicsViewLayerModelPanelProxy>;
+using ProcessFactory = Process::GenericProcessModelFactory<
+    Space::ProcessModel>;
+using LayerFactory = Process::GenericLayerFactory<
+Space::ProcessModel,
+Space::Layer,
+Space::LayerPresenter,
+Space::LayerView,
+Process::GraphicsViewLayerModelPanelProxy>;
 }

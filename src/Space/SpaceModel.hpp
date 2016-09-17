@@ -53,7 +53,7 @@ class SpaceModel : public IdentifiedObject<SpaceModel>
         { return m_viewports; }
 
         // Might be false if there is no viewport.
-        const Id<ViewportModel>& defaultViewport() const
+        const OptionalId<ViewportModel>& defaultViewport() const
         { return m_defaultViewport; }
 
         int precision() const
@@ -81,7 +81,7 @@ class SpaceModel : public IdentifiedObject<SpaceModel>
         IdContainer<DimensionModel> m_dimensions;
         IdContainer<ViewportModel> m_viewports;
 
-        Id<ViewportModel> m_defaultViewport;
+        OptionalId<ViewportModel> m_defaultViewport;
         int32_t m_precision = 5;
 };
 
