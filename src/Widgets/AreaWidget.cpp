@@ -82,7 +82,7 @@ void AreaWidget::setActiveArea(const AreaModel *area)
     if(m_area)
     {
         // Load all the data
-        const auto& dim_map = area->spaceMapping();
+        const auto& dim_map = m_area->spaceMapping();
         for(int symb_i = 0; symb_i < m_spaceMappingLayout->rowCount(); symb_i++)
         {
             auto label = static_cast<QLabel*>(
