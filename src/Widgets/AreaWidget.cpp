@@ -98,7 +98,7 @@ void AreaWidget::setActiveArea(const AreaModel *area)
 
             auto keys = dim_map.keys();
             auto& dims = m_space.space().dimensions();
-            auto dim_map_it = find_if(keys,
+            auto dim_map_it = ossia::find_if(keys,
                                      [&] (const Id<DimensionModel>& exp) {
 
                 auto dim_it = dims.find(exp);
