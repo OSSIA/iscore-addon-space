@@ -163,7 +163,7 @@ void Visitor<Reader<DataStream>>::readFrom_impl(
         const Space::AreaModel& area)
 {
     // Save the parent class
-    readFrom(static_cast<const IdentifiedObject<Space::AreaModel>&>(area));
+    readFrom(static_cast<const iscore::Entity<Space::AreaModel>&>(area));
 
     // Save this class
     m_stream << area.m_transform
@@ -191,7 +191,7 @@ void Visitor<Reader<JSONObject>>::readFrom_impl(
         const Space::AreaModel& area)
 {
     // Save the parent class
-    readFrom(static_cast<const IdentifiedObject<Space::AreaModel>&>(area));
+    readFrom(static_cast<const iscore::Entity<Space::AreaModel>&>(area));
 
     // Save this class
     m_obj["Transform"] = toJsonValue(area.m_transform);

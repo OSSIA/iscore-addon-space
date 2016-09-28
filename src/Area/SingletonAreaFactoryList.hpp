@@ -10,6 +10,11 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaFactoryList final :
 {
     public:
         using object_type = Space::AreaModel;
+        virtual ~AreaFactoryList();
+        object_type* loadMissing(
+                const VisitorVariant& vis,
+                const Space::Context& ctx,
+                QObject* parent) const;
 
 };
 

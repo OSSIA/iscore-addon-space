@@ -9,5 +9,10 @@ class ISCORE_PLUGIN_SPACE_EXPORT ComputationFactoryList final :
 {
     public:
         using object_type = Space::ComputationModel;
+        virtual ~ComputationFactoryList();
+        object_type* loadMissing(
+                const VisitorVariant& vis,
+                const Space::Context& ctx,
+                QObject* parent) const;
 };
 }
