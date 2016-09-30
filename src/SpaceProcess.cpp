@@ -32,7 +32,7 @@ ProcessModel::ProcessModel(
             this}},
     m_context{makeContext(doc, *this)}
 {
-    metadata().setName(QString("Space.%1").arg(this->id().val()));
+    metadata().setInstanceName(*this);
     using namespace GiNaC;
     using namespace spacelib;
 
@@ -62,13 +62,13 @@ ProcessModel::ProcessModel(
         const ProcessModel& source,
         const Id<Process::ProcessModel> &id,
         QObject *parent):
-    Process::ProcessModel{source.duration(), id, Metadata<ObjectKey_k, ProcessModel>::get(), parent},
+    Process::ProcessModel{source, id, Metadata<ObjectKey_k, ProcessModel>::get(), parent},
     m_space{new SpaceModel{
             *source.m_space,
             this}},
     m_context{makeContext(source.context().doc, *this)} // TODO this will break if for some reason we clone in another document
 {
-    metadata().setName(QString("Space.%1").arg(this->id().val()));
+    metadata().setInstanceName(*this);
 
     for(auto& area : source.areas)
     {

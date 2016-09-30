@@ -18,7 +18,7 @@ AreaModel::AreaModel(
     m_context{space},
     m_formula{form}
 {
-    metadata().setName(QString("Area.%1").arg(this->id().val()));
+    metadata().setInstanceName(*this);
 }
 
 AreaModel::AreaModel(
@@ -38,7 +38,7 @@ AreaModel::AreaModel(
     m_parameterMap{source.m_parameterMap},
     m_currentParameterMap{source.m_currentParameterMap}
 {
-    metadata().setName(QString("Area.%1").arg(this->id().val()));
+    metadata().setInstanceName(*this);
 }
 
 

@@ -3,7 +3,7 @@
 #include <iscore/tools/IdentifiedObjectMap.hpp>
 #include "Area/AreaModel.hpp"
 #include "Computation/ComputationModel.hpp"
-#include <iscore/tools/NotifyingMap.hpp>
+#include <iscore/tools/EntityMap.hpp>
 #include <src/Space/SpaceModel.hpp>
 
 #include <Process/ProcessMetadata.hpp>
@@ -71,8 +71,8 @@ class ProcessModel : public Process::ProcessModel
         { return m_context; }
 
         // TODO delete components before !!!
-        NotifyingMap<AreaModel> areas;
-        NotifyingMap<ComputationModel> computations;
+        EntityMap<AreaModel> areas;
+        EntityMap<ComputationModel> computations;
 
 
     private:

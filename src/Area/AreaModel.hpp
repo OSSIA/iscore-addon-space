@@ -207,3 +207,5 @@ Q_DECLARE_METATYPE(OptionalId<Space::AreaModel>)
     TYPED_METADATA(Export, Model, Formula_k, int, IntType)
 
 
+
+TR_TEXT_METADATA(, Space::AreaModel, PrettyName_k, "Area")

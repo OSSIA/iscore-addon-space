@@ -13,7 +13,7 @@ ComputationModel::ComputationModel(
     m_a1{a1},
     m_a2{a2}
 {
-    metadata().setName(QString("Computation.%1").arg(this->id().val()));
+    metadata().setInstanceName(*this);
 }
 
 ComputationModel::ComputationModel(
@@ -27,6 +27,6 @@ ComputationModel::ComputationModel(
     m_a1{Id<AreaModel>{source.m_a1.val()}},
     m_a2{Id<AreaModel>{source.m_a2.val()}}
 {
-
+    metadata().setInstanceName(*this);
 }
 }
