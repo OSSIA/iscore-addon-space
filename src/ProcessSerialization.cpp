@@ -34,7 +34,7 @@ void Visitor<Writer<DataStream>>::writeTo(
     // Areas
     int32_t a_size;
     m_stream >> a_size;
-    auto& al = context.components.factory<Space::AreaFactoryList>();
+    auto& al = components.factory<Space::AreaFactoryList>();
     for(; a_size --> 0;)
     {
         proc.areas.add(deserialize_interface(al, *this, proc.context(), &proc));
@@ -43,7 +43,7 @@ void Visitor<Writer<DataStream>>::writeTo(
     // Computations
     int32_t c_size;
     m_stream >> c_size;
-    auto& csl = context.components.factory<Space::ComputationFactoryList>();
+    auto& csl = components.factory<Space::ComputationFactoryList>();
     for(; c_size --> 0;)
     {
         proc.computations.add(deserialize_interface(csl, *this, proc.context(), &proc));
@@ -72,7 +72,7 @@ void Visitor<Writer<JSONObject>>::writeTo(
     obj.writeTo(proc.space());
 
     // Areas
-    auto& areas = context.components.factory<Space::AreaFactoryList>();
+    auto& areas = components.factory<Space::AreaFactoryList>();
     for(const auto& ar : m_obj["Areas"].toArray())
     {
         Deserializer<JSONObject> ar_deser{ar.toObject()};
@@ -80,7 +80,7 @@ void Visitor<Writer<JSONObject>>::writeTo(
     }
 
     // Computations
-    auto& comps = context.components.factory<Space::ComputationFactoryList>();
+    auto& comps = components.factory<Space::ComputationFactoryList>();
     for(const auto& comp : m_obj["Computations"].toArray())
     {
         Deserializer<JSONObject> comp_deser{comp.toObject()};
