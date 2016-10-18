@@ -150,7 +150,7 @@ ossia::state_element ProcessExecutor::state(double t)
     // Handle computations / collisions
     for(const ComputationModel& computation : m_process.computations)
     {
-        State::Message mess{computation.address(), computation.result()};
+        State::Message mess{State::AddressAccessor{computation.address()}, computation.result()};
 
         state.add(Engine::iscore_to_ossia::message(mess, m_devices));
         /*

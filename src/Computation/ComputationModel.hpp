@@ -60,7 +60,7 @@ class ComputationModel :
         virtual State::Value result() const = 0;
 
         State::Message message() const
-        { return State::Message{m_addr, result()}; }
+        { return State::Message{State::AddressAccessor{m_addr}, result()}; }
 
         auto firstArea() const {
             return m_a1;
