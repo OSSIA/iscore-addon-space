@@ -37,7 +37,11 @@ void Visitor<Writer<DataStream>>::writeTo(
     auto& al = components.factory<Space::AreaFactoryList>();
     for(; a_size --> 0;)
     {
-        proc.areas.add(deserialize_interface(al, *this, proc.context(), &proc));
+        auto area = deserialize_interface(al, *this, proc.context(), &proc);
+        if(area)
+            proc.areas.add(area);
+        else
+            ISCORE_TODO;
     }
 
     // Computations
@@ -46,7 +50,11 @@ void Visitor<Writer<DataStream>>::writeTo(
     auto& csl = components.factory<Space::ComputationFactoryList>();
     for(; c_size --> 0;)
     {
-        proc.computations.add(deserialize_interface(csl, *this, proc.context(), &proc));
+        auto comp = deserialize_interface(csl, *this, proc.context(), &proc);
+        if(comp)
+            proc.computations.add(comp);
+        else
+            ISCORE_TODO;
     }
 
     checkDelimiter();
@@ -76,7 +84,11 @@ void Visitor<Writer<JSONObject>>::writeTo(
     for(const auto& ar : m_obj["Areas"].toArray())
     {
         Deserializer<JSONObject> ar_deser{ar.toObject()};
-        proc.areas.add(deserialize_interface(areas, ar_deser, proc.context(), &proc));
+        auto area = deserialize_interface(areas, ar_deser, proc.context(), &proc);
+        if(area)
+            proc.areas.add(area);
+        else
+            ISCORE_TODO;
     }
 
     // Computations
@@ -84,7 +96,11 @@ void Visitor<Writer<JSONObject>>::writeTo(
     for(const auto& comp : m_obj["Computations"].toArray())
     {
         Deserializer<JSONObject> comp_deser{comp.toObject()};
-        proc.computations.add(deserialize_interface(comps, comp_deser, proc.context(), &proc));
+        auto deser = deserialize_interface(comps, comp_deser, proc.context(), &proc);
+        if(deser)
+            proc.computations.add(deser);
+        else
+            ISCORE_TODO;
     }
 }
 
