@@ -25,7 +25,7 @@ GenericAreaComponent::GenericAreaComponent(
 
         auto callback_it = addr->add_callback([=] (const ossia::value& v)
         {
-          auto val = State::convert::value<double>(Engine::ossia_to_iscore::ToValue(v));
+          auto val = State::convert::value<double>(State::fromOSSIAValue(v));
           m_area.updateCurrentMapping(param.first, val);
         });
 
@@ -46,7 +46,7 @@ GenericAreaComponent::GenericAreaComponent(
         auto newVal = State::Value::fromValue(val);
         auto& addr = m_ginacProperties.at(sym)->addr;
         auto ossia_val = addr.cloneValue();
-        if(newVal != Engine::ossia_to_iscore::ToValue(ossia_val))
+        if(newVal != State::fromOSSIAValue(ossia_val))
         {
             addr.pushValue(Engine::iscore_to_ossia::toOSSIAValue(newVal));
         }
