@@ -1,7 +1,7 @@
 #pragma once
 #include <src/SpaceProcess.hpp>
 #include <iscore/tools/SettableIdentifierGeneration.hpp>
-#include <iscore/tools/std/Algorithms.hpp>
+#include <ossia/detail/algorithms.hpp>
 
 #include <iscore_plugin_space_export.h>
 namespace Space

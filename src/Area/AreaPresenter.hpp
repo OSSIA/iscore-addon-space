@@ -1,5 +1,5 @@
 #pragma once
-#include <iscore/tools/NamedObject.hpp>
+
 #include <iscore/tools/SettableIdentifier.hpp>
 #include <src/Area/ValMap.hpp>
 #include <iscore/command/Dispatchers/SingleOngoingCommandDispatcher.hpp>
