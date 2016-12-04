@@ -17,7 +17,7 @@ ParameterWidget::ParameterWidget(
     auto lay = new iscore::MarginLess<QHBoxLayout>;
     this->setLayout(lay);
 
-    m_address = new Explorer::AddressEditWidget{model, this};
+    m_address = new Explorer::AddressEditWidget{*model, this};
     m_defaultValue = new iscore::SpinBox<float>{this};
     lay->addWidget(m_address);
     lay->addWidget(m_defaultValue);

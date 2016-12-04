@@ -36,7 +36,7 @@ ComputationsWidget::ComputationsWidget(
 
     // select target address
     auto& dev_expl = m_space.context().devices.explorer();
-    m_address = new Explorer::AddressEditWidget{&dev_expl, this};
+    m_address = new Explorer::AddressEditWidget{dev_expl, this};
 
     lay->addRow(tr("First area"), m_a1);
     lay->addRow(tr("Second area"), m_a2);
