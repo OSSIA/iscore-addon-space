@@ -43,10 +43,10 @@ ComputationsWidget::ComputationsWidget(
     lay->addRow(tr("Type"), m_type);
     lay->addRow(tr("Result"), m_address);
 
-    auto& comp_list = m_space.context().doc.app.components.factory<ComputationFactoryList>();
+    auto& comp_list = m_space.context().doc.app.interfaces<ComputationFactoryList>();
     for(auto& comp : comp_list)
     {
-        m_type->addItem(comp.prettyName(), QVariant::fromValue(comp.concreteFactoryKey()));
+        m_type->addItem(comp.prettyName(), QVariant::fromValue(comp.concreteKey()));
     }
 
 
@@ -134,7 +134,7 @@ void ComputationsWidget::loadComputation(
     m_a1->setCurrentIndex(a1_idx);
     m_a2->setCurrentIndex(a2_idx);
 
-    auto t_idx = m_type->findData(QVariant::fromValue(comp.concreteFactoryKey()));
+    auto t_idx = m_type->findData(QVariant::fromValue(comp.concreteKey()));
     ISCORE_ASSERT(t_idx != -1);
     m_type->setCurrentIndex(t_idx);
 

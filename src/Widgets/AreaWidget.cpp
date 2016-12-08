@@ -30,7 +30,7 @@ AreaWidget::AreaWidget(
     auto lay = new QGridLayout;
     this->setLayout(lay);
 
-    m_selectionWidget = new AreaSelectionWidget{ctx.app.components.factory<AreaFactoryList>(), this};
+    m_selectionWidget = new AreaSelectionWidget{ctx.app.interfaces<AreaFactoryList>(), this};
     lay->addWidget(m_selectionWidget);
     connect(m_selectionWidget, &AreaSelectionWidget::lineEditChanged,
             this, &AreaWidget::on_formulaChanged);
@@ -192,7 +192,7 @@ void AreaWidget::on_formulaChanged()
 
     if(m_selectionWidget->currentAreaKey() != GenericArea::uuid())
     {
-        auto& fl = m_space.context().doc.app.components.factory<AreaFactoryList>();
+        auto& fl = m_space.context().doc.app.interfaces<AreaFactoryList>();
         auto area_f_it = fl.get(m_selectionWidget->currentAreaKey());
         if(!area_f_it)
         {

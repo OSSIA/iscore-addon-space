@@ -34,11 +34,11 @@ class iscore_plugin_space final :
                 const iscore::GUIApplicationContext& app) override;
 
 
-        std::vector<std::unique_ptr<iscore::FactoryInterfaceBase>> factories(
+        std::vector<std::unique_ptr<iscore::InterfaceBase>> factories(
                 const iscore::ApplicationContext& ctx,
-                const iscore::AbstractFactoryKey& matchingName) const override;
+                const iscore::InterfaceKey& matchingName) const override;
 
-        std::vector<std::unique_ptr<iscore::FactoryListInterface>> factoryFamilies() override;
+        std::vector<std::unique_ptr<iscore::InterfaceListBase>> factoryFamilies() override;
 
         std::pair<const CommandParentFactoryKey, CommandGeneratorMap> make_commands() override;
 

@@ -30,8 +30,8 @@ class SpaceProcessComponentHierarchyManager : public Nano::Observer
                 QObject* component_as_parent):
             m_process{space},
             m_component{component},
-            m_areaComponentFactory{&doc.context().app.components.template factory<AreaComponentFactoryList_T>()},
-            m_computationsComponentFactory{&doc.context().app.components.template factory<ComputationsComponentFactoryList_T>()},
+            m_areaComponentFactory{&doc.context().app.template interfaces<AreaComponentFactoryList_T>()},
+            m_computationsComponentFactory{&doc.context().app.template interfaces<ComputationsComponentFactoryList_T>()},
             m_system{doc},
             m_parentObject{component_as_parent}
         {

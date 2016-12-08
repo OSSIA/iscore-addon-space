@@ -85,7 +85,7 @@ class DistanceComputation :
 
 
         State::Value result() const override;
-        UuidKey<ComputationFactory> concreteFactoryKey() const override;
+        UuidKey<ComputationFactory> concreteKey() const override;
 
     private:
         void loadAreas(const Space::ProcessModel&);

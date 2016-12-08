@@ -47,7 +47,7 @@ void AddArea::redo() const
 {
     auto& proc = m_path.find();
 
-    auto factory = context.components.factory<AreaFactoryList>().get(m_areaType);
+    auto factory = context.interfaces<AreaFactoryList>().get(m_areaType);
     ISCORE_ASSERT(factory);
 
     AreaModel* ar = factory->make(m_areaFormula, proc.context(), m_createdAreaId, &proc);

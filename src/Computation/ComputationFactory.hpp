@@ -14,13 +14,13 @@ namespace Space
 class AreaModel;
 class ComputationModel;
 class ComputationFactory :
-   public iscore::AbstractFactory<ComputationFactory>,
+   public iscore::Interface<ComputationFactory>,
    public iscore::GenericModelFactory<
         ComputationModel,
         iscore::MakeArgs<const AreaModel&, const AreaModel&, const Space::Context&, const Id<ComputationModel>&, QObject*>,
         iscore::LoadArgs<const VisitorVariant&, const Space::Context&, QObject*>>
 {
-        ISCORE_ABSTRACT_FACTORY("60563b69-d8a2-40d4-93b8-284b142fbf4b")
+        ISCORE_INTERFACE("60563b69-d8a2-40d4-93b8-284b142fbf4b")
     public:
         virtual ~ComputationFactory();
 };
@@ -208,8 +208,8 @@ class ComputationFactory_T : public ComputationFactory
         QString prettyName() const override
         { return Metadata<PrettyName_k, Model_T>::get(); }
 
-        UuidKey<Space::ComputationFactory> concreteFactoryKey() const override
-        { return Metadata<ConcreteFactoryKey_k, Model_T>::get(); }
+        UuidKey<Space::ComputationFactory> concreteKey() const noexcept override
+        { return Metadata<ConcreteKey_k, Model_T>::get(); }
 
         Model_T* make(
                 const AreaModel& a1,
@@ -236,7 +236,7 @@ class ComputationFactory_T : public ComputationFactory
 class FactoryName final : \
         public Space::ComputationFactory_T<Model> \
 { \
-        ISCORE_CONCRETE_FACTORY(Uuid)  \
+        ISCORE_CONCRETE(Uuid)  \
 };
 
 Q_DECLARE_METATYPE(UuidKey<Space::ComputationFactory>)

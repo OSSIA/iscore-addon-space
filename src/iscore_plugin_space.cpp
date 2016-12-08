@@ -45,9 +45,9 @@ iscore::GUIApplicationContextPlugin *iscore_plugin_space::make_applicationPlugin
 }
 
 
-std::vector<std::unique_ptr<iscore::FactoryInterfaceBase>> iscore_plugin_space::factories(
+std::vector<std::unique_ptr<iscore::InterfaceBase>> iscore_plugin_space::factories(
         const iscore::ApplicationContext& ctx,
-        const iscore::AbstractFactoryKey& key) const
+        const iscore::InterfaceKey& key) const
 {
 
     return instantiate_factories<
@@ -80,9 +80,9 @@ std::vector<std::unique_ptr<iscore::FactoryInterfaceBase>> iscore_plugin_space::
 }
 
 
-std::vector<std::unique_ptr<iscore::FactoryListInterface>> iscore_plugin_space::factoryFamilies()
+std::vector<std::unique_ptr<iscore::InterfaceListBase>> iscore_plugin_space::factoryFamilies()
 {
-    return make_ptr_vector<iscore::FactoryListInterface,
+    return make_ptr_vector<iscore::InterfaceListBase,
             Space::AreaFactoryList,
             Space::ComputationFactoryList,
             Space::LocalTree::AreaComponentFactoryList,

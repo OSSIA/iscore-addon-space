@@ -143,7 +143,7 @@ void LayerPresenter::reset()
 
 void LayerPresenter::on_areaAdded(const AreaModel & a)
 {
-    AreaFactory* fact = m_context.context.app.components.factory<AreaFactoryList>().get(a.concreteFactoryKey());
+    AreaFactory* fact = m_context.context.app.interfaces<AreaFactoryList>().get(a.concreteKey());
 
     auto v = fact->makeView(m_spaceItem);
 

@@ -160,7 +160,7 @@ ossia::state_element ProcessExecutor::state(double t)
                             [] (iscore::Component& comp)
         { return dynamic_cast<LocalTree::ComputationComponent*>(&comp); });
 
-        if(compo_it != computation.components.end())
+        if(compo_it != computation.end())
         {
             auto& compo = static_cast<LocalTree::ComputationComponent&>(*compo_it);
             ISCORE_ASSERT(compo.valueNode()->getAddress().get());

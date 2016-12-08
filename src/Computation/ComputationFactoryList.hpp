@@ -5,7 +5,7 @@
 namespace Space
 {
 class ISCORE_PLUGIN_SPACE_EXPORT ComputationFactoryList final :
-        public iscore::ConcreteFactoryList<ComputationFactory>
+        public iscore::InterfaceList<ComputationFactory>
 {
     public:
         using object_type = Space::ComputationModel;

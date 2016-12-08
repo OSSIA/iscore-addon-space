@@ -17,13 +17,13 @@ class AreaModel;
 class AreaPresenter;
 
 class AreaFactory :
-        public iscore::AbstractFactory<AreaFactory>,
+        public iscore::Interface<AreaFactory>,
         public iscore::GenericModelFactory<
              AreaModel,
              iscore::MakeArgs<const QStringList&, const Space::Context&, const Id<AreaModel>&, QObject*>,
              iscore::LoadArgs<const VisitorVariant&, const Space::Context&, QObject*>>
 {
-        ISCORE_ABSTRACT_FACTORY("4620006c-4562-42f4-a3eb-4cd525330d50")
+        ISCORE_INTERFACE("4620006c-4562-42f4-a3eb-4cd525330d50")
     public:
         virtual ~AreaFactory();
 

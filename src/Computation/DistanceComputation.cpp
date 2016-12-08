@@ -141,7 +141,7 @@ State::Value DistanceComputation::result() const
     return State::Value::fromValue(m_fun());
 }
 
-UuidKey<ComputationFactory> DistanceComputation::concreteFactoryKey() const
+UuidKey<ComputationFactory> DistanceComputation::concreteKey() const
 {
     return_uuid("2437bda3-6c38-46b5-bfac-9661bfcd5bec");
 }

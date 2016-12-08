@@ -33,7 +33,7 @@ void AddComputation::redo() const
 {
     auto& proc = m_path.find();
 
-    auto factory = context.components.factory<ComputationFactoryList>().get(m_type);
+    auto factory = context.interfaces<ComputationFactoryList>().get(m_type);
     ISCORE_ASSERT(factory);
 
     ComputationModel* comp = factory->make(

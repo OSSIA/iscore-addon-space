@@ -35,14 +35,14 @@ class AreaComponentFactory_T :
         using model_type = typename AreaComponent_T::model_type;
         using component_type = AreaComponent_T;
 
-        static auto static_concreteFactoryKey()
+        static auto static_concreteKey()
         {
             return AreaComponent_T::static_key().impl();
         }
 
-        ConcreteFactoryKey concreteFactoryKey() const final override
+        ConcreteKey concreteKey() const noexcept final override
         {
-            return AreaComponent_T::static_key().impl(); // Note : here there is a conversion between UuidKey<Component> and ConcreteFactoryKey
+            return AreaComponent_T::static_key().impl(); // Note : here there is a conversion between UuidKey<Component> and ConcreteKey
         }
 
         AreaComponent_T* make(

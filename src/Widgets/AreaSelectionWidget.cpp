@@ -33,7 +33,7 @@ AreaSelectionWidget::AreaSelectionWidget(
     {
         m_comboBox->addItem(
                     elt.prettyName(),
-                    QVariant::fromValue(elt.concreteFactoryKey()));
+                    QVariant::fromValue(elt.concreteKey()));
     }
     connect(m_comboBox, SignalUtils::QComboBox_currentIndexChanged_int(),
             this, [&] (int index) {
@@ -60,7 +60,7 @@ void AreaSelectionWidget::setCurrentArea(const AreaModel& m)
 {
     m_lineEdit->setText(m.toString());
     m_comboBox->setCurrentIndex(
-                m_comboBox->findData(QVariant::fromValue(m.concreteFactoryKey())));
+                m_comboBox->findData(QVariant::fromValue(m.concreteKey())));
 }
 
 void AreaSelectionWidget::setNoArea()

@@ -35,14 +35,14 @@ class ComputationComponentFactory_T :
         using model_type = typename ComputationComponent_T::model_type;
         using component_type = ComputationComponent_T;
 
-        static auto static_concreteFactoryKey()
+        static auto static_concreteKey()
         {
             return ComputationComponent_T::static_key().impl();
         }
 
-        ConcreteFactoryKey concreteFactoryKey() const final override
+        ConcreteKey concreteKey() const noexcept final override
         {
-            return ComputationComponent_T::static_key().impl(); // Note : here there is a conversion between UuidKey<Component> and ConcreteFactoryKey
+            return ComputationComponent_T::static_key().impl(); // Note : here there is a conversion between UuidKey<Component> and ConcreteKey
         }
 
         ComputationComponent* make(
