@@ -98,11 +98,11 @@ std::vector<std::unique_ptr<iscore::InterfaceListBase>> iscore_plugin_space::fac
 #include <iscore/command/CommandGeneratorMap.hpp>
 #include <iscore/command/Command.hpp>
 
-std::pair<const CommandParentFactoryKey, CommandGeneratorMap>
+std::pair<const CommandGroupKey, CommandGeneratorMap>
 iscore_plugin_space::make_commands()
 {
     using namespace Space;
-    std::pair<const CommandParentFactoryKey, CommandGeneratorMap> cmds{
+    std::pair<const CommandGroupKey, CommandGeneratorMap> cmds{
         CommandFactoryName(), CommandGeneratorMap{}};
 
     using Types = TypeList<

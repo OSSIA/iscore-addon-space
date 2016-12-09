@@ -40,7 +40,7 @@ class iscore_plugin_space final :
 
         std::vector<std::unique_ptr<iscore::InterfaceListBase>> factoryFamilies() override;
 
-        std::pair<const CommandParentFactoryKey, CommandGeneratorMap> make_commands() override;
+        std::pair<const CommandGroupKey, CommandGeneratorMap> make_commands() override;
 
         iscore::Version version() const override;
         UuidKey<iscore::Plugin> key() const override;
