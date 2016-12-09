@@ -1,12 +1,12 @@
 #pragma once
-#include <iscore/command/SerializableCommand.hpp>
+#include <iscore/command/Command.hpp>
 #include <src/Commands/SpaceCommandFactory.hpp>
 #include <iscore/tools/ModelPath.hpp>
 
 namespace Space
 {
 class DimensionModel;
-struct UpdateDimension : public iscore::SerializableCommand
+struct UpdateDimension : public iscore::Command
 {
             ISCORE_COMMAND_DECL(CommandFactoryName(), UpdateDimension, "Update Dimension")
     public:

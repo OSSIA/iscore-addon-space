@@ -1,5 +1,5 @@
 #pragma once
-#include <iscore/command/SerializableCommand.hpp>
+#include <iscore/command/Command.hpp>
 #include <src/Commands/SpaceCommandFactory.hpp>
 #include <iscore/tools/ModelPath.hpp>
 #include <QPointF>
@@ -8,7 +8,7 @@
 namespace Space
 {
 class AreaModel;
-struct UpdateTransform : public iscore::SerializableCommand
+struct UpdateTransform : public iscore::Command
 {
          ISCORE_COMMAND_DECL(CommandFactoryName(), UpdateTransform, "Update Area")
     public:

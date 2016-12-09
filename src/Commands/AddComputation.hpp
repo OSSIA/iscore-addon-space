@@ -1,5 +1,5 @@
 #pragma once
-#include <iscore/command/SerializableCommand.hpp>
+#include <iscore/command/Command.hpp>
 #include <iscore/tools/ModelPath.hpp>
 #include <Device/Address/AddressSettings.hpp>
 #include <src/Commands/SpaceCommandFactory.hpp>
@@ -9,7 +9,7 @@ class ComputationFactory;
 class ComputationModel;
 class AreaModel;
 class ProcessModel;
-class AddComputation : public iscore::SerializableCommand
+class AddComputation : public iscore::Command
 {
         ISCORE_COMMAND_DECL(CommandFactoryName(), AddComputation, "AddComputation")
     public:

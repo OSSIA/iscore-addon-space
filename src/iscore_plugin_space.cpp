@@ -96,7 +96,7 @@ std::vector<std::unique_ptr<iscore::InterfaceListBase>> iscore_plugin_space::fac
 
 #include <iscore_plugin_space_commands_files.hpp>
 #include <iscore/command/CommandGeneratorMap.hpp>
-#include <iscore/command/SerializableCommand.hpp>
+#include <iscore/command/Command.hpp>
 
 std::pair<const CommandParentFactoryKey, CommandGeneratorMap>
 iscore_plugin_space::make_commands()
