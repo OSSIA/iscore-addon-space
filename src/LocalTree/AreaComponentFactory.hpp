@@ -1,6 +1,6 @@
 #pragma once
 #include <src/LocalTree/AreaComponent.hpp>
-#include <iscore/component/ComponentFactory.hpp>
+#include <iscore/model/ComponentFactory.hpp>
 #include <src/LocalTree/GenericAreaComponent.hpp>
 
 namespace Space

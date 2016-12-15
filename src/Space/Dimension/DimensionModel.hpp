@@ -2,7 +2,7 @@
 #include <QString>
 #include <iscore/tools/std/Optional.hpp>
 #include <State/Value.hpp>
-#include <iscore/tools/IdentifiedObject.hpp>
+#include <iscore/model/IdentifiedObject.hpp>
 
 namespace Space
 {

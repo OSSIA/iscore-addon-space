@@ -1,7 +1,7 @@
 #pragma once
 
-#include <iscore/tools/IdentifiedObject.hpp>
-#include <iscore/tools/IdentifiedObjectMap.hpp>
+#include <iscore/model/IdentifiedObject.hpp>
+#include <iscore/model/IdentifiedObjectMap.hpp>
 #include <Space/bounded_symbol.hpp>
 
 #include <src/Space/Dimension/DimensionModel.hpp>

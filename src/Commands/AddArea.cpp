@@ -13,8 +13,8 @@
 
 #include <iscore/application/ApplicationContext.hpp>
 #include <boost/range/algorithm/find_if.hpp>
-#include <iscore/tools/SettableIdentifierGeneration.hpp>
-#include <iscore/tools/ModelPathSerialization.hpp>
+#include <iscore/tools/IdentifierGeneration.hpp>
+#include <iscore/model/path/PathSerialization.hpp>
 #include <iscore/plugins/customfactory/StringFactoryKeySerialization.hpp>
 
 #include <src/Area/Circle/CircleAreaModel.hpp>

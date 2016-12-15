@@ -1,5 +1,5 @@
 #pragma once
-#include <iscore/tools/SettableIdentifier.hpp>
+#include <iscore/model/Identifier.hpp>
 #include <iscore/plugins/customfactory/FactoryInterface.hpp>
 #include <src/SpaceContext.hpp>
 #include <src/Area/Circle/CircleAreaModel.hpp>

@@ -1,6 +1,6 @@
 #include "UpdateTransform.hpp"
 #include <src/Area/AreaModel.hpp>
-#include <iscore/tools/ModelPathSerialization.hpp>
+#include <iscore/model/path/PathSerialization.hpp>
 namespace Space
 {
 

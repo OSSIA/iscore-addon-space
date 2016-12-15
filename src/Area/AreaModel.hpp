@@ -4,7 +4,7 @@
 #include <src/Area/AreaFactory.hpp>
 #include <src/SpaceContext.hpp>
 #include <iscore/model/ModelMetadata.hpp>
-#include <iscore/component/Component.hpp>
+#include <iscore/model/Component.hpp>
 #include <src/Area/ValMap.hpp>
 #include <src/Area/AreaMetadata.hpp>
 #include <iscore_plugin_space_export.h>

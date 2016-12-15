@@ -1,9 +1,9 @@
 #pragma once
 #include <Process/Process.hpp>
-#include <iscore/tools/IdentifiedObjectMap.hpp>
+#include <iscore/model/IdentifiedObjectMap.hpp>
 #include "Area/AreaModel.hpp"
 #include "Computation/ComputationModel.hpp"
-#include <iscore/tools/EntityMap.hpp>
+#include <iscore/model/EntityMap.hpp>
 #include <src/Space/SpaceModel.hpp>
 
 #include <Process/ProcessMetadata.hpp>

@@ -1,6 +1,6 @@
 #pragma once
 #include <iscore/command/Command.hpp>
-#include <iscore/tools/ModelPath.hpp>
+#include <iscore/model/path/Path.hpp>
 #include <Device/Address/AddressSettings.hpp>
 #include <src/Commands/SpaceCommandFactory.hpp>
 namespace Space

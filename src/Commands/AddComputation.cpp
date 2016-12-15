@@ -2,8 +2,8 @@
 #include <src/SpaceProcess.hpp>
 #include <src/Computation/ComputationModel.hpp>
 #include <src/Computation/ComputationFactoryList.hpp>
-#include <iscore/tools/SettableIdentifierGeneration.hpp>
-#include <iscore/tools/ModelPathSerialization.hpp>
+#include <iscore/tools/IdentifierGeneration.hpp>
+#include <iscore/model/path/PathSerialization.hpp>
 
 namespace Space
 {

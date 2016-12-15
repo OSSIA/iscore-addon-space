@@ -1,6 +1,6 @@
 #pragma once
 
-#include <iscore/tools/SettableIdentifier.hpp>
+#include <iscore/model/Identifier.hpp>
 #include <src/Area/ValMap.hpp>
 #include <iscore/command/Dispatchers/SingleOngoingCommandDispatcher.hpp>
 #include <src/Commands/UpdateTransform.hpp>

@@ -1,7 +1,7 @@
 #pragma once
 #include <Process/LayerPresenter.hpp>
 #include <Process/Focus/FocusDispatcher.hpp>
-#include <iscore/tools/IdentifiedObjectMap.hpp>
+#include <iscore/model/IdentifiedObjectMap.hpp>
 #include <iscore/widgets/GraphicsItem.hpp>
 
 #include "nano_observer.hpp"

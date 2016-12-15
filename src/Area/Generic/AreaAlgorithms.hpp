@@ -7,7 +7,7 @@
 #include <QMetaType>
 #include <QPainterPath>
 #include <vtkFunctionParser.h>
-#include <iscore/tools/IdentifiedObject.hpp>
+#include <iscore/model/IdentifiedObject.hpp>
 #include <vtkSmartPointer.h>
 #include <QVector2D>
 #include <boost/dynamic_bitset.hpp>

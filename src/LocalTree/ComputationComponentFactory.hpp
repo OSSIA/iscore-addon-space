@@ -1,7 +1,7 @@
 #pragma once
 #include <src/LocalTree/ComputationComponent.hpp>
 #include <Engine/LocalTree/LocalTreeDocumentPlugin.hpp>
-#include <iscore/component/ComponentFactory.hpp>
+#include <iscore/model/ComponentFactory.hpp>
 #include <src/LocalTree/GenericComputationComponent.hpp>
 
 namespace Space

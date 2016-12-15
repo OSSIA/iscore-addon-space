@@ -1,7 +1,7 @@
 #pragma once
 #include <boost/container/flat_map.hpp>
 #include <QMap>
-#include <iscore/tools/SettableIdentifier.hpp>
+#include <iscore/model/Identifier.hpp>
 #include <Device/Address/AddressSettings.hpp>
 
 #include <string>

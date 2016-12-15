@@ -1,8 +1,8 @@
 #pragma once
 
 #include <iscore/model/Entity.hpp>
-#include <iscore/tools/IdentifiedObject.hpp>
-#include <iscore/component/Component.hpp>
+#include <iscore/model/IdentifiedObject.hpp>
+#include <iscore/model/Component.hpp>
 #include <State/Message.hpp>
 #include <iscore/plugins/customfactory/SerializableInterface.hpp>
 #include <src/SpaceContext.hpp>

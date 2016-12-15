@@ -1,5 +1,5 @@
 #pragma once
-#include <iscore/tools/IdentifiedObject.hpp>
+#include <iscore/model/IdentifiedObject.hpp>
 #include <src/Space/Dimension/DimensionModel.hpp>
 #include <QMap>
 #include <QString>
