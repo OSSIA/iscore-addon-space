@@ -23,7 +23,7 @@ class iscore_plugin_space final :
                 iscore::CommandFactory_QtInterface
                 iscore::GUIApplicationContextPlugin_QtInterface
                 )
-
+        ISCORE_PLUGIN_METADATA(1, "02b77d0c-6c8f-45f5-bb28-b649b5c3c7e0")
     public:
         iscore_plugin_space();
         virtual ~iscore_plugin_space();
@@ -41,7 +41,4 @@ class iscore_plugin_space final :
         std::vector<std::unique_ptr<iscore::InterfaceListBase>> factoryFamilies() override;
 
         std::pair<const CommandGroupKey, CommandGeneratorMap> make_commands() override;
-
-        iscore::Version version() const override;
-        UuidKey<iscore::Plugin> key() const override;
 };

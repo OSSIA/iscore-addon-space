@@ -52,7 +52,6 @@ std::vector<std::unique_ptr<iscore::InterfaceBase>> iscore_plugin_space::factori
 
     return instantiate_factories<
             iscore::ApplicationContext,
-    TL<
         FW<Process::ProcessModelFactory,
             Space::ProcessFactory>,
         FW<Process::LayerFactory,
@@ -75,7 +74,6 @@ std::vector<std::unique_ptr<iscore::InterfaceBase>> iscore_plugin_space::factori
             >,
         FW<Space::LocalTree::ComputationComponentFactory,
             Space::LocalTree::GenericComputationComponentFactory>
-      >
      >(ctx, key);
 }
 
@@ -111,15 +109,4 @@ iscore_plugin_space::make_commands()
     for_each_type<Types>(iscore::commands::FactoryInserter{cmds.second});
 
     return cmds;
-}
-
-
-iscore::Version iscore_plugin_space::version() const
-{
-    return iscore::Version{1};
-}
-
-UuidKey<iscore::Plugin> iscore_plugin_space::key() const
-{
-    return_uuid("02b77d0c-6c8f-45f5-bb28-b649b5c3c7e0");
 }
