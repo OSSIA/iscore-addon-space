@@ -47,7 +47,7 @@ class GenericAreaModel : public AreaMetadata_T<GenericArea, AreaModel>
         }
 
         template<typename Impl>
-        GenericAreaModel(Deserializer<Impl>& vis,
+        GenericAreaModel(Impl& vis,
                     const Space::Context& space,
                     QObject* parent) :
             AreaMetadata_T<GenericArea, AreaModel>{vis, space, parent}

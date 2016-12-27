@@ -31,8 +31,7 @@ namespace Executor { class ProcessExecutor; }
 class ProcessModel : public Process::ProcessModel
 {
         Q_OBJECT
-        ISCORE_SERIALIZE_FRIENDS(Space::ProcessModel, DataStream)
-        ISCORE_SERIALIZE_FRIENDS(Space::ProcessModel, JSONObject)
+        ISCORE_SERIALIZE_FRIENDS
         MODEL_METADATA_IMPL(Space::ProcessModel)
 
 
@@ -54,7 +53,7 @@ class ProcessModel : public Process::ProcessModel
         template<typename Impl>
         ProcessModel(
                 const iscore::DocumentContext& doc,
-                Deserializer<Impl>& vis,
+                Impl& vis,
                 QObject* parent) :
             Process::ProcessModel{vis, parent},
             m_space{new SpaceModel{

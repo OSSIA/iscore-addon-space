@@ -1,10 +1,9 @@
 #include "ViewportModel.hpp"
 
-template<>
-void Visitor<Reader<DataStream>>::readFrom(
+template <>
+void DataStreamReader::read(
         const Space::ViewportModel& vp)
 {
-    readFrom(static_cast<const IdentifiedObject<Space::ViewportModel>&>(vp));
     m_stream
             << vp.name()
             << vp.transform()
@@ -16,8 +15,8 @@ void Visitor<Reader<DataStream>>::readFrom(
     insertDelimiter();
 }
 
-template<>
-void Visitor<Writer<DataStream>>::writeTo(
+template <>
+void DataStreamWriter::writeTo(
         Space::ViewportModel& vp)
 {
     m_stream
@@ -31,26 +30,25 @@ void Visitor<Writer<DataStream>>::writeTo(
     checkDelimiter();
 }
 
-template<>
-void Visitor<Reader<JSONObject>>::readFrom(
+template <>
+void JSONObjectReader::read(
         const Space::ViewportModel& vp)
 {
-    readFrom(static_cast<const IdentifiedObject<Space::ViewportModel>&>(vp));
-    m_obj[strings.Name] = vp.name();
-    m_obj["Transform"] = toJsonValue(vp.m_transform);
-    m_obj["xDim"] = toJsonValue(vp.xDim());
-    m_obj["yDim"] = toJsonValue(vp.yDim());
-    //m_obj[""] = toJsonValue(vp.yDim());
-    m_obj["Precision"] = vp.renderPrecision();
+    obj[strings.Name] = vp.name();
+    obj["Transform"] = toJsonValue(vp.m_transform);
+    obj["xDim"] = toJsonValue(vp.xDim());
+    obj["yDim"] = toJsonValue(vp.yDim());
+    //obj[""] = toJsonValue(vp.yDim());
+    obj["Precision"] = vp.renderPrecision();
 }
 
-template<>
-void Visitor<Writer<JSONObject>>::writeTo(
+template <>
+void JSONObjectWriter::writeTo(
         Space::ViewportModel& vp)
 {
-    vp.m_name = m_obj[strings.Name].toString();
-    vp.m_transform = fromJsonValue<QTransform>(m_obj["Transform"]);
-    vp.m_xDim = fromJsonValue<Id<Space::DimensionModel>>(m_obj["xDim"]);
-    vp.m_xDim = fromJsonValue<Id<Space::DimensionModel>>(m_obj["yDim"]);
-    vp.m_renderPrecision = m_obj["Precision"].toInt();
+    vp.m_name = obj[strings.Name].toString();
+    vp.m_transform = fromJsonValue<QTransform>(obj["Transform"]);
+    vp.m_xDim = fromJsonValue<Id<Space::DimensionModel>>(obj["xDim"]);
+    vp.m_xDim = fromJsonValue<Id<Space::DimensionModel>>(obj["yDim"]);
+    vp.m_renderPrecision = obj["Precision"].toInt();
 }

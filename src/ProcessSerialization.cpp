@@ -1,8 +1,9 @@
 #include "SpaceProcess.hpp"
 #include <src/Area/SingletonAreaFactoryList.hpp>
 #include <src/Computation/ComputationFactoryList.hpp>
-template<>
-void Visitor<Reader<DataStream>>::readFrom_impl(
+
+template <>
+void DataStreamReader::read(
         const Space::ProcessModel& proc)
 {
     // Space definition
@@ -25,8 +26,8 @@ void Visitor<Reader<DataStream>>::readFrom_impl(
     insertDelimiter();
 }
 
-template<>
-void Visitor<Writer<DataStream>>::writeTo(
+template <>
+void DataStreamWriter::writeTo(
         Space::ProcessModel& proc)
 {
     writeTo(proc.space());
@@ -62,28 +63,27 @@ void Visitor<Writer<DataStream>>::writeTo(
 
 
 
-
-template<>
-void Visitor<Reader<JSONObject>>::readFrom_impl(
+template <>
+void JSONObjectReader::read(
         const Space::ProcessModel& proc)
 {
-    m_obj["Space"] = toJsonObject(proc.space());
-    m_obj["Areas"] = toJsonArray(proc.areas);
-    m_obj["Computations"] = toJsonArray(proc.computations);
+    obj["Space"] = toJsonObject(proc.space());
+    obj["Areas"] = toJsonArray(proc.areas);
+    obj["Computations"] = toJsonArray(proc.computations);
 }
 
-template<>
-void Visitor<Writer<JSONObject>>::writeTo(
+template <>
+void JSONObjectWriter::writeTo(
         Space::ProcessModel& proc)
 {
-    Deserializer<JSONObject> obj{m_obj["Space"].toObject()};
+    JSONObject::Deserializer obj{obj["Space"].toObject()};
     obj.writeTo(proc.space());
 
     // Areas
     auto& areas = components.interfaces<Space::AreaFactoryList>();
-    for(const auto& ar : m_obj["Areas"].toArray())
+    for(const auto& ar : obj["Areas"].toArray())
     {
-        Deserializer<JSONObject> ar_deser{ar.toObject()};
+        JSONObject::Deserializer ar_deser{ar.toObject()};
         auto area = deserialize_interface(areas, ar_deser, proc.context(), &proc);
         if(area)
             proc.areas.add(area);
@@ -93,9 +93,9 @@ void Visitor<Writer<JSONObject>>::writeTo(
 
     // Computations
     auto& comps = components.interfaces<Space::ComputationFactoryList>();
-    for(const auto& comp : m_obj["Computations"].toArray())
+    for(const auto& comp : obj["Computations"].toArray())
     {
-        Deserializer<JSONObject> comp_deser{comp.toObject()};
+        JSONObject::Deserializer comp_deser{comp.toObject()};
         auto deser = deserialize_interface(comps, comp_deser, proc.context(), &proc);
         if(deser)
             proc.computations.add(deser);

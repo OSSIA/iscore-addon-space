@@ -23,8 +23,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaModel :
         public iscore::SerializableInterface<AreaFactory>
 {
         Q_OBJECT
-        ISCORE_SERIALIZE_FRIENDS(Space::AreaModel, DataStream)
-        ISCORE_SERIALIZE_FRIENDS(Space::AreaModel, JSONObject)
+        ISCORE_SERIALIZE_FRIENDS
     public:
         // The value is used as default value if the address is invalid.
         virtual QString prettyName() const = 0;
@@ -43,7 +42,7 @@ class ISCORE_PLUGIN_SPACE_EXPORT AreaModel :
                 QObject* parent);
 
         template<typename Impl>
-        AreaModel(Deserializer<Impl>& vis,
+        AreaModel(Impl& vis,
                   const Space::Context& space,
                   QObject* parent) :
             Entity{vis, parent},
@@ -172,7 +171,7 @@ class AreaModel_T : public AreaMetadata_T<T, AreaModel>
         }
 
         template<typename Impl>
-        AreaModel_T(Deserializer<Impl>& vis,
+        AreaModel_T(Impl& vis,
                     const Space::Context& space,
                     QObject* parent) :
             AreaMetadata_T<T, AreaModel>{vis, space, parent}

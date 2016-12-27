@@ -158,13 +158,11 @@ struct TSerializer<
             }
         }
 };
-template<>
-void Visitor<Reader<DataStream>>::readFrom_impl(
+
+template <>
+void DataStreamReader::read(
         const Space::AreaModel& area)
 {
-    // Save the parent class
-    readFrom(static_cast<const iscore::Entity<Space::AreaModel>&>(area));
-
     // Save this class
     m_stream << area.m_transform
              << area.m_formula
@@ -173,8 +171,8 @@ void Visitor<Reader<DataStream>>::readFrom_impl(
              << area.m_currentParameterMap;
 }
 
-template<>
-void Visitor<Writer<DataStream>>::writeTo(
+template <>
+void DataStreamWriter::writeTo(
         Space::AreaModel& area)
 {
     m_stream >> area.m_transform;
@@ -186,30 +184,25 @@ void Visitor<Writer<DataStream>>::writeTo(
              >> area.m_currentParameterMap;
 }
 
-template<>
-void Visitor<Reader<JSONObject>>::readFrom_impl(
+template <>
+void JSONObjectReader::read(
         const Space::AreaModel& area)
 {
-    // Save the parent class
-    readFrom(static_cast<const iscore::Entity<Space::AreaModel>&>(area));
-
-    // Save this class
-    m_obj["Transform"] = toJsonValue(area.m_transform);
-    m_obj["Formula"] = QJsonArray::fromStringList(area.m_formula);
-    m_obj["SpaceMap"] = toJsonValue(area.m_spaceMap);
-    m_obj["ParameterMap"] = toJsonValue(area.m_parameterMap);
-    m_obj["CurrentParamMap"] = toJsonValue(area.m_currentParameterMap);
-
+    obj["Transform"] = toJsonValue(area.m_transform);
+    obj["Formula"] = QJsonArray::fromStringList(area.m_formula);
+    obj["SpaceMap"] = toJsonValue(area.m_spaceMap);
+    obj["ParameterMap"] = toJsonValue(area.m_parameterMap);
+    obj["CurrentParamMap"] = toJsonValue(area.m_currentParameterMap);
 }
 
-template<>
-void Visitor<Writer<JSONObject>>::writeTo(
+template <>
+void JSONObjectWriter::writeTo(
         Space::AreaModel& area)
 {
-    area.m_transform = fromJsonValue<QTransform>(m_obj["Transform"]);
+    area.m_transform = fromJsonValue<QTransform>(obj["Transform"]);
     area.m_inverted = area.m_transform.inverted();
-    fromJsonArray(m_obj["Formula"].toArray(), area.m_formula);
-    area.m_spaceMap = fromJsonValue<Space::SpaceMap>(m_obj["SpaceMap"]);
-    area.m_parameterMap = fromJsonValue<Space::ParameterMap>(m_obj["ParameterMap"]);
-    area.m_currentParameterMap = fromJsonValue<Space::ValMap>(m_obj["CurrentParamMap"]);
+    fromJsonArray(obj["Formula"].toArray(), area.m_formula);
+    area.m_spaceMap = fromJsonValue<Space::SpaceMap>(obj["SpaceMap"]);
+    area.m_parameterMap = fromJsonValue<Space::ParameterMap>(obj["ParameterMap"]);
+    area.m_currentParameterMap = fromJsonValue<Space::ValMap>(obj["CurrentParamMap"]);
 }

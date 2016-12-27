@@ -18,8 +18,7 @@ class ComputationModel :
         public iscore::SerializableInterface<ComputationFactory>
 {
         Q_OBJECT
-        ISCORE_SERIALIZE_FRIENDS(Space::ComputationModel, DataStream)
-        ISCORE_SERIALIZE_FRIENDS(Space::ComputationModel, JSONObject)
+        ISCORE_SERIALIZE_FRIENDS
     public:
         ComputationModel(
                 const Id<AreaModel>& a1,
@@ -35,7 +34,7 @@ class ComputationModel :
                 QObject* parent);
 
         template<typename Impl>
-        ComputationModel(Deserializer<Impl>& vis,
+        ComputationModel(Impl& vis,
                   const SpaceModel& space,
                   QObject* parent) :
             Entity{vis, parent},

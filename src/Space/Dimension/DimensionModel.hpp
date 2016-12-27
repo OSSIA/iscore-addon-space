@@ -10,8 +10,7 @@ namespace Space
 class DimensionModel : public IdentifiedObject<DimensionModel>
 {
         Q_OBJECT
-        ISCORE_SERIALIZE_FRIENDS(Space::DimensionModel, DataStream)
-        ISCORE_SERIALIZE_FRIENDS(Space::DimensionModel, JSONObject)
+        ISCORE_SERIALIZE_FRIENDS
         Q_PROPERTY(double min READ min WRITE setMin NOTIFY minChanged)
         Q_PROPERTY(double max READ max WRITE setMax NOTIFY maxChanged)
 

@@ -1,7 +1,7 @@
 #include "SpaceModel.hpp"
 
-template<>
-void Visitor<Reader<DataStream>>::readFrom(
+template <>
+void DataStreamReader::read(
         const Space::SpaceModel& proc)
 {
     // Dimensions
@@ -24,8 +24,8 @@ void Visitor<Reader<DataStream>>::readFrom(
     insertDelimiter();
 }
 
-template<>
-void Visitor<Writer<DataStream>>::writeTo(
+template <>
+void DataStreamWriter::writeTo(
         Space::SpaceModel& proc)
 {
     clear(proc);
@@ -53,41 +53,39 @@ void Visitor<Writer<DataStream>>::writeTo(
 }
 
 
-
-
-template<>
-void Visitor<Reader<JSONObject>>::readFrom(
+template <>
+void JSONObjectReader::read(
         const Space::SpaceModel& proc)
 {
-    m_obj["Dimensions"] = toJsonArray(proc.m_dimensions);
-    m_obj["Viewports"] = toJsonArray(proc.m_viewports);
+    obj["Dimensions"] = toJsonArray(proc.m_dimensions);
+    obj["Viewports"] = toJsonArray(proc.m_viewports);
 
-    m_obj["DefaultViewport"] = toJsonValue(proc.m_defaultViewport);
-    m_obj["Precision"] = proc.precision();
+    obj["DefaultViewport"] = toJsonValue(proc.m_defaultViewport);
+    obj["Precision"] = proc.precision();
 }
 
-template<>
-void Visitor<Writer<JSONObject>>::writeTo(
+template <>
+void JSONObjectWriter::writeTo(
         Space::SpaceModel& proc)
 {
     clear(proc);
 
-    for(const auto& json_vref : m_obj["Dimensions"].toArray())
+    for(const auto& json_vref : obj["Dimensions"].toArray())
     {
         auto dim = new Space::DimensionModel{
-                Deserializer<JSONObject>{json_vref.toObject()},
+                JSONObject::Deserializer{json_vref.toObject()},
                 &proc};
         proc.m_dimensions.insert(dim);
     }
 
-    for(const auto& json_vref : m_obj["Viewports"].toArray())
+    for(const auto& json_vref : obj["Viewports"].toArray())
     {
         auto dim = new Space::ViewportModel{
-                Deserializer<JSONObject>{json_vref.toObject()},
+                JSONObject::Deserializer{json_vref.toObject()},
                 &proc};
         proc.m_viewports.insert(dim);
     }
 
-    proc.m_precision = m_obj["Precision"].toInt();
-    proc.m_defaultViewport = fromJsonValue<OptionalId<Space::ViewportModel>>(m_obj["DefaultViewport"]);
+    proc.m_precision = obj["Precision"].toInt();
+    proc.m_defaultViewport = fromJsonValue<OptionalId<Space::ViewportModel>>(obj["DefaultViewport"]);
 }
