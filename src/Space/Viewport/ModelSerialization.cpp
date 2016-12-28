@@ -16,7 +16,7 @@ void DataStreamReader::read(
 }
 
 template <>
-void DataStreamWriter::writeTo(
+void DataStreamWriter::write(
         Space::ViewportModel& vp)
 {
     m_stream
@@ -43,7 +43,7 @@ void JSONObjectReader::read(
 }
 
 template <>
-void JSONObjectWriter::writeTo(
+void JSONObjectWriter::write(
         Space::ViewportModel& vp)
 {
     vp.m_name = obj[strings.Name].toString();

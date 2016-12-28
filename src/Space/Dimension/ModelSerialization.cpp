@@ -10,7 +10,7 @@ void DataStreamReader::read(
 }
 
 template <>
-void DataStreamWriter::writeTo(
+void DataStreamWriter::write(
         Space::DimensionModel& dim)
 {
     m_stream >> dim.m_name >> dim.m_val >> dim.m_min >> dim.m_max;
@@ -29,7 +29,7 @@ void JSONObjectReader::read(
 }
 
 template <>
-void JSONObjectWriter::writeTo(
+void JSONObjectWriter::write(
         Space::DimensionModel& dim)
 {
     dim.m_name = obj[strings.Name].toString();

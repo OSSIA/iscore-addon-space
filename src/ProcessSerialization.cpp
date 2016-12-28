@@ -27,7 +27,7 @@ void DataStreamReader::read(
 }
 
 template <>
-void DataStreamWriter::writeTo(
+void DataStreamWriter::write(
         Space::ProcessModel& proc)
 {
     writeTo(proc.space());
@@ -73,7 +73,7 @@ void JSONObjectReader::read(
 }
 
 template <>
-void JSONObjectWriter::writeTo(
+void JSONObjectWriter::write(
         Space::ProcessModel& proc)
 {
     JSONObject::Deserializer obj{obj["Space"].toObject()};

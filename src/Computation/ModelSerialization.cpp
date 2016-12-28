@@ -8,7 +8,7 @@ void DataStreamReader::read(
 }
 
 template <>
-void DataStreamWriter::writeTo(
+void DataStreamWriter::write(
         Space::ComputationModel& area)
 {
     m_stream >> area.m_addr >> area.m_a1 >> area.m_a2;
@@ -24,7 +24,7 @@ void JSONObjectReader::read(
 }
 
 template <>
-void JSONObjectWriter::writeTo(
+void JSONObjectWriter::write(
         Space::ComputationModel& area)
 {
     area.m_addr = fromJsonObject<State::Address>(obj[strings.Address]);

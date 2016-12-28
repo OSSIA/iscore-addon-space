@@ -172,7 +172,7 @@ void DataStreamReader::read(
 }
 
 template <>
-void DataStreamWriter::writeTo(
+void DataStreamWriter::write(
         Space::AreaModel& area)
 {
     m_stream >> area.m_transform;
@@ -196,7 +196,7 @@ void JSONObjectReader::read(
 }
 
 template <>
-void JSONObjectWriter::writeTo(
+void JSONObjectWriter::write(
         Space::AreaModel& area)
 {
     area.m_transform = fromJsonValue<QTransform>(obj["Transform"]);

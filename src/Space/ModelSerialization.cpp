@@ -25,7 +25,7 @@ void DataStreamReader::read(
 }
 
 template <>
-void DataStreamWriter::writeTo(
+void DataStreamWriter::write(
         Space::SpaceModel& proc)
 {
     clear(proc);
@@ -65,7 +65,7 @@ void JSONObjectReader::read(
 }
 
 template <>
-void JSONObjectWriter::writeTo(
+void JSONObjectWriter::write(
         Space::SpaceModel& proc)
 {
     clear(proc);
