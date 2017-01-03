@@ -1,11 +1,11 @@
 #pragma once
-#include <iscore/plugins/application/GUIApplicationContextPlugin.hpp>
+#include <iscore/plugins/application/GUIApplicationPlugin.hpp>
 #include <src/SpaceContext.hpp>
 #include <src/EditionSettings.hpp>
 #include <QActionGroup>
 namespace Space
 {
-class ApplicationPlugin : public QObject, public iscore::GUIApplicationContextPlugin
+class ApplicationPlugin : public QObject, public iscore::GUIApplicationPlugin
 {
     public:
         ApplicationPlugin(const iscore::GUIApplicationContext& app);

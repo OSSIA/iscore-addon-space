@@ -5,7 +5,7 @@ namespace Space
 {
 
 ApplicationPlugin::ApplicationPlugin(const iscore::GUIApplicationContext &app):
-    iscore::GUIApplicationContextPlugin{app}
+    iscore::GUIApplicationPlugin{app}
 {
     m_actions = new QActionGroup{nullptr};
     m_actions->setExclusive(true);

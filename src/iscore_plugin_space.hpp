@@ -4,7 +4,7 @@
 #include <iscore/plugins/qt_interfaces/FactoryFamily_QtInterface.hpp>
 #include <iscore/plugins/qt_interfaces/FactoryInterface_QtInterface.hpp>
 #include <iscore/plugins/qt_interfaces/CommandFactory_QtInterface.hpp>
-#include <iscore/plugins/qt_interfaces/GUIApplicationContextPlugin_QtInterface.hpp>
+#include <iscore/plugins/qt_interfaces/GUIApplicationPlugin_QtInterface.hpp>
 
 class iscore_plugin_space final :
         public QObject,
@@ -12,7 +12,7 @@ class iscore_plugin_space final :
         public iscore::FactoryInterface_QtInterface,
         public iscore::FactoryList_QtInterface,
         public iscore::CommandFactory_QtInterface,
-        public iscore::GUIApplicationContextPlugin_QtInterface
+        public iscore::GUIApplicationPlugin_QtInterface
 {
         Q_OBJECT
         Q_PLUGIN_METADATA(IID FactoryInterface_QtInterface_iid)
@@ -21,7 +21,7 @@ class iscore_plugin_space final :
                 iscore::FactoryInterface_QtInterface
                 iscore::FactoryList_QtInterface
                 iscore::CommandFactory_QtInterface
-                iscore::GUIApplicationContextPlugin_QtInterface
+                iscore::GUIApplicationPlugin_QtInterface
                 )
         ISCORE_PLUGIN_METADATA(1, "02b77d0c-6c8f-45f5-bb28-b649b5c3c7e0")
     public:
@@ -30,7 +30,7 @@ class iscore_plugin_space final :
 
     private:
 
-        iscore::GUIApplicationContextPlugin* make_applicationPlugin(
+        iscore::GUIApplicationPlugin* make_applicationPlugin(
                 const iscore::GUIApplicationContext& app) override;
 
 
