@@ -9,7 +9,7 @@ namespace Space
 LayerView::LayerView(QGraphicsItem *parent):
     Process::LayerView{parent}
 {
-    this->setFlags(ItemClipsChildrenToShape | ItemIsSelectable | ItemIsFocusable); // TODO should not be ?
+    this->setFlags(ItemIsSelectable | ItemIsFocusable); // TODO should not be ?
     this->setZValue(100);
     this->setWidth(300);
     this->setHeight(300);
