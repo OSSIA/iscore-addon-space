@@ -19,9 +19,9 @@ GenericAreaComponent::GenericAreaComponent(
     for(const auto& param : area.currentMapping())
     {
         constexpr auto t = Engine::ossia_to_iscore::MatchingType<double>::val;
-        auto node = thisNode().createChild(param.first.toStdString());
-        auto addr = node->createAddress(t);
-        addr->setAccessMode(ossia::access_mode::BI);
+        auto node = thisNode().create_child(param.first.toStdString());
+        auto addr = node->create_address(t);
+        addr->set_access(ossia::access_mode::BI);
 
         auto callback_it = addr->add_callback([=] (const ossia::value& v)
         {
@@ -45,10 +45,10 @@ GenericAreaComponent::GenericAreaComponent(
                      this, [=] (QString sym, double val) {
         auto newVal = State::Value::fromValue(val);
         auto& addr = m_ginacProperties.at(sym)->addr;
-        auto ossia_val = addr.cloneValue();
+        auto ossia_val = addr.value();
         if(newVal != State::fromOSSIAValue(ossia_val))
         {
-            addr.pushValue(Engine::iscore_to_ossia::toOSSIAValue(newVal));
+            addr.push_value(Engine::iscore_to_ossia::toOSSIAValue(newVal));
         }
     },
     Qt::QueuedConnection);

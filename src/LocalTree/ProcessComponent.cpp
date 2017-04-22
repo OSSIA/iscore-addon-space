@@ -12,8 +12,8 @@ ProcessLocalTree::ProcessLocalTree(
         Engine::LocalTree::DocumentPlugin& doc,
         QObject* parent_obj):
     Engine::LocalTree::ProcessComponent_T<Space::ProcessModel>{parent, process, doc, id, "SpaceComponent", parent_obj},
-    m_areas{*node().createChild("areas")},
-    m_computations{*node().createChild("computations")},
+    m_areas{*node().create_child("areas")},
+    m_computations{*node().create_child("computations")},
     m_hm{*this, process, doc, this}
 {
     Engine::LocalTree::make_metadata_node(process.metadata(), node(), m_properties, this);
