@@ -12,7 +12,7 @@ class iscore_plugin_space final :
         public iscore::FactoryInterface_QtInterface,
         public iscore::FactoryList_QtInterface,
         public iscore::CommandFactory_QtInterface,
-        public iscore::GUIApplicationPlugin_QtInterface
+        public iscore::ApplicationPlugin_QtInterface
 {
         Q_OBJECT
         Q_PLUGIN_METADATA(IID FactoryInterface_QtInterface_iid)
@@ -21,7 +21,7 @@ class iscore_plugin_space final :
                 iscore::FactoryInterface_QtInterface
                 iscore::FactoryList_QtInterface
                 iscore::CommandFactory_QtInterface
-                iscore::GUIApplicationPlugin_QtInterface
+                iscore::ApplicationPlugin_QtInterface
                 )
         ISCORE_PLUGIN_METADATA(1, "02b77d0c-6c8f-45f5-bb28-b649b5c3c7e0")
     public:
