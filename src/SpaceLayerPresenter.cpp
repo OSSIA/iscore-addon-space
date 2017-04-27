@@ -104,7 +104,7 @@ void LayerPresenter::parentGeometryChanged()
     update();
 }
 
-const Process::LayerModel &LayerPresenter::layerModel() const
+const Process::LayerModel &LayerPresenter::model() const
 {
     return m_model;
 }

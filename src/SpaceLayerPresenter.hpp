@@ -60,7 +60,7 @@ class LayerPresenter :
         void on_zoomRatioChanged(ZoomRatio) override;
         void parentGeometryChanged() override;
 
-        const Process::LayerModel &layerModel() const override;
+        const Process::LayerModel &model() const override;
         const Id<Process::ProcessModel> &modelId() const override;
 
         void update();
