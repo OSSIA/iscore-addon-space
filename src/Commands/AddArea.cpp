@@ -22,30 +22,29 @@
 
 namespace Space
 {
-AddArea::AddArea(Path<Space::ProcessModel> &&spacProcess,
+AddArea::AddArea(const Space::ProcessModel& spacProcess,
                  UuidKey<AreaFactory> type,
                  const QStringList &area,
                  const QMap<Id<DimensionModel>, QString> &dimMap,
                  const QMap<QString, Device::FullAddressSettings> &addrMap):
-    m_path{std::move(spacProcess)},
+    m_path{spacProcess},
     m_areaType{type},
     m_areaFormula{area},
     m_spaceMap{dimMap},
     m_symbolToAddressMap{addrMap}
 {
-    auto& process = m_path.find();
-    m_createdAreaId = getStrongId(process.areas);
+    m_createdAreaId = getStrongId(spacProcess.areas);
 }
 
-void AddArea::undo() const
+void AddArea::undo(const iscore::DocumentContext& ctx) const
 {
-    auto& proc = m_path.find();
+    auto& proc = m_path.find(ctx);
     proc.areas.remove(m_createdAreaId);
 }
 
-void AddArea::redo() const
+void AddArea::redo(const iscore::DocumentContext& ctx) const
 {
-    auto& proc = m_path.find();
+    auto& proc = m_path.find(ctx);
 
     auto factory = context.interfaces<AreaFactoryList>().get(m_areaType);
     ISCORE_ASSERT(factory);

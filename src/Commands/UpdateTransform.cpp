@@ -19,17 +19,17 @@ UpdateTransform::UpdateTransform(
 {
 }
 
-void UpdateTransform::undo() const
+void UpdateTransform::undo(const iscore::DocumentContext& ctx) const
 {
-    auto& area = m_model.find();
+    auto& area = m_model.find(ctx);
     area.setTranslate(m_oldTranslate);
     area.setScale(m_oldScale);
     area.setRotate(m_oldRot);
 }
 
-void UpdateTransform::redo() const
+void UpdateTransform::redo(const iscore::DocumentContext& ctx) const
 {
-    auto& area = m_model.find();
+    auto& area = m_model.find(ctx);
     area.setTranslate(m_newTranslate);
     area.setScale(m_newScale);
     area.setRotate(m_newRot);

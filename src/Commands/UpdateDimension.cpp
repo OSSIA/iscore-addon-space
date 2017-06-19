@@ -16,16 +16,16 @@ UpdateDimension::UpdateDimension(
 {
 }
 
-void UpdateDimension::undo() const
+void UpdateDimension::undo(const iscore::DocumentContext& ctx) const
 {
-    auto& dim = m_model.find();
+    auto& dim = m_model.find(ctx);
     dim.setMin(m_oldMin);
     dim.setMax(m_oldMax);
 }
 
-void UpdateDimension::redo() const
+void UpdateDimension::redo(const iscore::DocumentContext& ctx) const
 {
-    auto& dim = m_model.find();
+    auto& dim = m_model.find(ctx);
     dim.setMin(m_newMin);
     dim.setMax(m_newMax);
 }

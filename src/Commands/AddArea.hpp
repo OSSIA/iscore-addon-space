@@ -15,14 +15,14 @@ class AddArea : public iscore::Command
         ISCORE_COMMAND_DECL(CommandFactoryName(), AddArea, "AddArea")
     public:
 
-          AddArea(Path<Space::ProcessModel>&& spacProcess,
+          AddArea(const Space::ProcessModel& spacProcess,
             UuidKey<AreaFactory> type,
             const QStringList& area,
                   const QMap<Id<DimensionModel>, QString>& dimMap,
                   const QMap<QString, Device::FullAddressSettings>& addrMap);
 
-        void undo() const override;
-        void redo() const override;
+        void undo(const iscore::DocumentContext& ctx) const override;
+        void redo(const iscore::DocumentContext& ctx) const override;
 
     protected:
         void serializeImpl(DataStreamInput & s) const override;

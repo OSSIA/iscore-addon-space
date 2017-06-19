@@ -18,8 +18,8 @@ struct UpdateTransform : public iscore::Command
                 QSizeF scale,
                 qreal rotate);
 
-        void undo() const override;
-        void redo() const override;
+        void undo(const iscore::DocumentContext& ctx) const override;
+        void redo(const iscore::DocumentContext& ctx) const override;
 
         void update(const Path<AreaModel>&,
                     QPointF translate,

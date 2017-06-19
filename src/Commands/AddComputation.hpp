@@ -15,14 +15,14 @@ class AddComputation : public iscore::Command
     public:
 
           AddComputation(
-            Path<Space::ProcessModel>&& spacProcess,
+            const Space::ProcessModel& spacProcess,
             UuidKey<ComputationFactory> type,
             const Id<AreaModel>& a1,
             const Id<AreaModel>& a2,
             const State::Address& addr);
 
-        void undo() const override;
-        void redo() const override;
+        void undo(const iscore::DocumentContext& ctx) const override;
+        void redo(const iscore::DocumentContext& ctx) const override;
 
     protected:
         void serializeImpl(DataStreamInput & s) const override;

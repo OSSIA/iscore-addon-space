@@ -8,30 +8,29 @@
 namespace Space
 {
 AddComputation::AddComputation(
-    Path<Space::ProcessModel>&& spacProcess,
+    const Space::ProcessModel& spacProcess,
     UuidKey<ComputationFactory> type,
     const Id<AreaModel>& a1,
     const Id<AreaModel>& a2,
     const State::Address& addr):
-  m_path{std::move(spacProcess)},
+  m_path{spacProcess},
   m_type{type},
   m_area1{a1},
   m_area2{a2},
   m_addr{addr}
 {
-    auto& process = m_path.find();
-    m_createdCompId = getStrongId(process.computations);
+    m_createdCompId = getStrongId(spacProcess.computations);
 }
 
-void AddComputation::undo() const
+void AddComputation::undo(const iscore::DocumentContext& ctx) const
 {
-    auto& proc = m_path.find();
+    auto& proc = m_path.find(ctx);
     proc.computations.remove(m_createdCompId);
 }
 
-void AddComputation::redo() const
+void AddComputation::redo(const iscore::DocumentContext& ctx) const
 {
-    auto& proc = m_path.find();
+    auto& proc = m_path.find(ctx);
 
     auto factory = context.interfaces<ComputationFactoryList>().get(m_type);
     ISCORE_ASSERT(factory);
