@@ -35,7 +35,7 @@ GenericAreaComponent::GenericAreaComponent(
 
         addr->setValue(
                     Engine::iscore_to_ossia::toOSSIAValue(
-                        State::Value::fromValue(
+                        ossia::value::fromValue(
                             ex_to<numeric>(param.second).to_double())));
     }
 
@@ -43,7 +43,7 @@ GenericAreaComponent::GenericAreaComponent(
 
     QObject::connect(&m_area, &AreaModel::currentSymbolChanged,
                      this, [=] (QString sym, double val) {
-        auto newVal = State::Value::fromValue(val);
+        auto newVal = ossia::value::fromValue(val);
         auto& addr = m_ginacProperties.at(sym)->addr;
         auto ossia_val = addr.value();
         if(newVal != State::fromOSSIAValue(ossia_val))

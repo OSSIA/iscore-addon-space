@@ -56,7 +56,7 @@ class ComputationModel :
         const auto& space() const
         { return m_space; }
 
-        virtual State::Value result() const = 0;
+        virtual ossia::value result() const = 0;
 
         State::Message message() const
         { return State::Message{State::AddressAccessor{m_addr}, result()}; }

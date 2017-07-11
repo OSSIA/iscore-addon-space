@@ -84,7 +84,7 @@ class DistanceComputation :
 
 
 
-        State::Value result() const override;
+        ossia::value result() const override;
         UuidKey<ComputationFactory> concreteKey() const override;
 
     private:

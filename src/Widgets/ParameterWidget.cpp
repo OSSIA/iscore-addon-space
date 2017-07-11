@@ -38,8 +38,8 @@ void ParameterWidget::setValue(double val)
     m_defaultValue->setValue(val);
 }
 
-State::Value ParameterWidget::value() const
+ossia::value ParameterWidget::value() const
 {
-    return State::Value::fromValue(m_defaultValue->value());
+    return ossia::value::fromValue(m_defaultValue->value());
 }
 }

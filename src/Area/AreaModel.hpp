@@ -183,7 +183,7 @@ class AreaModel_T : public AreaMetadata_T<T, AreaModel>
 inline auto makeAddressFromValue(double val)
 {
     Device::FullAddressSettings addr;
-    addr.value = State::Value::fromValue(val);
+    addr.value = ossia::value::fromValue(val);
     return addr;
 }
 

@@ -29,7 +29,7 @@ GenericComputationComponent::GenericComputationComponent(
     m_valueNode = *node_it;
     auto addr = m_valueNode->getAddress();
     addr->setValue(Engine::iscore_to_ossia::toOSSIAValue(
-                       State::Value::fromValue(computation.computation()())));
+                       ossia::value::fromValue(computation.computation()())));
                        */
 
 }

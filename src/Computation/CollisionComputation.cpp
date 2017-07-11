@@ -118,9 +118,9 @@ void CollisionComputation::setup(const AreaModel& a1, const AreaModel& a2)
 }
 
 
-State::Value CollisionComputation::result() const
+ossia::value CollisionComputation::result() const
 {
-    return State::Value::fromValue(m_fun());
+    return ossia::value::fromValue(m_fun());
 }
 
 UuidKey<ComputationFactory> CollisionComputation::concreteKey() const

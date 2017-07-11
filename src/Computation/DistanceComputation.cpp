@@ -136,9 +136,9 @@ void DistanceComputation::setup(const AreaModel& a1, const AreaModel& a2)
 }
 
 
-State::Value DistanceComputation::result() const
+ossia::value DistanceComputation::result() const
 {
-    return State::Value::fromValue(m_fun());
+    return ossia::value::fromValue(m_fun());
 }
 
 UuidKey<ComputationFactory> DistanceComputation::concreteKey() const

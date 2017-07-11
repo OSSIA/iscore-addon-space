@@ -23,7 +23,7 @@ class ParameterWidget : public QWidget
         void setValue(double val);
 
         State::Address address() const;
-        State::Value value() const;
+        ossia::value value() const;
 
     private:
         Explorer::AddressEditWidget* m_address{};
